@@ -1,0 +1,136 @@
+import React from 'react'
+
+const Slider = () => {
+  return (
+    <div className="flex overflow-hidden space-x-10 bg-white group">
+        <div className=" flex animate-loop-scroll w-full group-hover:paused">
+          <div className="logo-slider flex space-x-6">
+            <img
+              src="./logo/logo-1.jpg"
+              className="max-w-none w-48"
+              alt="Logo"
+            />
+            <img
+              src="./logo/logo-2.jpg"
+              className="max-w-none w-48"
+              alt="Logo"
+            />
+            <img
+              src="./logo/logo-3.jpg"
+              className="max-w-none w-48"
+              alt="Logo"
+            />
+            <img
+              src="./logo/logo-4.jpg"
+              className="max-w-none w-48"
+              alt="Logo"
+            />
+            <img
+              src="./logo/logo-5.jpg"
+              className="max-w-none w-48"
+              alt="Logo"
+            />
+            <img
+              src="./logo/zara.jpg"
+              className="max-w-none w-48"
+              alt="Logo"
+            />
+            <img
+              src="./logo/logo-7.jpg"
+              className="max-w-none w-48"
+              alt="Logo"
+            />
+            <img
+              src="./logo/logo-8.jpg"
+              className="max-w-none w-48"
+              alt="Logo"
+            />
+            <img
+              src="./logo/logo-9.jpg"
+              className="max-w-none w-48"
+              alt="Logo"
+            />
+            <img
+              src="./logo/logo-10.jpg"
+              className="max-w-none w-48"
+              alt="Logo"
+            />
+            <img
+              src="./logo/logo-11.jpg"
+              className="max-w-none w-48"
+              alt="Logo"
+            />
+            <img
+              src="./logo/logo-12.jpg"
+              className="max-w-none w-48"
+              alt="Logo"
+            />
+          </div>
+          <div className="logo-slider flex space-x-6" aria-hidden="true">
+            <img
+              src="./logo/logo-1.jpg"
+              className="max-w-none w-48"
+              alt="Logo"
+            />
+            <img
+              src="./logo/logo-2.jpg"
+              className="max-w-none w-48"
+              alt="Logo"
+            />
+            <img
+              src="./logo/logo-3.jpg"
+              className="max-w-none w-48"
+              alt="Logo"
+            />
+            <img
+              src="./logo/logo-4.jpg"
+              className="max-w-none w-48"
+              alt="Logo"
+            />
+            <img
+              src="./logo/logo-5.jpg"
+              className="max-w-none w-48"
+              alt="Logo"
+            />
+            <img
+              src="./logo/zara.jpg"
+              className="max-w-none w-48"
+              alt="Logo"
+            />
+            <img
+              src="./logo/logo-7.jpg"
+              className="max-w-none w-48"
+              alt="Logo"
+            />
+            <img
+              src="./logo/logo-8.jpg"
+              className="max-w-none w-48"
+              alt="Logo"
+            />
+            <img
+              src="./logo/logo-9.jpg"
+              className="max-w-none w-48"
+              alt="Logo"
+            />
+            <img
+              src="./logo/logo-10.jpg"
+              className="max-w-none w-48"
+              alt="Logo"
+            />
+            <img
+              src="./logo/logo-11.jpg"
+              className="max-w-none w-48"
+              alt="Logo"
+            />
+            <img
+              src="./logo/logo-12.jpg"
+              className="max-w-none w-48"
+              alt="Logo"
+            />
+          </div>
+        </div>
+      </div>
+  )
+}
+
+export default Slider
