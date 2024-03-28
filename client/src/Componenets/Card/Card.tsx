@@ -25,15 +25,15 @@ const Card = ({Price,Title,img}:CardData) => {
             color={`${like ? "red" : "grey"} `}
           />
         </div>
-      <figure className="w-full max-sm:h-60 h-80 max-sm:p-1 p-2 bg-white">
+      <figure className="w-full max-sm:h-60 h-80  bg-white">
         
         <img
-          className=" w-full max-sm:p-0  p-1 h-full"
+          className=" w-full max-sm:p-0  p-1.5 h-full"
           src={img}
           alt="Shoes"
         />
       </figure>
-      <div className="card-body p-2 px-5 max-sm:px-2  ">
+      <div className="card-body p-2 px-5 max-sm:px-2  bg-white">
         <h2 className="card-title text-center max-sm:text-start max-sm:text-base">{Title}</h2>
         <p>Discover a wide range of legendary </p>
         <h3 className="font-bold text-2xl max-sm:text-xl">₹{Price}</h3>

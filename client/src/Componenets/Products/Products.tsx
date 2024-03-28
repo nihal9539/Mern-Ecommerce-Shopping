@@ -27,13 +27,13 @@ const Products = () => {
         />
       </div>
 
-      <div className={` grid place-items-center ${multicard ? " lg:grid-cols-7 md:grid-cols-4" : "lg:grid-cols-5 md:grid-cols-3 max-sm:grid-cols-2"}  gap-y-7 gap-0 max-sm:gap-y-2  sm:grid-cols-2 md:grid-cols-2 `}>
+      <div className={` grid place-items-center ${multicard ? " lg:grid-cols-7 md:grid-cols-4 max-sm:grid-cols-3  " : "lg:grid-cols-5 md:grid-cols-3 max-sm:grid-cols-2"}  gap-y-7 gap-0 max-sm:gap-y-2  sm:grid-cols-2 md:grid-cols-2 `}>
   
 
         {multicard
           ? [...products]
               .sort(() => Math.random() - 0.5)
-              .slice(0, 10)
+              .slice(0, 15)
               .map((data, index) => <SmallCard img={data.img} key={index} />)
           : [...products]
               .sort(() => Math.random() - 0.5)
