@@ -1,7 +1,7 @@
 
 import './App.css'
 import Home from "./pages/Home/Home"
-import Product from "./pages/Products/Product"
+import AllProduct from "./pages/AllProducts/AllProduct"
 // import Products from "./Componenets/Products/Products"
 import Layout from "./Componenets/Layout/Layout"
 import NoMatch from "./Componenets/NoMatch/NoMatch"
@@ -14,7 +14,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
-          <Route path='/product' element={<Product />} />
+          <Route path='/all_product' element={<AllProduct />} />
       
           <Route path="*" element={<NoMatch />} />
         </Route>

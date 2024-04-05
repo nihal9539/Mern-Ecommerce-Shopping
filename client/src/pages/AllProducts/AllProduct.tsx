@@ -7,7 +7,7 @@ import Card from "../../Componenets/Card/Card";
 import { products } from "../../assets/data";
 import ProductsAccordian from "../../Componenets/ProductsAccordian/ProductsAccordian";
 
-const Product = () => {
+const AllProduct = () => {
 
 
   return (
@@ -33,4 +33,4 @@ const Product = () => {
   );
 };
 
-export default Product;
+export default AllProduct;

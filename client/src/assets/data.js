@@ -3,6 +3,9 @@ export const products = [
       img:"./images/man-1.jpg",
       Price:900,
       Brand:"",
+      Category:"shirt",
+      StockQuantity:100,
+      DiscountPercentage:0,
       Gender:"men",
       Size:[
         "S",
@@ -15,8 +18,11 @@ export const products = [
     },
     {
       img:"./images/man-2.jpg",
-      Price:900,
+      Price:500,
       Brand:"",
+      Category:"shirt",
+      StockQuantity:100,
+      DiscountPercentage:0,
       Gender:"men",
       Size:[
         "S",
@@ -29,8 +35,11 @@ export const products = [
     },
     {
       img:"./images/man-3.jpg",
-      Price:900,
+      Price:699,
       Brand:"",
+      Category:"shirt",
+      StockQuantity:100,
+      DiscountPercentage:10,
       Gender:"men",
       Size:[
         "S",
@@ -45,6 +54,9 @@ export const products = [
       img:"./images/man-4.jpg",
       Price:900,
       Brand:"",
+      Category:"shirt",
+      StockQuantity:100,
+      DiscountPercentage:10,
       Gender:"men",
       Size:[
         "S",
@@ -59,6 +71,9 @@ export const products = [
       img:"./images/man-5.jpg",
       Price:900,
       Brand:"",
+      Category:"shirt",
+      StockQuantity:100,
+      DiscountPercentage:10,
       Gender:"men",
       Size:[
         "S",
@@ -73,6 +88,9 @@ export const products = [
       img:"./images/man-6.jpg",
       Price:900,
       Brand:"",
+      Category:"shirt",
+      StockQuantity:100,
+      DiscountPercentage:10,
       Gender:"men",
       Size:[
         "S",
@@ -87,6 +105,9 @@ export const products = [
       img:"./images/man-7.jpg",
       Price:900,
       Brand:"",
+      Category:"shirt",
+      StockQuantity:100,
+      DiscountPercentage:0,
       Gender:"men",
       Size:[
         "S",
@@ -101,6 +122,9 @@ export const products = [
       img:"./images/man-8.jpg",
       Price:900,
       Brand:"",
+      Category:"shirt",
+      StockQuantity:100,
+      DiscountPercentage:10,
       Gender:"men",
       Size:[
         "S",
@@ -115,6 +139,9 @@ export const products = [
       img:"./images/man-9.jpg",
       Price:900,
       Brand:"",
+      Category:"shirt",
+      StockQuantity:100,
+      DiscountPercentage:10,
       Gender:"men",
       Size:[
         "S",
@@ -129,6 +156,9 @@ export const products = [
       img:"./images/man-10.jpg",
       Price:900,
       Brand:"",
+      Category:"shirt",
+      StockQuantity:100,
+      DiscountPercentage:10,
       Gender:"men",
       Size:[
         "S",
@@ -143,6 +173,9 @@ export const products = [
       img:"./images/women-1.jpg",
       Price:900,
       Brand:"",
+      Category:"shirt",
+      StockQuantity:100,
+      DiscountPercentage:10,
       Gender:"women",
       Size:[
         "S",
@@ -157,6 +190,9 @@ export const products = [
       img:"./images/women-2.jpg",
       Price:900,
       Brand:"",
+      Category:"shirt",
+      StockQuantity:100,
+      DiscountPercentage:0,
       Gender:"women",
       Size:[
         "S",
@@ -171,6 +207,9 @@ export const products = [
       img:"./images/women-3.jpg",
       Price:900,
       Brand:"",
+      Category:"shirt",
+      StockQuantity:100,
+      DiscountPercentage:10,
       Gender:"women",
       Size:[
         "S",
@@ -183,8 +222,11 @@ export const products = [
     },
     {
       img:"./images/women-4.jpg",
-      Price:900,
+      Price:9000,
       Brand:"",
+      Category:"shirt",
+      StockQuantity:100,
+      DiscountPercentage:10,
       Gender:"women",
       Size:[
         "S",
@@ -199,6 +241,9 @@ export const products = [
       img:"./images/women-5.jpg",
       Price:900,
       Brand:"",
+      Category:"shirt",
+      StockQuantity:100,
+      DiscountPercentage:0,
       Gender:"women",
       Size:[
         "S",
@@ -213,6 +258,9 @@ export const products = [
       img:"./images/women-6.jpg",
       Price:900,
       Brand:"",
+      Category:"shirt",
+      StockQuantity:100,
+      DiscountPercentage:10,
       Gender:"women",
       Size:[
         "S",
@@ -227,6 +275,9 @@ export const products = [
       img:"./images/women-7.jpg",
       Price:900,
       Brand:"",
+      Category:"shirt",
+      StockQuantity:100,
+      DiscountPercentage:10,
       Gender:"women",
       Size:[
         "S",
@@ -241,6 +292,9 @@ export const products = [
       img:"./images/women-8.jpg",
       Price:900,
       Brand:"",
+      Category:"shirt",
+      StockQuantity:100,
+      DiscountPercentage:10,
       Gender:"women",
       Size:[
         "S",

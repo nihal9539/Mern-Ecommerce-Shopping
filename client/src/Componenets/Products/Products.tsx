@@ -11,6 +11,7 @@ import { FiAlignJustify } from "react-icons/fi";
 import SmallCard from "../SmallCard/SmallCard";
 
 const Products = () => {
+  
   const [multicard, setMulticard] = useState<boolean>(false);
   return (
     <div className="lg:p-16 lg:px-16">
