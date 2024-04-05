@@ -7,11 +7,24 @@ import { TfiLayoutColumn3Alt } from "react-icons/tfi";
 import { TfiLayoutColumn4Alt, TfiLayoutColumn4 } from "react-icons/tfi";
 import { FaGripLinesVertical } from "react-icons/fa";
 
-import { FiAlignJustify } from "react-icons/fi";
 import SmallCard from "../SmallCard/SmallCard";
 
 const Products = () => {
-  
+  function calculateDiscountedPrice(originalPrice: number, discountPercentage: number): number {
+    if (typeof originalPrice !== 'number' || typeof discountPercentage !== 'number') {
+        throw new Error('Original price and discount percentage must be numbers');
+    }
+
+    if (originalPrice < 0 || discountPercentage < 0 || discountPercentage > 100) {
+        throw new Error('Original price and discount percentage must be non-negative, and discount percentage must be less than or equal to 100');
+    }
+
+    // Calculate discounted price
+    const discountAmount: number = (originalPrice * discountPercentage) / 100;
+    const discountedPrice: number = originalPrice - discountAmount;
+
+    return discountedPrice;
+}
   const [multicard, setMulticard] = useState<boolean>(false);
   return (
     <div className="lg:p-16 lg:px-16">

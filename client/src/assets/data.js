@@ -1,5 +1,6 @@
 export const products = [
     {
+      id:"1",
       img:"./images/man-1.jpg",
       Price:900,
       Brand:"",
@@ -11,12 +12,14 @@ export const products = [
         "S",
         "M",
         "L",
-        "XL"
+        "XL",
+        "2XL"
       ],
       Title:"ZITY Flannel Plaid Shirt",
       SubTitle:"ZITY Flannel Plaid Shirt for Men Long Sleeve Casual Regular Fit Button Down Shirts"
     },
     {
+      id:"2",
       img:"./images/man-2.jpg",
       Price:500,
       Brand:"",
@@ -34,6 +37,7 @@ export const products = [
       SubTitle:""
     },
     {
+      id:"3",
       img:"./images/man-3.jpg",
       Price:699,
       Brand:"",
@@ -51,6 +55,7 @@ export const products = [
       SubTitle:""
     },
     {
+      id:"4",
       img:"./images/man-4.jpg",
       Price:900,
       Brand:"",
@@ -68,6 +73,7 @@ export const products = [
       SubTitle:""
     },
     {
+      id:"5",
       img:"./images/man-5.jpg",
       Price:900,
       Brand:"",
@@ -85,6 +91,7 @@ export const products = [
       SubTitle:""
     },
     {
+      id:"6",
       img:"./images/man-6.jpg",
       Price:900,
       Brand:"",
@@ -102,6 +109,7 @@ export const products = [
       SubTitle:""
     },
     {
+      id:"7",
       img:"./images/man-7.jpg",
       Price:900,
       Brand:"",
@@ -119,6 +127,7 @@ export const products = [
       SubTitle:""
     },
     {
+      id:"8",
       img:"./images/man-8.jpg",
       Price:900,
       Brand:"",
@@ -136,6 +145,7 @@ export const products = [
       SubTitle:""
     },
     {
+      id:"9",
       img:"./images/man-9.jpg",
       Price:900,
       Brand:"",
@@ -153,6 +163,7 @@ export const products = [
       SubTitle:""
     },
     {
+      id:"10",
       img:"./images/man-10.jpg",
       Price:900,
       Brand:"",
@@ -170,6 +181,7 @@ export const products = [
       SubTitle:""
     },
     {
+      id:"11",
       img:"./images/women-1.jpg",
       Price:900,
       Brand:"",
@@ -187,6 +199,7 @@ export const products = [
       SubTitle:"ZITY Flannel Plaid Shirt for Men Long Sleeve Casual Regular Fit Button Down Shirts"
     },
     {
+      id:"12",
       img:"./images/women-2.jpg",
       Price:900,
       Brand:"",
@@ -204,6 +217,7 @@ export const products = [
       SubTitle:""
     },
     {
+      id:"13",
       img:"./images/women-3.jpg",
       Price:900,
       Brand:"",
@@ -221,6 +235,7 @@ export const products = [
       SubTitle:""
     },
     {
+      id:"14",
       img:"./images/women-4.jpg",
       Price:9000,
       Brand:"",
@@ -238,6 +253,7 @@ export const products = [
       SubTitle:""
     },
     {
+      id:"15",
       img:"./images/women-5.jpg",
       Price:900,
       Brand:"",
@@ -255,6 +271,7 @@ export const products = [
       SubTitle:""
     },
     {
+      id:"16",
       img:"./images/women-6.jpg",
       Price:900,
       Brand:"",
@@ -272,6 +289,7 @@ export const products = [
       SubTitle:""
     },
     {
+      id:"17",
       img:"./images/women-7.jpg",
       Price:900,
       Brand:"",
@@ -289,6 +307,7 @@ export const products = [
       SubTitle:""
     },
     {
+      id:"18",
       img:"./images/women-8.jpg",
       Price:900,
       Brand:"",
