@@ -3,26 +3,31 @@ import { products } from "../../assets/data";
 import currencyFormatter from "currency-formatter";
 import SizeContainer from "../../Componenets/SizeContainer/SizeContainer";
 import { useParams } from "react-router-dom";
+import { Heart } from "lucide-react";
 
 const Product = () => {
   // const id = useParams()
-  const id= "1"
+  const id = "1";
   // const [productData,setProductData] = useState ({})
-  const productData = products[0]
+  const productData = products[0];
 
   //  products.map((data)=>{
   //   data.id == id ? setProductData()
   // })
 
-  const data = products.find((item,index) => item.id === id)
+  const data = products.find((item, index) => item.id === id);
   console.log(data);
-  
+
   const [selectedButton, setSelectedButton] = useState<string | null>(null);
 
   const selectButton = (buttonId: string) => {
     setSelectedButton((prevSelectedButton) =>
       prevSelectedButton === buttonId ? null : buttonId
     );
+  };
+  const [wishlist, setWishlist] = useState<boolean>();
+  const handleClick = () => {
+    setWishlist(!wishlist);
   };
 
   return (
@@ -44,7 +49,7 @@ const Product = () => {
             <span>(incl. of all taxes)</span>
           </div>
 
-          <div className=" mt-5">
+          <div className=" my-8">
             <span className=" tracking-wider">SELECT A SIZE</span>
             <div className="flex flex-row gap-2 py-4">
               {productData.Size.map((size) => (
@@ -60,6 +65,42 @@ const Product = () => {
                 </div>
               ))}
             </div>
+          </div>
+          <div className="flex flex-col gap-4">
+            <button
+              className="border 
+                           hover:scale-[.97]
+
+              duration-500 bg-black text-white border-black p-2.5 rounded-sm"
+            >
+              ADD TO CART
+            </button>
+
+            <button
+              // style={{boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)"}}
+              // style={{boxShadow:" 0 6px 12px rgba(0, 0, 0, 0.15)"}}
+              onClick={handleClick}
+              className={`
+              hover:scale-[.97]
+              duration-500
+              border ${
+                wishlist ? "bg-black text-white" : "bg-white border-black"
+              }  p-2.5 rounded-sm flex justify-center items-center gap-2`}
+            >
+              {" "}
+              <Heart
+                size={20}
+                fill={`${wishlist ? "red" : "white"} `}
+                color={`${wishlist ? "red" : "black"} `}
+              />
+              <span className="relative -top-0.5">WISHLIST</span>
+            </button>
+          </div>
+          <div className="my-7">
+            <h1 className="font-semibold tracking-widest">PRODUCT DETAILS</h1>
+            <p className="pr-12">
+            Grey melange printed T-shirt with applique detail, has a round neck, long raglan sleeves with elbow patches, ribbed hem
+            </p>
           </div>
         </div>
       </div>
