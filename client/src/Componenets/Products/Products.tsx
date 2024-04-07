@@ -10,13 +10,25 @@ import { FaGripLinesVertical } from "react-icons/fa";
 import SmallCard from "../SmallCard/SmallCard";
 
 const Products = () => {
-  function calculateDiscountedPrice(originalPrice: number, discountPercentage: number): number {
-    if (typeof originalPrice !== 'number' || typeof discountPercentage !== 'number') {
-        throw new Error('Original price and discount percentage must be numbers');
+  function calculateDiscountedPrice(
+    originalPrice: number,
+    discountPercentage: number
+  ): number {
+    if (
+      typeof originalPrice !== "number" ||
+      typeof discountPercentage !== "number"
+    ) {
+      throw new Error("Original price and discount percentage must be numbers");
     }
 
-    if (originalPrice < 0 || discountPercentage < 0 || discountPercentage > 100) {
-        throw new Error('Original price and discount percentage must be non-negative, and discount percentage must be less than or equal to 100');
+    if (
+      originalPrice < 0 ||
+      discountPercentage < 0 ||
+      discountPercentage > 100
+    ) {
+      throw new Error(
+        "Original price and discount percentage must be non-negative, and discount percentage must be less than or equal to 100"
+      );
     }
 
     // Calculate discounted price
@@ -24,7 +36,7 @@ const Products = () => {
     const discountedPrice: number = originalPrice - discountAmount;
 
     return discountedPrice;
-}
+  }
   const [multicard, setMulticard] = useState<boolean>(false);
   return (
     <div className="lg:p-16 lg:px-16">
@@ -41,9 +53,13 @@ const Products = () => {
         />
       </div>
 
-      <div className={` grid place-items-center ${multicard ? " lg:grid-cols-7 md:grid-cols-4 max-sm:grid-cols-3  " : "lg:grid-cols-5 md:grid-cols-3 max-sm:grid-cols-2"}  gap-y-7 gap-0 max-sm:gap-y-2  sm:grid-cols-2 md:grid-cols-2 `}>
-  
-
+      <div
+        className={` grid place-items-center ${
+          multicard
+            ? " lg:grid-cols-7 md:grid-cols-4 max-sm:grid-cols-3  "
+            : "lg:grid-cols-5 md:grid-cols-3 max-sm:grid-cols-2"
+        }  gap-y-7 gap-0 max-sm:gap-y-2  sm:grid-cols-2 md:grid-cols-2 `}
+      >
         {multicard
           ? [...products]
               .sort(() => Math.random() - 0.5)
@@ -54,6 +70,7 @@ const Products = () => {
               .slice(0, 15)
               .map((data, index) => (
                 <Card
+                  id={data.id}
                   Price={data.Price}
                   img={data.img}
                   Title={data.Title}

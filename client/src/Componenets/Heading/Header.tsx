@@ -7,15 +7,15 @@ const Header = () => {
 
   const menuRef = useRef();
 
-  useEffect(() => {
-    let handler = (e) => {
-      if (!menuRef.current.contains(e.target)) {
-        setOpen(false);
-        console.log(menuRef.current);
-      }
-    };
-    document.addEventListener("mousedown", handler);
-  }, [menuRef]);
+//   useEffect(() => {
+//     let handler = (e) => {
+//       if (!menuRef.current.contains(e.target)) {
+//         setOpen(false);
+//         console.log(menuRef.current);
+//       }
+//     };
+//     document.addEventListener("mousedown", handler);
+//   }, [menuRef]);
   useEffect(() => {
     const handleScroll = () => {
       setHeader(window.scrollY > 100);
@@ -28,7 +28,6 @@ const Header = () => {
     };
   }, []);
   const [isOpen, setOpen] = useState<boolean>(false);
-  console.log(isOpen);
 
   return (
     <div
@@ -43,9 +42,12 @@ const Header = () => {
         <Link to={"/"} className="">
           Home
         </Link>
-        <Link to={"/all_product"} className="">
-          Product
+        <Link to={"/all_products"} className="">
+          Men
         </Link>
+        {/* <Link to={"/women"} className="">
+          Women
+        </Link> */}
         <li>Cart</li>
         <li>Favourite</li>
         <li>About</li>
@@ -69,9 +71,12 @@ const Header = () => {
         <Link to={"/"} className="">
           Home
         </Link>
-        <Link to={"/all_product"} className="">
-          Product
+        <Link to={"/all_products"} onClick={()=>setOpen(false)} className="">
+          Men
         </Link>
+        {/* <Link to={"/women"} onClick={()=>setOpen(false)} className="">
+          Women
+        </Link> */}
         <li>Cart</li>
         <li>WishList</li>
         <li>About</li>

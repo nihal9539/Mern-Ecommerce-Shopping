@@ -1,13 +1,15 @@
 import { Heart } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import gsap from "gsap";
+import { Link } from "react-router-dom";
 interface CardData {
   img: string;
+  id:string|number
   Title: string;
   Price: number;
 }
 
-const Card = ({ Price, Title, img }: CardData) => {
+const Card = ({id, Price, Title, img }: CardData) => {
   const [like, setLike] = useState<boolean>();
   const handleColor = () => {
     setLike(!like);
@@ -55,7 +57,7 @@ const Card = ({ Price, Title, img }: CardData) => {
   let finalPrice = convertToBinary(discountedPrice);
 
   return (
-    <div className="card max-sm:w-48 w-64 bg-base-100  shadow-sm rounded-none">
+    <Link to={`/product/${id}`} className="card max-sm:w-48 w-64 bg-base-100  shadow-sm rounded-none">
       <div className="absolute top-4 right-4 border-0 bg-white shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] p-1.5  rounded-md">
         <Heart
           size={35}
@@ -83,7 +85,7 @@ const Card = ({ Price, Title, img }: CardData) => {
 
         <div className=""></div>
       </div>
-    </div>
+    </Link>
   );
 };
 
