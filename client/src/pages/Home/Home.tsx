@@ -14,6 +14,7 @@ const Home = () => {
             <div className='w-full h-full bg-[url(./bg-3.jpg)] bg-cover bg-no-repeat relative'>
             </div>
             <Products />
+            
             <Slider/>
             <Footer />
 

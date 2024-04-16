@@ -1,7 +1,7 @@
 export const products = [
     {
       id:"1",
-      img:"./images/man-1.jpg",
+      img:"/images/man-1.jpg",
       Price:900,
       Brand:"",
       Category:"shirt",
@@ -20,7 +20,7 @@ export const products = [
     },
     {
       id:"2",
-      img:"./images/man-2.jpg",
+      img:"/images/man-2.jpg",
       Price:500,
       Brand:"",
       Category:"shirt",
@@ -38,7 +38,7 @@ export const products = [
     },
     {
       id:"3",
-      img:"./images/man-3.jpg",
+      img:"/images/man-3.jpg",
       Price:699,
       Brand:"",
       Category:"shirt",
@@ -56,7 +56,7 @@ export const products = [
     },
     {
       id:"4",
-      img:"./images/man-4.jpg",
+      img:"/images/man-4.jpg",
       Price:900,
       Brand:"",
       Category:"shirt",
@@ -74,7 +74,7 @@ export const products = [
     },
     {
       id:"5",
-      img:"./images/man-5.jpg",
+      img:"/images/man-5.jpg",
       Price:900,
       Brand:"",
       Category:"shirt",
@@ -92,7 +92,7 @@ export const products = [
     },
     {
       id:"6",
-      img:"./images/man-6.jpg",
+      img:"/images/man-6.jpg",
       Price:900,
       Brand:"",
       Category:"shirt",
@@ -110,7 +110,7 @@ export const products = [
     },
     {
       id:"7",
-      img:"./images/man-7.jpg",
+      img:"/images/man-7.jpg",
       Price:900,
       Brand:"",
       Category:"shirt",
@@ -128,7 +128,7 @@ export const products = [
     },
     {
       id:"8",
-      img:"./images/man-8.jpg",
+      img:"/images/man-8.jpg",
       Price:900,
       Brand:"",
       Category:"shirt",
@@ -146,7 +146,7 @@ export const products = [
     },
     {
       id:"9",
-      img:"./images/man-9.jpg",
+      img:"/images/man-9.jpg",
       Price:900,
       Brand:"",
       Category:"shirt",
@@ -164,7 +164,7 @@ export const products = [
     },
     {
       id:"10",
-      img:"./images/man-10.jpg",
+      img:"/images/man-10.jpg",
       Price:900,
       Brand:"",
       Category:"shirt",
@@ -182,7 +182,7 @@ export const products = [
     },
     {
       id:"11",
-      img:"./images/women-1.jpg",
+      img:"/images/women-1.jpg",
       Price:900,
       Brand:"",
       Category:"shirt",
@@ -200,7 +200,7 @@ export const products = [
     },
     {
       id:"12",
-      img:"./images/women-2.jpg",
+      img:"/images/women-2.jpg",
       Price:900,
       Brand:"",
       Category:"shirt",
@@ -218,7 +218,7 @@ export const products = [
     },
     {
       id:"13",
-      img:"./images/women-3.jpg",
+      img:"/images/women-3.jpg",
       Price:900,
       Brand:"",
       Category:"shirt",
@@ -236,7 +236,7 @@ export const products = [
     },
     {
       id:"14",
-      img:"./images/women-4.jpg",
+      img:"/images/women-4.jpg",
       Price:9000,
       Brand:"",
       Category:"shirt",
@@ -254,7 +254,7 @@ export const products = [
     },
     {
       id:"15",
-      img:"./images/women-5.jpg",
+      img:"/images/women-5.jpg",
       Price:900,
       Brand:"",
       Category:"shirt",
@@ -272,7 +272,7 @@ export const products = [
     },
     {
       id:"16",
-      img:"./images/women-6.jpg",
+      img:"/images/women-6.jpg",
       Price:900,
       Brand:"",
       Category:"shirt",
@@ -290,7 +290,7 @@ export const products = [
     },
     {
       id:"17",
-      img:"./images/women-7.jpg",
+      img:"/images/women-7.jpg",
       Price:900,
       Brand:"",
       Category:"shirt",
@@ -308,7 +308,7 @@ export const products = [
     },
     {
       id:"18",
-      img:"./images/women-8.jpg",
+      img:"/images/women-8.jpg",
       Price:900,
       Brand:"",
       Category:"shirt",
