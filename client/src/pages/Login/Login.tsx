@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import HeaderTwo from "../../Componenets/HeaderTwo/HeaderTwo";
+
 type User = {
   Name: string;
   password: string;
@@ -26,20 +27,22 @@ const Login = () => {
   };
   const validateEmail = (value) => {
     if (!value.trim()) {
-      return <h1 className="text-red-600  text-right">Email is required</h1>;
+      return <h1 className="text-red-500  text-right">Email is required</h1>;
     }
     return null;
   };
   const validateName = (value) => {
     if (!value.trim()) {
-      return <h1 className="text-red-600  text-right">Name is required</h1>;
+      return <h1 className="text-red-500  text-right">Name is required</h1>;
     }
     return null;
   };
 
   const validatePassword = (value) => {
     if (!value.trim()) {
-      return <h1 className="text-red-600  text-right">Password is required</h1>;
+      return <h1 className="text-red-500  text-right">Password is required</h1>;
+    } else if (value.length < 6) {
+      return <h1 className="text-red-500  text-right">Password must be at least 6 characters</h1>;
     }
     return null;
   };
@@ -54,14 +57,14 @@ const Login = () => {
       email: "",
       password: "",
       name: "",
-    })
+    });
   };
   const handleSubmit = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
     const emailError = validateEmail(data.email);
     const passwordError = validatePassword(data.password);
     const nameError = validateName(data.Name);
-    setErrors({ email: emailError, password: passwordError,name:nameError });
+    setErrors({ email: emailError, password: passwordError, name: nameError });
     if (!emailError && !passwordError) {
     }
   };
@@ -72,8 +75,10 @@ const Login = () => {
       <div className="  flex flex-row bg-[url(./login_bg_2.jpeg)]    justify-center items-center w-screen h-screen">
         <div
           className={` w-96  ${
-            signup ? "min-h-[31rem] max-h-[45rem]" : "min-h-[25rem] max-h-[30rem]"
-          }   mt-10 rounded-lg pb-4   backdrop-blur-sm shadow-2xl shadow-black`}
+            signup
+              ? "min-h-[31rem] max-h-[45rem]"
+              : "min-h-[25rem] max-h-[30rem]"
+          }   mt-10 rounded-lg pb-4 bg-black/15   backdrop-blur-sm shadow-2xl shadow-black`}
         >
           <div className="bg-[url(./login_bg_2.jpeg)] h-20 p-0 rounded-xl rounded-b-none bg-no-repeat bg-cover"></div>
           <div className="   p-2 px-10 ">
@@ -87,7 +92,6 @@ const Login = () => {
                       onChange={handleChange}
                       name="Name"
                       value={data.Name}
-                      
                       className="bg-white border-none w-full outline-none text-black font-semibold"
                     />
                   </div>
@@ -101,7 +105,6 @@ const Login = () => {
                       onChange={handleChange}
                       name="email"
                       value={data.email}
-                      
                       className="bg-white border-none w-full outline-none text-black font-semibold"
                     />
                   </div>
@@ -115,7 +118,6 @@ const Login = () => {
                       onChange={handleChange}
                       name="password"
                       value={data.password}
-                      
                       className="bg-white border-none w-full outline-none text-black font-semibold"
                     />
                   </div>
@@ -137,7 +139,6 @@ const Login = () => {
                       type="submit"
                       value={"Sign up"}
                       onClick={handleSubmit}
-
                       className=" border-none w-full outline-none text-white font-semibold"
                     />
                   </div>

@@ -64,9 +64,9 @@ const Header = () => {
         // ref={menuRef}
         className={`${
           isOpen
-            ? "inline-block right-1 duration-700"
-            : "right-[-100%] duration-700 "
-        } border border-gray-300     absolute rounded-md  top-[5.2rem]  bg-white flex [&>*]:cursor-pointer flex-col gap-14 p-12 max-sm:p-6 max-sm:px-16 px-36 items-center text-2xl font-semibold  `}
+          ? "inline-block right-1  duration-700"
+          : "right-[-100%]  duration-700 "
+      } border border-gray-300 duration-700    absolute rounded-md  top-[6rem] bg-white flex [&>*]:cursor-pointer flex-col gap-14 p-12 max-sm:p-6 max-sm:px-16 px-36 items-center text-2xl font-semibold  `}
       >
         <Link to={"/"} className="">
           Home
