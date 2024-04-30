@@ -1,24 +1,27 @@
 import React, { useEffect, useState } from "react";
 import HeaderTwo from "../../Componenets/HeaderTwo/HeaderTwo";
-import axios from "axios"
+import { login ,signup} from "../../Action/AuthAction";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
 type User = {
-  Name: string;
+  username: string;
   password: string;
   email: string;
 };
 const Login = () => {
-  const [signup, setSignup] = useState<boolean>(false);
+  const [isSignup, setSignup] = useState<boolean>(false);
+  const {loading, error,errorMessage } = useSelector((state) => state.authReducer)
   const [errors, setErrors] = useState({
     email: "",
     password: "",
     name: "",
   });
   const [data, setData] = useState<User>({
-    Name: "",
+    username: "",
     email: "",
     password: "",
   });
-  console.log(data);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
@@ -32,7 +35,7 @@ const Login = () => {
     return null;
   };
   const validateName = (value) => {
-    if (!value.trim()) {
+    if (value && !value.trim()) {
       return <h1 className="text-red-500  text-right">Name is required</h1>;
     }
     return null;
@@ -42,15 +45,19 @@ const Login = () => {
     if (!value.trim()) {
       return <h1 className="text-red-500  text-right">Password is required</h1>;
     } else if (value.length < 6) {
-      return <h1 className="text-red-500  text-right">Password must be at least 6 characters</h1>;
+      return (
+        <h1 className="text-red-500  text-right">
+          Password must be at least 6 characters
+        </h1>
+      );
     }
     return null;
   };
   const handleAuth = () => {
-    setSignup(!signup);
+    setSignup(!isSignup);
     setData({
       email: "",
-      Name: "",
+      username: "",
       password: "",
     });
     setErrors({
@@ -59,6 +66,8 @@ const Login = () => {
       name: "",
     });
   };
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const handleSubmit = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
     const emailError = validateEmail(data.email);
@@ -66,9 +75,15 @@ const Login = () => {
     const nameError = validateName(data.Name);
     setErrors({ email: emailError, password: passwordError, name: nameError });
     if (!emailError && !passwordError) {
+      if (isSignup) {
+        dispatch(signup(data))
+        navigate("/");
+      } else {
+        dispatch(login(data));
+        console.log("check password");
+      }
     }
   };
-
 
   return (
     <div>
@@ -76,14 +91,14 @@ const Login = () => {
       <div className="  flex flex-row bg-[url(./login_bg_2.jpeg)]    justify-center items-center w-screen h-screen">
         <div
           className={` w-96  ${
-            signup
+            isSignup
               ? "min-h-[31rem] max-h-[45rem]"
               : "min-h-[25rem] max-h-[30rem]"
           }   mt-10 rounded-lg pb-4 bg-black/15   backdrop-blur-sm shadow-2xl shadow-black`}
         >
           <div className="bg-[url(./login_bg_2.jpeg)] h-20 p-0 rounded-xl rounded-b-none bg-no-repeat bg-cover"></div>
           <div className="   p-2 px-10 ">
-            {signup ? (
+            {isSignup ? (
               <form action="" className=" text-white space-y-5">
                 <div className=" flex flex-col gap-2">
                   <h1>Name</h1>
@@ -91,8 +106,9 @@ const Login = () => {
                     <input
                       type="text"
                       onChange={handleChange}
-                      name="Name"
-                      value={data.Name}
+                      name="username"
+                      value={data.username}
+                      placeholder="Username"
                       className="bg-white border-none w-full outline-none text-black font-semibold"
                     />
                   </div>
@@ -106,6 +122,7 @@ const Login = () => {
                       onChange={handleChange}
                       name="email"
                       value={data.email}
+                      placeholder="Email"
                       className="bg-white border-none w-full outline-none text-black font-semibold"
                     />
                   </div>
@@ -119,6 +136,7 @@ const Login = () => {
                       onChange={handleChange}
                       name="password"
                       value={data.password}
+                      placeholder="Password"
                       className="bg-white border-none w-full outline-none text-black font-semibold"
                     />
                   </div>
@@ -156,6 +174,7 @@ const Login = () => {
                       name="email"
                       value={data.email}
                       required
+                      placeholder="Email"
                       className="bg-white border-none w-full outline-none text-black font-semibold"
                     />
                   </div>
@@ -170,6 +189,7 @@ const Login = () => {
                       name="password"
                       value={data.password}
                       required
+                      placeholder="Password"
                       className="bg-white border-none w-full outline-none text-black font-semibold"
                     />
                   </div>

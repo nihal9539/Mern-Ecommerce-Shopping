@@ -5,6 +5,7 @@ import jwt from "jsonwebtoken";
 
 // Register New User
 export const registerUser = async (req, res) => {
+    console.log(req.body);
     const { username } = req.body;
     const oldUser = await UserModel.findOne({ username })
     if (oldUser) {
@@ -34,12 +35,13 @@ export const registerUser = async (req, res) => {
 }
 
 export const loginUser = async (req, res) => {
-    const { username, password } = req.body;
+    const { email, password } = req.body;
 
     try {
-        const user = await UserModel.findOne({ username: username })
+        const user = await UserModel.findOne({ email: email })
         if (user) {
             const validity = await bcypt.compare(password, user.password)
+            console.log(validity);
             if (!validity) {
                 
                 res.status(400).json("Wrong password")

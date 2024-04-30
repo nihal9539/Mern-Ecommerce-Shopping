@@ -1,37 +1,27 @@
 import * as AuthAPI from "../api/AuthRequest"
 
+
 export const login = (formData) => async (dispatch) => {
-  
-    //   console.log(data);
-    dispatch({type:'AUTH_START'});
-      try {
-        await AuthAPI.login(formData).then((res)=>{
-            console.log(res);
-            dispatch({type:'AUTH_SUCESS',data:res.data});
-        }).catch((err)=>{
-            console.log(err);
-            dispatch({type:'AUTH_ERROR',data:err.response.data});
-        })
-        } catch (error) {
-            console.log(error);
-            dispatch({type:'AUTH_FAIL'});
-        }
-
-
-
+    dispatch({ type: 'AUTH_START' });
+    try {
+        const res = await AuthAPI.login(formData);
+        console.log(res);
+        dispatch({ type: 'AUTH_SUCESS', data: res.data });
+    } catch (err) {
+        dispatch({ type: 'AUTH_ERROR', data: err.response.data });
+    }
 }
-
-
 
 export const signup = (formData) => async (dispatch) => {
-      dispatch({type:'AUTH_START'});
-      try {
-          const { data } = await AuthAPI.signup(formData)
-          dispatch({type:'AUTH_SUCESS',data:data});
-        } catch (error) {
-            dispatch({type:'AUTH_FAIL'});
-        }
+    dispatch({ type: 'AUTH_START' });
+    try {
+        const { data } = await AuthAPI.signup(formData);
+        dispatch({ type: 'AUTH_SUCESS', data: data });
+    } catch (error) {
+        dispatch({ type: 'AUTH_FAIL' });
+    }
 }
+
 export const logout = ()=> async(dispatch)=>{
     dispatch({type:"LOG_OUT"})
 }
