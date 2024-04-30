@@ -10,7 +10,8 @@ export const registerUser = async (req, res) => {
     if (oldUser) {
         res.status(400).json("User Already registered")
     }
-    const salt = await bcypt.genSalt(10)
+    else{
+        const salt = await bcypt.genSalt(10)
     const hashPassword = await bcypt.hash(req.body.password, salt)
     req.body.password = hashPassword
     const newUser = new UserModel(req.body)
@@ -27,6 +28,7 @@ export const registerUser = async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: error.message })
         console.log(error);
+    }
     }
 
 }

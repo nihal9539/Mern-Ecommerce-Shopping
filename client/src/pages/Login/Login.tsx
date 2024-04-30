@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import HeaderTwo from "../../Componenets/HeaderTwo/HeaderTwo";
-
+import axios from "axios"
 type User = {
   Name: string;
   password: string;
@@ -68,6 +68,7 @@ const Login = () => {
     if (!emailError && !passwordError) {
     }
   };
+
 
   return (
     <div>
