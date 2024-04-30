@@ -6,16 +6,16 @@ export default {
   ],
   theme: {
     extend: {
-      animation:{
-        "loop-scroll":"loop-scroll 28s linear infinite"
+      animation: {
+        "loop-scroll": "loop-scroll 28s linear infinite"
       },
-      keyframes:{
-        "loop-scroll":{
-          from:{
-            transform:"translateX(0)"
+      keyframes: {
+        "loop-scroll": {
+          from: {
+            transform: "translateX(0)"
           },
-          to:{
-            transform:"translateX(-100%)"
+          to: {
+            transform: "translateX(-100%)"
           }
         }
       }
@@ -26,37 +26,10 @@ export default {
 
   ],
   daisyui: {
-    themes: ["light",
-    "dark",
-    "cupcake",
-    "bumblebee",
-    "emerald",
-    "corporate",
-    "synthwave",
-    "retro",
-    "cyberpunk",
-    "valentine",
-    "halloween",
-    "garden",
-    "forest",
-    "aqua",
-    "lofi",
-    "pastel",
-    "fantasy",
-    "wireframe",
-    "black",
-    "luxury",
-    "dracula",
-    "cmyk",
-    "autumn",
-    "business",
-    "acid",
-    "lemonade",
-    "night",
-    "coffee",
-    "winter",
-    "dim",
-    "nord",
-    "sunset",],
+    themes: [
+
+    ],
   },
 }
+
+// winter

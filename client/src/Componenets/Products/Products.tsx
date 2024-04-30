@@ -37,11 +37,11 @@ const Products = () => {
 
     return discountedPrice;
   }
-  const [multicard, setMulticard] = useState<boolean>(false);
+  // const [multicard, setMulticard] = useState<boolean>(false);
   return (
     <div className="lg:p-16 lg:px-16">
       <div className="  m-2 gap-2  flex justify-end [&>*]:border-2 [&>*]:p-0.5 [&>*]:border-black ">
-        <FaGripLinesVertical
+        {/* <FaGripLinesVertical
           onClick={() => setMulticard(false)}
           className={`${multicard ? "opacity-10" : ""}`}
           size={35}
@@ -50,24 +50,18 @@ const Products = () => {
           onClick={() => setMulticard(true)}
           className={`${multicard ? "" : "opacity-30"}`}
           size={35}
-        />
+        /> */}
       </div>
 
       <div
-        className={` grid place-items-center ${
-          multicard
-            ? " lg:grid-cols-7 md:grid-cols-4 max-sm:grid-cols-3  "
-            : "lg:grid-cols-5 md:grid-cols-3 max-sm:grid-cols-2"
-        }  gap-y-7 gap-0 max-sm:gap-y-2  sm:grid-cols-2 md:grid-cols-2 `}
+        className={` grid place-items-center
+       
+          gap-y-5 gap-0  grid-cols-2 md:grid-cols-3 lg:grid-cols-4   `}
       >
-        {multicard
-          ? [...products]
+        {
+        [...products]
               .sort(() => Math.random() - 0.5)
-              .slice(0, 15)
-              .map((data, index) => <SmallCard img={data.img} key={index} />)
-          : [...products]
-              .sort(() => Math.random() - 0.5)
-              .slice(0, 15)
+              .slice(0, 12)
               .map((data, index) => (
                 <Card
                   id={data.id}
@@ -76,7 +70,8 @@ const Products = () => {
                   Title={data.Title}
                   key={index}
                 />
-              ))}
+              ))
+              }
       </div>
     </div>
   );

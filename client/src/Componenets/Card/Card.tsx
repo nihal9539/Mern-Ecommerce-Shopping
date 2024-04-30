@@ -10,10 +10,7 @@ interface CardData {
 }
 
 const Card = ({id, Price, Title, img }: CardData) => {
-  const [like, setLike] = useState<boolean>();
-  const handleColor = () => {
-    setLike(!like);
-  };
+
 
   function calculateDiscountedPrice(
     originalPrice: number,
@@ -57,15 +54,8 @@ const Card = ({id, Price, Title, img }: CardData) => {
   let finalPrice = convertToBinary(discountedPrice);
 
   return (
-    <Link to={`/product/${id}`} className="card max-sm:w-48 w-64 bg-base-100  shadow-sm rounded-none">
-      <div className="absolute top-4 right-4 border-0 bg-white shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] p-1.5  rounded-md">
-        <Heart
-          size={35}
-          onClick={handleColor}
-          fill={`${like ? "red" : "white"} `}
-          color={`${like ? "red" : "grey"} `}
-        />
-      </div>
+    <Link to={`/product/${id}`} className="card max-sm:w-48 w-64 bg-base-100  shadow-md rounded-none">
+    
       <figure className="w-full max-sm:h-60 h-80  bg-white">
         <img
           className=" w-full max-sm:p-0  p-1.5 h-full"
