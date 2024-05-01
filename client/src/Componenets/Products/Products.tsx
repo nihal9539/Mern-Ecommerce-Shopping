@@ -8,6 +8,7 @@ import { TfiLayoutColumn4Alt, TfiLayoutColumn4 } from "react-icons/tfi";
 import { FaGripLinesVertical } from "react-icons/fa";
 
 import SmallCard from "../SmallCard/SmallCard";
+import HomeCard from "../HomeCard/HomeCard";
 
 const Products = () => {
   function calculateDiscountedPrice(
@@ -39,31 +40,22 @@ const Products = () => {
   }
   // const [multicard, setMulticard] = useState<boolean>(false);
   return (
-    <div className="lg:p-16 lg:px-16">
-      <div className="  m-2 gap-2  flex justify-end [&>*]:border-2 [&>*]:p-0.5 [&>*]:border-black ">
-        {/* <FaGripLinesVertical
-          onClick={() => setMulticard(false)}
-          className={`${multicard ? "opacity-10" : ""}`}
-          size={35}
-        />
-        <TfiLayoutColumn4Alt
-          onClick={() => setMulticard(true)}
-          className={`${multicard ? "" : "opacity-30"}`}
-          size={35}
-        /> */}
+    <div className="lg:p-6 lg:px-24">
+      <div className="flex justify-center p-4 text-xl  font-semibold tracking-wider">
+        <span>FEATURED ITEMS</span>
       </div>
 
       <div
-        className={` grid place-items-center
+        className={` grid place-items-center pt-8
        
-          gap-y-5 gap-0  grid-cols-2 md:grid-cols-3 lg:grid-cols-4   `}
+          gap-y-5   grid-cols-2 md:grid-cols-3 lg:grid-cols-4   `}
       >
         {
         [...products]
               .sort(() => Math.random() - 0.5)
-              .slice(0, 12)
+              .slice(0, 8)
               .map((data, index) => (
-                <Card
+                <HomeCard
                   id={data.id}
                   Price={data.Price}
                   img={data.img}

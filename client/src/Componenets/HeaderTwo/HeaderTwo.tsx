@@ -26,8 +26,8 @@ const HeaderTwo = () => {
         <Link to={"/"} className="">
           Home
         </Link>
-        <Link to={"/all_products"} className="">
-          Men
+        <Link to={"/collection/all"} className="">
+          Shop
         </Link>
 
         <li>Cart</li>
@@ -65,8 +65,8 @@ const HeaderTwo = () => {
         <Link to={"/"} className="">
           Home
         </Link>
-        <Link to={"/all_products"} onClick={()=>setOpen(false)} className="">
-          Men
+        <Link to={"/collection/all"} onClick={()=>setOpen(false)} className="">
+          Shop
         </Link>
 
         <li>Cart</li>

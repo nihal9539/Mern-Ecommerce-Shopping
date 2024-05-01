@@ -54,23 +54,23 @@ const Card = ({id, Price, Title, img }: CardData) => {
   let finalPrice = convertToBinary(discountedPrice);
 
   return (
-    <Link to={`/product/${id}`} className="card max-sm:w-48 w-64 bg-base-100  shadow-md rounded-none">
+    <Link to={`/product/${id}`} className="card max-sm:w-48 w-64 bg-base-100  shadow-sm rounded-none">
     
-      <figure className="w-full max-sm:h-60 h-80  bg-white">
+      <figure className="w-full max-sm:h-60 h-80">
         <img
-          className=" w-full max-sm:p-0  p-1.5 h-full"
+          className=" w-full max-sm:p-0 rounded-md h-full"
           src={img}
           alt="Shoes"
         />
       </figure>
-      <div className="card-body p-2 px-5 max-sm:px-2  bg-white">
-        <h2 className="card-title text-center max-sm:text-start max-sm:text-base">
+      <div className="card-body p-2 py-1.5 gap-1.5 max-sm:px-2  " >
+        <span className="card-title  max-sm:text-start max-sm:text-base">
           {Title}
-        </h2>
-        <p>Discover a wide range of legendary </p>
+        </span>
+        <span className="text-xs text-gray-600">Discover a wide range of legendary </span>
         <div className="space-x-3">
           {/* <span className="font-medium text-gray-500 text-lg max-sm:text-xl">₹{finalPrice}</span> */}
-          <span className="font-medium text-gray-700 text-lg max-sm:text-xl">Rs. {Price}</span>
+          <span className="">Rs.{Price}</span>
         </div>
 
         <div className=""></div>

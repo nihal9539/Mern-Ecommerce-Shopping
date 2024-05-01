@@ -23,7 +23,7 @@ function App() {
           <Route index element={<Home />} />
           <Route path="*" element={<NoMatch />} />
         </Route>
-        <Route path="/all_products" element={<MenProducts />} />
+        <Route path="/collection/all" element={<MenProducts />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/product/:id" element={<Product />} />
 
