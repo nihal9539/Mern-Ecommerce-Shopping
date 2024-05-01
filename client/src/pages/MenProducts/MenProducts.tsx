@@ -12,7 +12,7 @@ const MenProducts = () => {
   return (
     <div>
       <HeadingTwo />
-      <div className="p-12 pt-28  flex flex-row">
+      <div className="p-12  flex flex-row">
         <div className="w-[25%] h-[60vh]  p-1">
           <h1 className="text-2xl p-4 tracking-wider font-bold">FILTERS</h1>
           <hr className="w-full h-1 my-2 bg-red-700" />

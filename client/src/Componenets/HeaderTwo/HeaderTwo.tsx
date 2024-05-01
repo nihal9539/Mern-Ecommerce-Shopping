@@ -17,7 +17,7 @@ const HeaderTwo = () => {
 
   return (
     <div
-      className={`flex flex-row fixed z-50 justify-between items-center p-3.5 lg:px-16 md:px-10 max-lg:px-8  w-full bg-white border-b-2 border-gray-300 `}
+      className={`flex flex-row fixed  z-50 justify-between items-center p-3.5 lg:px-16 md:px-10 max-lg:px-8  w-full bg-white border-b-2 border-gray-300 `}
     >
       <div className="text-4xl font-bold" onClick={handleClick}>
         <img src="/web_logo/logo_2_2.jpeg" style={{mixBlendMode:"multiply"}} className="rounded-lg"  width={90} alt="" />
@@ -30,8 +30,8 @@ const HeaderTwo = () => {
           Shop
         </Link>
 
-        <li>Cart</li>
-        <li>Favourite</li>
+        <Link to={'/cart'}>Cart</Link>
+        <li>WishList</li>
         <li>About</li>
         {user ? (
           <li
@@ -58,9 +58,9 @@ const HeaderTwo = () => {
         // ref={menuRef}
         className={`${
           isOpen
-            ? "inline-block right-1  duration-700"
-            : "right-[-100%]  duration-700 "
-        } border border-gray-300 duration-700    absolute rounded-md  top-[6rem] bg-white flex [&>*]:cursor-pointer flex-col gap-14 p-12 max-sm:p-6 max-sm:px-16 px-36 items-center text-2xl font-semibold  `}
+          ? "inline-block right-1  duration-700"
+          : "right-[-100%]  duration-700 "
+      } border border-gray-300 duration-700    absolute rounded-md  top-[6rem] bg-white flex [&>*]:cursor-pointer flex-col gap-14 p-12 max-sm:p-6 max-sm:px-16 px-36 items-center text-2xl font-semibold  `}
       >
         <Link to={"/"} className="">
           Home

@@ -10,6 +10,7 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Login from "./pages/Login/Login";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import { useSelector } from "react-redux";
+import Cart from "./pages/Cart/Cart";
 
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
         <Route path="/collection/all" element={<MenProducts />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/product/:id" element={<Product />} />
+        <Route path="/cart" element={<Cart />} />
 
         <Route path="/login" element={user ? <Navigate to="/"/> : <Login/>} />
       </Routes>

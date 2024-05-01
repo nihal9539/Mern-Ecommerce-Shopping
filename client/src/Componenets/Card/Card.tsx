@@ -1,6 +1,4 @@
-import { Heart } from "lucide-react";
-import React, { useEffect, useState } from "react";
-import gsap from "gsap";
+import React from "react";
 import { Link } from "react-router-dom";
 interface CardData {
   img: string;

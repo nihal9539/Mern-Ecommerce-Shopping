@@ -52,8 +52,8 @@ const Header = () => {
         Shop
         </Link>
 
-        <li>Cart</li>
-        <li>Favourite</li>
+        <Link to={'/cart'}>Cart</Link>
+        <li>WishList</li>
         <li>About</li>
         {user ? (
           <li
@@ -93,7 +93,7 @@ const Header = () => {
         {/* <Link to={"/women"} onClick={()=>setOpen(false)} className="">
           Women
         </Link> */}
-        <li>Cart</li>
+        <Link to={'/cart'}>Cart</Link>
         <li>WishList</li>
         <li>About</li>
         {user ? (

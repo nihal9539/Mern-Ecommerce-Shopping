@@ -8,7 +8,7 @@ import { FaArrowRight } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 const HomeGridImages = () => {
   return (
-    <div className=" grid grid-cols-3 p-16 px-28 gap-2 max-lg:px-2 ">
+    <div className=" grid grid-cols-3 p-16 px-28 gap-1 max-lg:px-2 ">
       <div className="relative row-span-2  bg-red-400">
         <img src={img1} className=" h-full" alt="" />
         <Link
