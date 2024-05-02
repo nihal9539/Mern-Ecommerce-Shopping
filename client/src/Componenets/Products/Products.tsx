@@ -40,7 +40,7 @@ const Products = () => {
   }
   // const [multicard, setMulticard] = useState<boolean>(false);
   return (
-    <div className="lg:p-6 lg:px-24">
+    <div className="lg:p-6 lg:px-20">
       <div className="flex justify-center p-4 text-xl  font-semibold tracking-wider">
         <span>FEATURED ITEMS</span>
       </div>

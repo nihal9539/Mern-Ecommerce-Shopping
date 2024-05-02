@@ -8,9 +8,10 @@ import Layout from "./Componenets/Layout/Layout";
 import NoMatch from "./Componenets/NoMatch/NoMatch";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Login from "./pages/Login/Login";
-import Dashboard from "./pages/Dashboard/Dashboard";
 import { useSelector } from "react-redux";
 import Cart from "./pages/Cart/Cart";
+import WishList from "./pages/WishList/WishList";
+import Dashboard from "./Componenets/Dashboard/Dashboard";
 
 
 function App() {
@@ -28,7 +29,7 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/product/:id" element={<Product />} />
         <Route path="/cart" element={<Cart />} />
-
+        <Route path="/wishList" element={<WishList />} />
         <Route path="/login" element={user ? <Navigate to="/"/> : <Login/>} />
       </Routes>
     </BrowserRouter>

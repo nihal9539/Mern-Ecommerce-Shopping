@@ -4,6 +4,7 @@ import  bodyParser from "body-parser";
 import mongoose from "mongoose";
 import dotenv from "dotenv"
 import AuthRoute from "./Routes/AuthRoute.js"
+import CartRoute from "./Routes/CartRoute.js"
 
 const app = express()
 
@@ -22,3 +23,4 @@ mongoose.connect(process.env.MONGO_DB).then(()=>{
     console.log(err.message);
 })
 app.use('/auth',AuthRoute)
+app.use('/cart',CartRoute)

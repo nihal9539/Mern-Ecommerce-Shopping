@@ -31,7 +31,7 @@ const HeaderTwo = () => {
         </Link>
 
         <Link to={'/cart'}>Cart</Link>
-        <li>WishList</li>
+        <Link to={'/WishList'}>WishList</Link>
         <li>About</li>
         {user ? (
           <li
@@ -70,7 +70,7 @@ const HeaderTwo = () => {
         </Link>
 
         <li>Cart</li>
-        <li>WishList</li>
+        <Link to={'/WishList'}>WishList</Link>
         <li>About</li>
         {user ? (
           <li

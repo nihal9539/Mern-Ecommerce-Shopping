@@ -12,7 +12,7 @@ const MenProducts = () => {
   return (
     <div>
       <HeadingTwo />
-      <div className="p-12  flex flex-row">
+      <div className="p-12 pt-32  flex flex-row">
         <div className="w-[25%] h-[60vh]  p-1">
           <h1 className="text-2xl p-4 tracking-wider font-bold">FILTERS</h1>
           <hr className="w-full h-1 my-2 bg-red-700" />
@@ -21,7 +21,6 @@ const MenProducts = () => {
         </div>
         <div className="w-[80%] gap-4 grid lg:grid-cols-4 sm:grid-cols-2 p-2 place-items-center">
           {[...products]
-            // .filter((item) => item.Gender == "men")
             .map((data, index) => (
               <Card
                 id={data.id}
