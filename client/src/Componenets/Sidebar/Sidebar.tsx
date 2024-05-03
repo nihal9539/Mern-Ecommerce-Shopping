@@ -1,87 +1,82 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import Drawer from '@mui/material/Drawer';
-import Button from '@mui/material/Button';
-import List from '@mui/material/List';
-import Divider from '@mui/material/Divider';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
+import React, { useState } from "react";
+import { AiOutlineCloseCircle } from "react-icons/ai";
+import { TiShoppingCart } from "react-icons/ti";
+import { BsPersonLinesFill } from "react-icons/bs";
+import { RiShoppingBag3Line } from "react-icons/ri";
 
-type Anchor = 'left';
+import { Users } from "lucide-react";
+// import { Links } from "../../data/Links";
+import { NavLink } from "react-router-dom";
+const Sidebar = () => {
+  const Links = [
+    {
+        title: 'Dashboard',
+        links:[ {
+            name: "ecommerce",
+            icon: <RiShoppingBag3Line/>
+        }]
+    },
+    {
+        title: 'Pages',
+        links: [
+            {
+                name: "orders",
+                icon: <TiShoppingCart/>,
+            },
+            {
+                name: "employees",
+                icon: <Users/>
+            },
+            {
+                name: "customers",
+                icon: <BsPersonLinesFill/>
+            },
+        ]
+    },
 
-export default function Sidebar() {
-  const [state, setState] = React.useState({
-    left: false,
-
-  });
-
-  const toggleDrawer =
-    (anchor: Anchor, open: boolean) =>
-    (event: React.KeyboardEvent | React.MouseEvent) => {
-      if (
-        event.type === 'keydown' &&
-        ((event as React.KeyboardEvent).key === 'Tab' ||
-          (event as React.KeyboardEvent).key === 'Shift')
-      ) {
-        return;
-      }
-
-      setState({ ...state, [anchor]: open });
-    };
-
-  const list = (anchor: Anchor) => (
-    <Box
-      sx={{ width:250 }}
-      role="presentation"
-      onClick={toggleDrawer(anchor, false)}
-      onKeyDown={toggleDrawer(anchor, false)}
-    >
-      <List>
-        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-      <Divider />
-      <List>
-        {['All mail', 'Trash', 'Spam'].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-    </Box>
-  );
-
+]
+  const [activeMenu, setActiveMenu] = useState<boolean>(true);
+  const activeLink =
+    "flex items-center capitalize gap-5 pl-4 py-3 rounded-lg text-white text-md m-2";
+  const normalLink =
+    "flex items-center capitalize gap-5 pl-4 py-3 rounded-lg text-md text-gray-700 hover:text-black hover:bg-light-gray m-2";
   return (
-    <div>
-      {(['left'] as const).map((anchor) => (
-        <React.Fragment key={anchor}>
-          <Button onClick={toggleDrawer(anchor, true)}>{anchor}</Button>
-          <Drawer
-            anchor={anchor}
-            open={state[anchor]}
-            onClose={toggleDrawer(anchor, false)}
-          >
-            {list(anchor)}
-          </Drawer>
-        </React.Fragment>
-      ))}
+    <div className="ml-3 md:overflow-hidden overflow-auto md:hover:overflow-auto pb-10 h-screen">
+      {activeMenu && (
+        <>
+          <div className="flex justify-between items-center text-2xl font-bold p-3 ">
+            <span>Dashboard</span>
+            <button type="button" onClick={() => {}} className="text-xl  ">
+              <AiOutlineCloseCircle />
+            </button>
+          </div>
+          <div className="mt-10">
+            {Links.map((item) => (
+              <div key={item.title}>
+                <p className="text-gray-400 m-3 mt-4 uppercase">{item.title}</p>
+                <p>
+                  {item.links.map((links) => (
+                    <div>
+                      <NavLink
+                        className={({ isActive }) =>
+                          isActive ? activeLink : normalLink
+                        }
+                        to={`/${links.name}`}
+                        key={`/${links.name}`}
+                      >
+                        {links.icon}
+                        {links.name}
+                      </NavLink>
+                    </div>
+                  ))}
+                </p>
+              </div>
+            ))}
+          </div>
+        </>
+      )}
     </div>
   );
-}
+};
+
+export default Sidebar;
