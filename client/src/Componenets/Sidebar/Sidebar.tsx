@@ -4,7 +4,7 @@ import { TiShoppingCart } from "react-icons/ti";
 import { BsPersonLinesFill } from "react-icons/bs";
 import { RiShoppingBag3Line } from "react-icons/ri";
 
-import { Users } from "lucide-react";
+import { Container, Users } from "lucide-react";
 // import { Links } from "../../data/Links";
 import { NavLink } from "react-router-dom";
 const Sidebar = () => {
@@ -13,23 +13,27 @@ const Sidebar = () => {
         title: 'Dashboard',
         links:[ {
             name: "ecommerce",
-            icon: <RiShoppingBag3Line/>
+            icon: <RiShoppingBag3Line size={22}/>
         }]
     },
     {
         title: 'Pages',
         links: [
             {
+                name: "products",
+                icon: <Container size={22}/>,
+            },
+            {
                 name: "orders",
-                icon: <TiShoppingCart/>,
+                icon: <TiShoppingCart size={22}/>,
             },
             {
                 name: "employees",
-                icon: <Users/>
+                icon: <Users size={22}/>
             },
             {
                 name: "customers",
-                icon: <BsPersonLinesFill/>
+                icon: <BsPersonLinesFill size={22}/>
             },
         ]
     },
@@ -37,7 +41,7 @@ const Sidebar = () => {
 ]
   const [activeMenu, setActiveMenu] = useState<boolean>(true);
   const activeLink =
-    "flex items-center capitalize gap-5 pl-4 py-3 rounded-lg text-white text-md m-2";
+    "flex items-center capitalize gap-5 pl-4 py-3 rounded-lg text-white bg-gray-500 text-md m-2";
   const normalLink =
     "flex items-center capitalize gap-5 pl-4 py-3 rounded-lg text-md text-gray-700 hover:text-black hover:bg-light-gray m-2";
   return (
