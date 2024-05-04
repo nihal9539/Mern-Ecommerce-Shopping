@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv"
 import AuthRoute from "./Routes/AuthRoute.js"
 import CartRoute from "./Routes/CartRoute.js"
+import UserRoute from "./Routes/UserRoute.js"
 
 const app = express()
 
@@ -23,4 +24,5 @@ mongoose.connect(process.env.MONGO_DB).then(()=>{
     console.log(err.message);
 })
 app.use('/auth',AuthRoute)
+app.use('/user',UserRoute)
 app.use('/cart',CartRoute)

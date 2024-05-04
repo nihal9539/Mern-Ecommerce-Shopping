@@ -7,7 +7,13 @@ import { RiShoppingBag3Line } from "react-icons/ri";
 import { Container, Users } from "lucide-react";
 // import { Links } from "../../data/Links";
 import { NavLink } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { setButtonFalse, setButtonTrue } from "../../Action/SidebarReducer";
 const Sidebar = () => {
+  const sidebarMenu = useSelector(state => state.sidebarReducer.sidebarAction);
+  const dispatch = useDispatch();
+
+
   const Links = [
     {
         title: 'Dashboard',
@@ -27,10 +33,7 @@ const Sidebar = () => {
                 name: "orders",
                 icon: <TiShoppingCart size={22}/>,
             },
-            {
-                name: "employees",
-                icon: <Users size={22}/>
-            },
+
             {
                 name: "customers",
                 icon: <BsPersonLinesFill size={22}/>
@@ -39,19 +42,27 @@ const Sidebar = () => {
     },
 
 ]
-  const [activeMenu, setActiveMenu] = useState<boolean>(true);
+  const handleClick = () => {
+    // Dispatching appropriate action based on current button state
+    if (sidebarMenu) {
+      dispatch(setButtonFalse());
+    } else {
+      dispatch(setButtonTrue());
+    }
+  };
+
   const activeLink =
     "flex items-center capitalize gap-5 pl-4 py-3 rounded-lg text-white bg-gray-500 text-md m-2";
   const normalLink =
     "flex items-center capitalize gap-5 pl-4 py-3 rounded-lg text-md text-gray-700 hover:text-black hover:bg-light-gray m-2";
   return (
     <div className="ml-3 md:overflow-hidden overflow-auto md:hover:overflow-auto pb-10 h-screen">
-      {activeMenu && (
+      {sidebarMenu && (
         <>
           <div className="flex justify-between items-center text-2xl font-bold p-3 ">
             <span>Dashboard</span>
-            <button type="button" onClick={() => {}} className="text-xl  ">
-              <AiOutlineCloseCircle />
+            <button type="button" onClick={handleClick} className="text-xl  ">
+              <AiOutlineCloseCircle  />
             </button>
           </div>
           <div className="mt-10">

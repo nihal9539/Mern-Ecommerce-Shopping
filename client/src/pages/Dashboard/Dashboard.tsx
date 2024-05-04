@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import Sidebar from "../../Componenets/Sidebar/Sidebar";
 import { Outlet } from "react-router-dom";
+import DashboardNavbar from "../../Componenets/DashboardNavbar/DashboardNavbar";
 // import Sidebar from "../Sidebar/Sidebar";
 
 const Dashboard = () => {
-  const [activeMenu, setActiveMenu] = useState<boolean>(true);
   return (
-    <div className="flex ">
+    <div className="w-full">
       ecommerce
     </div>
   );
