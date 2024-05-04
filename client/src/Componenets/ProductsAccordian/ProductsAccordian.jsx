@@ -145,24 +145,21 @@ const ProductsAccordian = () => {
     800: "#303740",
     900: "#1C2025",
   };
-  interface CheckboxState {
-    male: boolean;
-    female: boolean;
-  }
+  
 
-  const [checkboxState, setCheckboxState] = useState<CheckboxState>({
+  const [checkboxState, setCheckboxState] = useState({
     male: false,
     female: false,
   });
 
-  const handleCheckboxChange = (checkboxNumber: keyof CheckboxState) => {
+  const handleCheckboxChange = (checkboxNumber) => {
     setCheckboxState((prevState) => ({
       ...prevState,
       [checkboxNumber]: !prevState[checkboxNumber],
     }));
   };
 
-  const Gender: JSX.Element = (
+  const Gender = (
     <div>
       <div className="">
         <label className="space-x-1 my-1 container flex items-center">
@@ -196,7 +193,7 @@ const ProductsAccordian = () => {
       </div>
     </div>
   );
-  const PriceRange: JSX.Element = (
+  const PriceRange = (
     <Box>
       <Slider
         onChange={handleChange}
@@ -211,8 +208,7 @@ const ProductsAccordian = () => {
       </div>
     </Box>
   );
-  type AccordianType = { heading: string; component: any };
-  const AcoordianData: AccordianType[] = [
+  const AcoordianData= [
     {
       component: Gender,
       heading: "Gender",
@@ -230,7 +226,7 @@ const ProductsAccordian = () => {
         preExpanded={[0]}
       >
         {AcoordianData.map((data, index) => (
-          <AccordionItem>
+          <AccordionItem key={index}>
             <AccordionItemHeading>
               <AccordionItemButton
                 style={{ padding: "12px", backgroundColor: "transparent" }}
