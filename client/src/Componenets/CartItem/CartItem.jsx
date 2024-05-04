@@ -4,7 +4,7 @@ import { RiSubtractFill } from "react-icons/ri";
 import { RiDeleteBin6Line } from "react-icons/ri";
 
 const CartItem = () => {
-  const [quantity, setQuantity] = useState<number>(1);
+  const [quantity, setQuantity] = useState(1);
 
   return (
     <div className=" border rounded-md p-4 flex flex-row items-start justify-between  gap-4">

@@ -4,10 +4,10 @@ import { TfiAlignJustify } from "react-icons/tfi";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../Action/AuthAction";
 
-const Header = () => {
+const Navbar = ({ bgWhite }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [header, setHeader] = useState<boolean>(false);
+  const [header, setHeader] = useState(false);
   const user = useSelector((state) => state.authReducer.authData);
 
   useEffect(() => {
@@ -21,7 +21,7 @@ const Header = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
-  const [isOpen, setOpen] = useState<boolean>(false);
+  const [isOpen, setOpen] = useState(false);
   const handleLogout = () => {
     dispatch(logout());
   };
@@ -32,16 +32,18 @@ const Header = () => {
   return (
     <div
       className={`flex flex-row fixed  justify-between items-center p-3 lg:px-16 md:px-10 max-lg:px-8  w-full ${
-        header ? "bg-white border-b-2 border-gray-300" : ""
+        bgWhite
+          ? "bg-white border-b-2 border-gray-300"
+          : `${header ? "bg-white border-b-2 border-gray-300 " : ""}`
       } fixed  pr-28  top-0 left-0 z-50 `}
     >
       <div className="text-4xl font-bold" onClick={handleClick}>
         <img
-          src="./web_logo/logo_2_2.jpeg"
-          style={{ mixBlendMode: "multiply" }}
+          src="/web_logo/logo_2_2.jpeg"
+          // style={{ mixBlendMode: "multiply" }}
           className="rounded-lg cursor-pointer"
           width={90}
-          alt=""
+          alt="logo"
         />
       </div>
       <ul className="max-lg:hidden flex [&>*]:cursor-pointer flex-row gap-14 items-center text-2xl font-semibold  relative">
@@ -49,11 +51,11 @@ const Header = () => {
           Home
         </Link>
         <Link to={"/collection/all"} className="">
-        Shop
+          Shop
         </Link>
 
-        <Link to={'/cart'}>Cart</Link>
-        <li>WishList</li>
+        <Link to={"/cart"}>Cart</Link>
+        <Link to={"/wishlist"}>WishList</Link>
         <li>About</li>
         {user ? (
           <li
@@ -87,14 +89,18 @@ const Header = () => {
         <Link to={"/"} className="">
           Home
         </Link>
-        <Link to={"/collection/all"} onClick={() => setOpen(false)} className="">
-        Shop
+        <Link
+          to={"/collection/all"}
+          onClick={() => setOpen(false)}
+          className=""
+        >
+          Shop
         </Link>
         {/* <Link to={"/women"} onClick={()=>setOpen(false)} className="">
           Women
         </Link> */}
-        <Link to={'/cart'}>Cart</Link>
-        <li>WishList</li>
+        <Link to={"/cart"}>Cart</Link>
+        <Link to={"/wishlist"}>WishList</Link>
         <li>About</li>
         {user ? (
           <li
@@ -116,4 +122,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default Navbar;

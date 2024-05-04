@@ -52,7 +52,7 @@ const Sidebar = () => {
   };
 
   const activeLink =
-    "flex items-center capitalize gap-5 pl-4 py-3 rounded-lg text-white bg-gray-500 text-md m-2";
+    "flex items-center capitalize gap-5 pl-4 py-3 rounded-lg text-white bg-main-blue text-md m-2";
   const normalLink =
     "flex items-center capitalize gap-5 pl-4 py-3 rounded-lg text-md text-gray-700 hover:text-black hover:bg-light-gray m-2";
   return (
@@ -61,8 +61,8 @@ const Sidebar = () => {
         <>
           <div className="flex justify-between items-center text-2xl font-bold p-3 ">
             <span>Dashboard</span>
-            <button type="button" onClick={handleClick} className="text-xl  ">
-              <AiOutlineCloseCircle  />
+            <button type="button" onClick={handleClick} className="text-xl  max-md:block hidden">
+              <AiOutlineCloseCircle size={25} />
             </button>
           </div>
           <div className="mt-10">

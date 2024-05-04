@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import HeaderTwo from "../../Componenets/HeaderTwo/HeaderTwo";
+import Navbar from "../../Componenets/Navbar/Navbar";
 import CartItem from "../../Componenets/CartItem/CartItem";
 
 
@@ -7,7 +7,7 @@ const Cart = () => {
 
   return (
     <div>
-      <HeaderTwo />
+      <Navbar bgWhite={true}  />
       <div className="p-12 pb-5 pt-32 grid grid-cols-6 w-full gap-2  ">
         <div className="col-span-4 space-y-1 overflow-scroll max-h-[34rem]">
           <CartItem/>

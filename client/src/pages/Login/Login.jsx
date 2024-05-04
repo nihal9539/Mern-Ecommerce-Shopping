@@ -1,28 +1,24 @@
 import React, { useEffect, useState } from "react";
-import HeaderTwo from "../../Componenets/HeaderTwo/HeaderTwo";
 import { login ,signup} from "../../Action/AuthAction";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import Navbar from "../../Componenets/Navbar/Navbar";
 
-type User = {
-  username: string;
-  password: string;
-  email: string;
-};
+
 const Login = () => {
-  const [isSignup, setSignup] = useState<boolean>(false);
-  const {loading, error,errorMessage } = useSelector((state) => state.authReducer)
+  const [isSignup, setSignup] = useState(false);
+  // const {loading, error,errorMessage } = useSelector((state) => state.authReducer)
   const [errors, setErrors] = useState({
     email: "",
     password: "",
     name: "",
   });
-  const [data, setData] = useState<User>({
+  const [data, setData] = useState({
     username: "",
     email: "",
     password: "",
   });
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
 
     e.preventDefault();
@@ -68,7 +64,7 @@ const Login = () => {
   };
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const handleSubmit = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
     const emailError = validateEmail(data.email);
     const passwordError = validatePassword(data.password);
@@ -87,7 +83,7 @@ const Login = () => {
 
   return (
     <div>
-      <HeaderTwo />
+      <Navbar bgWhite={true} />
       <div className="  flex flex-row bg-[url(./login_bg_2.jpeg)]    justify-center items-center w-screen h-screen">
         <div
           className={` w-96  ${

@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Outlet } from "react-router-dom";
-import Sidebar from "../Sidebar/Sidebar";
 import { useSelector } from "react-redux";
 import DashboardNavbar from "../DashboardNavbar/DashboardNavbar";
-// import Sidebar from "../Sidebar/Sidebar";
+// import { Sidebar } from "lucide-react";
+import Sidebar from "../Sidebar/Sidebar";
 
 const DashboardLayout = () => {
   const [activeMenu, setActiveMenu] = useState<boolean>(true);
@@ -16,7 +16,7 @@ const DashboardLayout = () => {
     <div className="flex flex-row ">
       <div className="  bg-red-100">
         {sidebarMenu ? (
-          <div className="w-72 relative bg-white shadow-xl">
+          <div className="w-72 relative max-md:absolute bg-white shadow-sm">
             <Sidebar />
           </div>
         ) : (
@@ -25,9 +25,11 @@ const DashboardLayout = () => {
           </div>
         )}
       </div>
-        <div className="flex flex-col w-full">
+        <div className="flex flex-col w-full bg-main-bg">
           <DashboardNavbar />
+          <div className="p-10">
           <Outlet />
+          </div>
         </div>
     </div>
   );

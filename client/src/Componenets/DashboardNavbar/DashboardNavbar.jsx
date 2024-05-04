@@ -2,6 +2,7 @@ import React from 'react'
 import { FiAlignJustify } from "react-icons/fi";
 import { setButtonFalse, setButtonTrue } from '../../Action/SidebarReducer';
 import { useDispatch, useSelector } from 'react-redux';
+import { AlignJustify } from 'lucide-react';
 
 
 const DashboardNavbar = () => {
@@ -16,8 +17,8 @@ const DashboardNavbar = () => {
         }
       };
   return (
-    <div className='w-full flex items-center shadow-sm p-3'>
-      <FiAlignJustify size={30} onClick={handleClick}/>
+    <div className='w-full flex items-center   p-3.5 px-10'>
+      <AlignJustify size={20} className='stroke-main-blue' onClick={handleClick}/>
     </div>
   )
 }

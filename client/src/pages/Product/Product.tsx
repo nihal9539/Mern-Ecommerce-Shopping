@@ -4,8 +4,8 @@ import currencyFormatter from "currency-formatter";
 import SizeContainer from "../../Componenets/SizeContainer/SizeContainer";
 import { useParams } from "react-router-dom";
 import { Heart } from "lucide-react";
-import imgggg from "./bg-1.jpg";
-import HeaderTwo from "../../Componenets/HeaderTwo/HeaderTwo";
+import Navbar from "../../Componenets/Navbar/Navbar";
+
 
 const Product = () => {
   const { id } = useParams();
@@ -34,7 +34,7 @@ const Product = () => {
   }
   return (
     <div>
-      <HeaderTwo />
+      <Navbar bgWhite={true} />
       <div className="p-12 pt-24  max-lg:px-0   flex flex-row">
         <div className="w-full flex justify-center relative items-center flex-row max-lg:flex-col max-lg:gap-5">
           <div className="w-1/2 max-lg:w-full max-lg:px-4 relative top-0 left-0   flex justify-center  items-center ">

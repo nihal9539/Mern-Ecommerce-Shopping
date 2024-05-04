@@ -2,7 +2,7 @@ import React from 'react'
 
 const NoMatch = () => {
   return (
-    <div>
+    <div className=' h-screen w-full flex justify-center items-center'>
       No Page Found
     </div>
   )

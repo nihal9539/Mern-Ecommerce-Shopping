@@ -2,7 +2,7 @@ import { Heart } from 'lucide-react';
 import React, { useState } from 'react'
 
 const WishListItem = () => {
-    const [WishList, setWishlist] = useState<boolean>(true);
+    const [WishList, setWishlist] = useState(true);
 
   return (
     <div className="card w-64 max-sm:w-44 bg-base-100 shadow-xl rounded-xl">
