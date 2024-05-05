@@ -1,10 +1,16 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { IoImageOutline } from "react-icons/io5";
 
 import { useNavigate } from "react-router-dom";
 import { FaPercentage } from "react-icons/fa";
+import { IoMdClose } from "react-icons/io";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormHelperText from "@mui/material/FormHelperText";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
 
 const AddProduct = () => {
   const navigate = useNavigate();
@@ -12,6 +18,8 @@ const AddProduct = () => {
   const handleBack = () => {
     navigate(-1); // Navigate back by one step in the history stack
   };
+  const imgref = useRef();
+
   const [quantities, setQuantities] = useState({
     S: 0,
     M: 0,
@@ -33,7 +41,6 @@ const AddProduct = () => {
     price: "",
     image: null,
     discountprice: "",
-
   });
   const handledata = (e) => {
     const { name, value } = event.target;
@@ -42,7 +49,26 @@ const AddProduct = () => {
       [name]: value,
     }));
   };
-   
+  const [imageBase64, setImageBase64] = useState("");
+  const [image, setImage] = useState("");
+
+  const handleconvertToBase64 = (e) => {
+    setImage(URL.createObjectURL(event.target.files[0]));
+    var reader = new FileReader();
+    reader.readAsDataURL(e.target.files[0]);
+    reader.onload = () => {
+      setImageBase64(reader.result);
+    };
+    reader.onerror = (err) => {
+      console.log("error", err);
+    };
+  };
+  const [gender, setGender] = useState("");
+
+  const handleChange = (event) => {
+    setGender(event.target.value);
+  };
+
   return (
     <div className="">
       <IoMdArrowRoundBack
@@ -58,7 +84,8 @@ const AddProduct = () => {
               type="text"
               placeholder="Product name"
               name="productname"
-              // value={data.productname}
+              value={data.productname}
+              required
               onChange={handledata}
               className=" border-2 outline-none rounded-lg p-2 w-full"
             />
@@ -66,6 +93,7 @@ const AddProduct = () => {
               type="text"
               placeholder="Sub title"
               value={data.subTitle}
+              required
               name="subTitle"
               onChange={handledata}
               className=" border-2 outline-none rounded-lg p-2 w-full"
@@ -73,6 +101,7 @@ const AddProduct = () => {
             <textarea
               type="text"
               rows={6}
+              required
               maxLength={400}
               placeholder="Description"
               value={data.description}
@@ -84,11 +113,33 @@ const AddProduct = () => {
         </div>
         <div className="p-6 h-[21.5rem] relative col-span-2 max-md:col-span-6 bg-white shadow-md rounded-2xl">
           <div className="h-full">
-            <h1 className="mb-5 text-lg font-semibold">Product Image</h1>
-            <div className=" border-2 border-gray-500 border-dashed rounded-lg flex flex-col gap-2 justify-center items-center h-60">
-              <IoImageOutline size={25} />
-              <h1 className="font-semibold max-lg::text-xs">Upload Your Product Image</h1>
+            <div className="mb-5 flex items-center justify-between text-lg font-semibold">
+              <span>Product Image</span>
+              {image && <IoMdClose fill="red" onClick={() => setImage("")} />}
             </div>
+            {image ? (
+              <div>
+                <img src={image} className="h-60 w-full" alt="" />
+                <button onClick={() => setImage("")}>change</button>
+              </div>
+            ) : (
+              <div
+                onClick={() => imgref.current.click()}
+                className=" border-2 border-gray-500 border-dashed rounded-lg flex flex-col gap-2 justify-center items-center h-60"
+              >
+                <input
+                  type="file"
+                  accept=".png,.jpg,.jpeg"
+                  ref={imgref}
+                  onChange={handleconvertToBase64}
+                  className="hidden"
+                />
+                <IoImageOutline size={25} />
+                <h1 className="font-semibold max-lg::text-xs">
+                  Upload Your Product Image
+                </h1>
+              </div>
+            )}
           </div>
         </div>
         <div className=" p-6 col-span-4 max-md:col-span-6 bg-white shadow-md rounded-2xl">
@@ -120,6 +171,7 @@ const AddProduct = () => {
                   name="price"
                   onChange={handledata}
                   value={data.price}
+                  required
                   className="number-input h-full px-2 outline-none w-full"
                 />
               </div>
@@ -142,13 +194,31 @@ const AddProduct = () => {
             </div>
           </div>
         </div>
+        <div className="p-6 -top-12 relative col-span-2 max-md:col-span-6 bg-white shadow-md rounded-2xl">
+        <h1 className="mb-5 font-semibold text-lg">Gender</h1>
+
+          <FormControl sx={{}} className="w-full" required>
+            <InputLabel id="demo-simple-select-helper-label">Gender</InputLabel>
+            <Select
+              labelId="demo-simple-select-helper-label"
+              id="demo-simple-select-helper"
+              value={gender}
+              label="Gender"
+              onChange={handleChange}
+            >
+             
+              <MenuItem value={"male"}>Male</MenuItem>
+              <MenuItem value={"female"}>Female</MenuItem>
+            </Select>
+          </FormControl>
+        </div>
         <div className=" p-6 col-span-6 flex gap-2 justify-end  ">
           <div className="btn bg-gray-400 hover:bg-gray-400 text-white">
             Cancel
           </div>
-          <div className="btn bg-main-blue text-white hover:bg-main-blue">
+          <button type="submit" className="btn bg-main-blue text-white hover:bg-main-blue">
             Add Product
-          </div>
+          </button>
         </div>
       </form>
     </div>
