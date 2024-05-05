@@ -18,6 +18,7 @@ import DashboardEmployees from "./Componenets/DashboardEmployees/DashboardEmploy
 import DashboardCustomers from "./Componenets/DashboardCustomers/DashboardCustomers";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import DashboardProduct from "./Componenets/DashboardProduct/DashboardProduct";
+import AddProduct from "./Componenets/AddProduct/AddProduct";
 
 function App() {
   const user = useSelector((state) => state.authReducer.authData);
@@ -34,9 +35,12 @@ function App() {
         <Route path="/" element={<DashboardLayout />}>
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="ecommerce" element={<Dashboard />} />
-          <Route path="products" element={<DashboardProduct />} />
+          <Route path="products" element={<DashboardProduct />}>
+          </Route>
+          <Route path="products/add-product" element={<AddProduct />} />
+
           <Route path="orders" element={<DashboardOrders />} />
-          <Route path="employees" element={<DashboardEmployees />} />
+          <Route index path="employees" element={<DashboardEmployees />} />
           <Route path="customers" element={<DashboardCustomers />} />
         </Route>
         <Route path="/product/:id" element={<Product />} />

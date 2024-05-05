@@ -6,17 +6,15 @@ import DashboardNavbar from "../DashboardNavbar/DashboardNavbar";
 import Sidebar from "../Sidebar/Sidebar";
 
 const DashboardLayout = () => {
-  const [activeMenu, setActiveMenu] = useState<boolean>(true);
   const sidebarMenu = useSelector(
     (state) => state.sidebarReducer.sidebarAction
   );
-  console.log(sidebarMenu);
 
   return (
     <div className="flex flex-row ">
       <div className="  bg-red-100">
         {sidebarMenu ? (
-          <div className="w-72 relative max-md:absolute bg-white shadow-sm">
+          <div className="w-72 sidebar relative max-md:fixed bg-white shadow-sm">
             <Sidebar />
           </div>
         ) : (
@@ -25,9 +23,9 @@ const DashboardLayout = () => {
           </div>
         )}
       </div>
-        <div className="flex flex-col w-full bg-main-bg">
+        <div className="flex flex-col h-screen overflow-auto w-full bg-main-bg">
           <DashboardNavbar />
-          <div className="p-10">
+          <div className="p-10 max-sm:px-2  pt-24">
           <Outlet />
           </div>
         </div>

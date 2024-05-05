@@ -19,6 +19,7 @@ const Sidebar = () => {
         title: 'Dashboard',
         links:[ {
             name: "ecommerce",
+            link: "ecommerce",
             icon: <RiShoppingBag3Line size={22}/>
         }]
     },
@@ -27,15 +28,18 @@ const Sidebar = () => {
         links: [
             {
                 name: "products",
+                link: "products",
                 icon: <Container size={22}/>,
             },
             {
                 name: "orders",
+                link: "orders",
                 icon: <TiShoppingCart size={22}/>,
             },
 
             {
                 name: "customers",
+                link: "customers",
                 icon: <BsPersonLinesFill size={22}/>
             },
         ]
@@ -56,7 +60,7 @@ const Sidebar = () => {
   const normalLink =
     "flex items-center capitalize gap-5 pl-4 py-3 rounded-lg text-md text-gray-700 hover:text-black hover:bg-light-gray m-2";
   return (
-    <div className="ml-3 md:overflow-hidden overflow-auto md:hover:overflow-auto pb-10 h-screen">
+    <div className="ml-3  md:overflow-hidden  overflow-auto md:hover:overflow-auto pb-10 h-screen">
       {sidebarMenu && (
         <>
           <div className="flex justify-between items-center text-2xl font-bold p-3 ">
