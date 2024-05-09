@@ -8,65 +8,107 @@ import { FaPercentage } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
-import FormHelperText from "@mui/material/FormHelperText";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+import { uploadProduct } from "../../Action/uploadAction";
 
 const AddProduct = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const {uploading,error} = useSelector((state)=>state.productReducer)
+  console.log(uploading,error);
 
   const handleBack = () => {
     navigate(-1); // Navigate back by one step in the history stack
   };
   const imgref = useRef();
-
-  const [quantities, setQuantities] = useState({
-    S: 0,
-    M: 0,
-    L: 0,
-    XL: 0,
-  });
   const sizes = ["S", "M", "L", "XL"];
-
-  const handleQuantityChange = (size, quantity) => {
-    setQuantities((prevState) => ({
-      ...prevState,
-      [size]: quantity,
-    }));
-  };
+  const [image, setImage] = useState("");
   const [data, setData] = useState({
     productname: "",
     description: "",
     subTitle: "",
-    price: "",
+    price: null,
     image: null,
-    discountprice: "",
+    discountprice: 0,
+    gender: "",
+    sizes: [{ size: 'S', quantity: 0 }, { size: 'M', quantity: 0 }, { size: 'L', quantity: 0 }, { size: 'XL', quantity: 0 }],
+
   });
+
+  console.log(data);
+  // handle data
   const handledata = (e) => {
-    const { name, value } = event.target;
+    const { name, value } = e.target;
     setData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
   };
-  const [imageBase64, setImageBase64] = useState("");
-  const [image, setImage] = useState("");
 
   const handleconvertToBase64 = (e) => {
     setImage(URL.createObjectURL(event.target.files[0]));
     var reader = new FileReader();
     reader.readAsDataURL(e.target.files[0]);
     reader.onload = () => {
-      setImageBase64(reader.result);
+      setData((prevData) => ({
+        ...prevData,
+        image: reader.result,
+      }));
     };
     reader.onerror = (err) => {
       console.log("error", err);
     };
   };
-  const [gender, setGender] = useState("");
 
-  const handleChange = (event) => {
-    setGender(event.target.value);
+  // handleing size quantity
+  const handleQuantityChange = (size, quantity) => {
+    const updatedSizes = data.sizes.map(item => {
+      if (item.size === size) {
+        return { ...item, quantity: Number(quantity) };
+      }
+      return item;
+    });
+
+    setData({ ...data, sizes: updatedSizes });
+  };
+
+  // submiting form
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!data.image) {
+      toast.error("Please select an image.");
+    } else {
+      try {
+        dispatch(uploadProduct(data));
+        setData({
+          productname: "",
+          description: "",
+          subTitle: "",
+          price: "",
+          image: "",
+          discountprice: 0,
+          gender: "",
+          S: 0,
+          M: 0,
+          L: 0,
+          XL: 0,
+        });
+        setImage("");
+        toast.success("Product Added");
+      } catch (error) {
+        toast.error("Error in submitting");
+      }
+    }
+  };
+  const cancelImage = () => {
+    setImage("");
+    setData((prev) => ({
+      ...prev,
+      image: null,
+    }));
   };
 
   return (
@@ -76,7 +118,7 @@ const AddProduct = () => {
         className=" rounded-full max-sm:hidden cursor-pointer bg-main-blue flex justify-center items-center p-1.5 text-white"
         onClick={handleBack}
       />
-      <form className="p-2 pt-8 grid gap-8 grid-cols-6">
+      <form className="p-2 pt-8 grid gap-8 grid-cols-6" onSubmit={handleSubmit}>
         <div className="p-6 col-span-4 max-md:col-span-6 bg-white shadow-md rounded-2xl">
           <h1 className="mb-5 font-semibold text-lg"> Basic Information</h1>
           <div className="space-y-5">
@@ -115,12 +157,11 @@ const AddProduct = () => {
           <div className="h-full">
             <div className="mb-5 flex items-center justify-between text-lg font-semibold">
               <span>Product Image</span>
-              {image && <IoMdClose fill="red" onClick={() => setImage("")} />}
+              {image && <IoMdClose fill="red" onClick={cancelImage} />}
             </div>
             {image ? (
               <div>
                 <img src={image} className="h-60 w-full" alt="" />
-                <button onClick={() => setImage("")}>change</button>
               </div>
             ) : (
               <div
@@ -135,7 +176,7 @@ const AddProduct = () => {
                   className="hidden"
                 />
                 <IoImageOutline size={25} />
-                <h1 className="font-semibold max-lg::text-xs">
+                <h1 className="font-semibold max-lg:text-xs text-center">
                   Upload Your Product Image
                 </h1>
               </div>
@@ -153,7 +194,8 @@ const AddProduct = () => {
               <input
                 type="number"
                 min={"0"}
-                onClick={(e) => handleQuantityChange(size, e.target.value)}
+                value={data[size]}
+                onChange={(e) => handleQuantityChange(size, e.target.value)}
                 className="p-1.5 rounded-lg border-2 outline-none"
               />
             </div>
@@ -188,25 +230,26 @@ const AddProduct = () => {
                   value={data.discountprice}
                   onChange={handledata}
                   max={100}
+                  min={0}
                   className="  h-full px-2 outline-none w-full"
                 />
               </div>
             </div>
           </div>
         </div>
-        <div className="p-6 -top-12 relative col-span-2 max-md:col-span-6 bg-white shadow-md rounded-2xl">
-        <h1 className="mb-5 font-semibold text-lg">Gender</h1>
+        <div className="p-6 max-md:top-0 -top-12 relative col-span-2 max-md:col-span-6 bg-white shadow-md rounded-2xl">
+          <h1 className="mb-5 font-semibold text-lg">Gender</h1>
 
           <FormControl sx={{}} className="w-full" required>
             <InputLabel id="demo-simple-select-helper-label">Gender</InputLabel>
             <Select
               labelId="demo-simple-select-helper-label"
               id="demo-simple-select-helper"
-              value={gender}
+              value={data.gender}
               label="Gender"
-              onChange={handleChange}
+              name="gender"
+              onChange={handledata}
             >
-             
               <MenuItem value={"male"}>Male</MenuItem>
               <MenuItem value={"female"}>Female</MenuItem>
             </Select>
@@ -216,7 +259,10 @@ const AddProduct = () => {
           <div className="btn bg-gray-400 hover:bg-gray-400 text-white">
             Cancel
           </div>
-          <button type="submit" className="btn bg-main-blue text-white hover:bg-main-blue">
+          <button
+            type="submit"
+            className="btn bg-main-blue text-white hover:bg-main-blue"
+          >
             Add Product
           </button>
         </div>

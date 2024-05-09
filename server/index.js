@@ -6,6 +6,7 @@ import dotenv from "dotenv"
 import AuthRoute from "./Routes/AuthRoute.js"
 import CartRoute from "./Routes/CartRoute.js"
 import UserRoute from "./Routes/UserRoute.js"
+import ProductRoute from "./Routes/ProductRoute.js"
 
 const app = express()
 
@@ -26,3 +27,4 @@ mongoose.connect(process.env.MONGO_DB).then(()=>{
 app.use('/auth',AuthRoute)
 app.use('/user',UserRoute)
 app.use('/cart',CartRoute)
+app.use('/product',ProductRoute)

@@ -5,7 +5,7 @@ const productScehema = new mongoose.Schema({
         type: String,
         require: true
     },
-    subtitle: {
+    subTitle: {
         type: String,
         require: true
     },
@@ -23,7 +23,9 @@ const productScehema = new mongoose.Schema({
     }],
     gender: String,
     price: {
-        type: Number
+        type: Number,
+        require: true
+
     },
     discount: {
         type: Number
