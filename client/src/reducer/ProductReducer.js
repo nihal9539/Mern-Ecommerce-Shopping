@@ -1,11 +1,11 @@
 // reducer.js
 
-const initialState = {
+const reducer = (state = {
   addToButton: false,
-  posts: null, loading: false, error: false, uploading: false
-};
+  products: null, loading: false, error: false, uploading: false
+}, action) => {
+  console.log(state);
 
-const reducer = (state = initialState, action) => {
   switch (action.type) {
     case "SET_ADD_TO_BUTTON_TRUE":
       return {
@@ -18,14 +18,24 @@ const reducer = (state = initialState, action) => {
     case "UPLOAD_START":
       return { ...state, error: false, uploading: true };
     case "UPLOAD_SUCCESS":
-      return { ...state, posts: [action.data, ...state.posts], uploading: false, error: false };
+      return { ...state, products: [action.data, ...state.products], uploading: false, error: false };
     case "UPLOAD_FAIL":
       return { ...state, uploading: false, error: true };
     case "RETREIVING_START":
+      console.log(state);
       return { ...state, loading: true, error: false };
     case "RETREIVING_SUCCESS":
-      return { ...state, posts: action.data, loading: false, error: false };
+      console.log(action);
+      return { ...state, products: action.data, loading: false, error: false };
     case "RETREIVING_FAIL":
+      return { ...state, loading: false, error: true };
+    case "PRODUCT_FETCHING_START":
+      console.log(state);
+      return { ...state, loading: true, error: false };
+    case "PRODUCT_FETCHING_SUCCESS":
+      console.log(action);
+      return { ...state, product: action.data, loading: false, error: false };
+    case "PRODUCT_FETCHING_FAIL":
       return { ...state, loading: false, error: true };
     default:
       return state;

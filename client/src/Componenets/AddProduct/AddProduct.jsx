@@ -91,13 +91,13 @@ const AddProduct = () => {
           image: "",
           discountprice: 0,
           gender: "",
-          S: 0,
-          M: 0,
-          L: 0,
-          XL: 0,
+          sizes: [{ size: 'S', quantity: 0 }, { size: 'M', quantity: 0 }, { size: 'L', quantity: 0 }, { size: 'XL', quantity: 0 }],
+
         });
         setImage("");
         toast.success("Product Added");
+        navigate("/products")
+        
       } catch (error) {
         toast.error("Error in submitting");
       }
@@ -144,7 +144,7 @@ const AddProduct = () => {
               type="text"
               rows={6}
               required
-              maxLength={400}
+              maxLength={800}
               placeholder="Description"
               value={data.description}
               name="description"

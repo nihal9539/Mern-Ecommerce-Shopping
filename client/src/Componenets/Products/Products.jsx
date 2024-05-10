@@ -1,8 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { products } from "../../assets/data";
 import Card from "../Card/Card";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllProduct } from "../../Action/ProductAction";
 
 const Products = () => {
+  let { products, loading } = useSelector((state) => state.productReducer);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getAllProduct());
+  }, []);
 
   return (
     <div className="lg:p-6 lg:px-20">
@@ -15,21 +23,16 @@ const Products = () => {
        
           gap-y-5   grid-cols-2 md:grid-cols-3 lg:grid-cols-4   `}
       >
-        {
-        [...products]
-              .sort(() => Math.random() - 0.5)
-              .slice(0, 8)
-              .map((data, index) => (
-                <Card 
-                homepageCard={true}
-                  id={data.id}
-                  Price={data.Price}
-                  img={data.img}
-                  Title={data.Title}
-                  key={index}
-                />
-              ))
-              }
+        {products
+          .sort(() => Math.random() - 0.5)
+          .slice(0, 8)
+          .map((data, index) => (
+            <Card
+              homepageCard={true}
+              data={data}
+              key={index}
+            />
+          ))}
       </div>
     </div>
   );
