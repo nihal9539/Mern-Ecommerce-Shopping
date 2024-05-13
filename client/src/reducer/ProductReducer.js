@@ -4,7 +4,6 @@ const reducer = (state = {
   addToButton: false,
   products: null, loading: false, error: false, uploading: false
 }, action) => {
-  console.log(state);
 
   switch (action.type) {
     case "SET_ADD_TO_BUTTON_TRUE":

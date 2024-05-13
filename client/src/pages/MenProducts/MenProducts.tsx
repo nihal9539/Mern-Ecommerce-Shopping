@@ -9,6 +9,8 @@ import { useSelector } from "react-redux";
 
 const MenProducts = () => {
   const { products} = useSelector((state) => state.productReducer);
+  console.log(products);
+  
 
   return (
     <div>

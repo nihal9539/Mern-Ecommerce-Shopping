@@ -3,24 +3,33 @@ import currencyFormatter from "currency-formatter";
 import { useParams } from "react-router-dom";
 import { Heart } from "lucide-react";
 import Navbar from "../../Componenets/Navbar/Navbar";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { createWishlist, removeFromWishlist } from "../../Action/WishlistAction";
 
 const Product = () => {
+  const user = useSelector((state) => state.authReducer.authData.user._id);
   const { id } = useParams();
   const [productData, setProductData] = useState(null);
-  const [error, setError] = useState(null); 
-  const { products} = useSelector((state) => state.productReducer);
+  const dispatch = useDispatch();
+  const [error, setError] = useState(null);
+  const { products } = useSelector((state) => state.productReducer);
+  const { wishlist } = useSelector((state) => state.wishlistReducer);
   const [selectedButton, setSelectedButton] = useState(null);
-  const [wishlist, setWishlist] = useState();
+  const [wishlistbtn, setWishlist] = useState();
+  console.log(wishlist);
+
+  useEffect(() => {
+    wishlist.includes(id) ? setWishlist(true) : setWishlist(false);
+  }, [products, id]);
 
   useEffect(() => {
     const product = products?.find((product) => product._id === id);
     if (product) {
       setProductData(product);
-    }else{
-      setProductData(null)
-      setError("This product is not available.")
-    } 
+    } else {
+      setProductData(null);
+      setError("This product is not available.");
+    }
   }, [id, products]);
 
   const selectButton = (buttonId) => {
@@ -30,22 +39,28 @@ const Product = () => {
   };
 
   const handleWishlist = () => {
-    setWishlist(!wishlist);
+    if (wishlistbtn) {
+      dispatch(removeFromWishlist(user, id));
+      setWishlist(false)
+    } else {
+      dispatch(createWishlist(user, id));
+      setWishlist(true)
+    }
   };
-  
 
   if (!productData && !error) {
-    return <div className="flex justify-center items-center h-screen"><div className="loader"></div></div>;
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="loader"></div>
+      </div>
+    );
   }
   if (!productData && error) {
-    return <div className="flex justify-center items-center h-screen">{error}</div>; // Display error message if product data cannot be fetched
+    return (
+      <div className="flex justify-center items-center h-screen">{error}</div>
+    ); // Display error message if product data cannot be fetched
   }
 
-  console.log(productData.sizes);
-  productData.sizes.map((data)=>{
-    console.log(data);
-    
-  })
   return (
     <div>
       <Navbar bgWhite={true} />
@@ -92,11 +107,9 @@ const Product = () => {
 
             <div className="my-4">
               <h1 className="font-semibold tracking-widest">PRODUCT DETAILS</h1>
-              <p className="pr-12">
-                {productData?.description}
-              </p>
+              <p className="pr-12">{productData?.description}</p>
             </div>
-           
+
             <div className="flex flex-col gap-4 mt-5">
               <button
                 className="border 
@@ -118,14 +131,14 @@ const Product = () => {
               
               duration-500
               border ${
-                wishlist ? "bg-black text-white" : "bg-white border-black"
+                wishlistbtn ? "bg-black text-white" : "bg-white border-black"
               }  p-2.5 rounded-sm flex justify-center items-center gap-2`}
               >
                 {" "}
                 <Heart
                   size={20}
-                  fill={`${wishlist ? "red" : "white"} `}
-                  color={`${wishlist ? "red" : "black"} `}
+                  fill={`${wishlistbtn ? "red" : "white"} `}
+                  color={`${wishlistbtn ? "red" : "black"} `}
                 />
                 <span className="relative -top-0.5">WISHLIST</span>
               </button>
