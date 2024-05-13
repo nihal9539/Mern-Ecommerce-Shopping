@@ -29,7 +29,7 @@ const Product = () => {
     );
   };
 
-  const handleClick = () => {
+  const handleWishlist = () => {
     setWishlist(!wishlist);
   };
   
@@ -111,7 +111,7 @@ const Product = () => {
               <button
                 // style={{boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)"}}
                 // style={{boxShadow:" 0 6px 12px rgba(0, 0, 0, 0.15)"}}
-                onClick={handleClick}
+                onClick={handleWishlist}
                 className={`
               hover:scale-[.97]
               max-lg:hover:scale-95

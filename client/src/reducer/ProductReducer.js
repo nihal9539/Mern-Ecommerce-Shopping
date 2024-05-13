@@ -29,14 +29,14 @@ const reducer = (state = {
       return { ...state, products: action.data, loading: false, error: false };
     case "RETREIVING_FAIL":
       return { ...state, loading: false, error: true };
-    case "PRODUCT_FETCHING_START":
-      console.log(state);
-      return { ...state, loading: true, error: false };
-    case "PRODUCT_FETCHING_SUCCESS":
-      console.log(action);
-      return { ...state, product: action.data, loading: false, error: false };
-    case "PRODUCT_FETCHING_FAIL":
-      return { ...state, loading: false, error: true };
+    // case "PRODUCT_FETCHING_START":
+    //   console.log(state);
+    //   return { ...state, loading: true, error: false };
+    // case "PRODUCT_FETCHING_SUCCESS":
+    //   console.log(action);
+    //   return { ...state, product: action.data, loading: false, error: false };
+    // case "PRODUCT_FETCHING_FAIL":
+    //   return { ...state, loading: false, error: true };
     default:
       return state;
   }
