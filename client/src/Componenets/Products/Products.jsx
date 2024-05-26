@@ -11,7 +11,7 @@ const Products = () => {
   useEffect(() => {
     dispatch(getAllProduct());
   }, []);
-
+ 
   return (
     <div className="lg:p-6 lg:px-20">
       <div className="flex justify-center p-4 text-xl  font-semibold tracking-wider">

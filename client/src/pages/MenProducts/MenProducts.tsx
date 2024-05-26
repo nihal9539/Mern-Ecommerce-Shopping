@@ -2,16 +2,12 @@ import React from "react";
 ("react-accessible-accordion");
 import "react-accessible-accordion/dist/fancy-example.css";
 import Card from "../../Componenets/Card/Card";
-// import { products } from "../../assets/data";
 import Navbar from "../../Componenets/Navbar/Navbar";
 import ProductsAccordian from "../../Componenets/ProductsAccordian/ProductsAccordian";
 import { useSelector } from "react-redux";
 
 const MenProducts = () => {
   const { products} = useSelector((state) => state.productReducer);
-  console.log(products);
-  
-
   return (
     <div>
       <Navbar bgWhite={true} />
@@ -26,9 +22,7 @@ const MenProducts = () => {
           {products
             .map((data, index) => (
               <Card
-              
                 data={data}
-               
               />
             ))}
         </div>

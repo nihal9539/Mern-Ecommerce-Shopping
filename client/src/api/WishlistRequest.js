@@ -1,6 +1,6 @@
 import axios from "axios"
 
-const API = axios.create({ baseURL: "http://localhost:3000/wishlist" })
+const API = axios.create({ baseURL: "http://localhost:5000/wishlist" })
 
 export const createWishlist = (id, data) => API.post(`/${id}`, {product:data})
 export const getWishlist = (id) => API.get(`/find/${id}`)

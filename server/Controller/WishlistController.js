@@ -1,3 +1,4 @@
+import ProductModel from "../model/ProductModel.js";
 import WishlistModel from "../model/WishlistModel.js"
 
 
@@ -53,17 +54,23 @@ export const removeFromWishlist = async (req, res) => {
 };
 export const getWishlist = async (req, res) => {
 
-    const userId = req.params.id;
-    const wishlistItems = await WishlistModel.find({ userId: userId });
-    try {
-        if (wishlistItems.length == 0) {
+   console.log("hii");
+    // try {
+    //     const id = req.params.id;
 
-            res.status(400).json("Wishlist item not found");
-        } else {
-            res.status(200).json(wishlistItems);
-        }
+    //     // Find the wishlist for the user
+    //     const wishlist = await WishlistModel.findOne({ userId: id });
 
-    } catch (err) {
-        res.status(500).json({ message: err.message });
-    }
+    //     if (!wishlist) {
+    //         return res.status(404).json({ message: 'Wishlist not found' });
+    //     }
+
+    //     // Fetch products based on product IDs in the wishlist
+    //     const products = await ProductModel.find({ _id: { $in: wishlist.productIds } });
+
+    //     res.json({ wishlist, products });
+    // } catch (error) {
+    //     console.error(error);
+    //     res.status(500).json({ message: 'Server error' });
+    // }
 }

@@ -20,7 +20,7 @@ dotenv.config()
 mongoose.connect(process.env.MONGO_DB).then(()=>{
     console.log("connect");
     app.listen(process.env.PORT,(req,res)=>{
-        console.log("connect to 3000");
+        console.log("connect to 5000");
     })
 }).catch((err)=>{
     console.log(err.message);

@@ -2,12 +2,15 @@ import React, { useEffect, useState } from "react";
 import { login ,signup} from "../../Action/AuthAction";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import Navbar from "../../Componenets/Navbar/Navbar";
 
 
 const Login = () => {
   const [isSignup, setSignup] = useState(false);
-  // const {loading, error,errorMessage } = useSelector((state) => state.authReducer)
+  const {errorMessage } = useSelector((state) => state.authReducer)
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [errors, setErrors] = useState({
     email: "",
     password: "",
@@ -62,9 +65,9 @@ const Login = () => {
       name: "",
     });
   };
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const handleSubmit = (event) => {
+
+  const handleSubmit =async (event) =>  {
+
     event.preventDefault();
     const emailError = validateEmail(data.email);
     const passwordError = validatePassword(data.password);
@@ -73,13 +76,23 @@ const Login = () => {
     if (!emailError && !passwordError) {
       if (isSignup) {
         dispatch(signup(data))
-        navigate("/");
+        // navigate(-1)
+        
       } else {
-        dispatch(login(data));
-        console.log("check password");
+        dispatch(login(data))
+        
       }
+    }else{
+      console.log("error");
     }
   };
+  useEffect(() => {
+    if (errorMessage) {
+      toast.error(errorMessage);
+    }else{
+      // navigate(-1)
+    }
+  }, [errorMessage, dispatch]);
 
   return (
     <div>
@@ -95,7 +108,7 @@ const Login = () => {
           <div className="bg-[url(./login_bg_2.jpeg)] h-20 p-0 rounded-xl rounded-b-none bg-no-repeat bg-cover"></div>
           <div className="   p-2 px-10 ">
             {isSignup ? (
-              <form action="" className=" text-white space-y-5">
+              <form action="" className=" text-white space-y-5" onSubmit={handleSubmit}>
                 <div className=" flex flex-col gap-2">
                   <h1>Name</h1>
                   <div className="p-2 bg-white rounded-md px-3">
@@ -151,16 +164,14 @@ const Login = () => {
                 <div className=" flex flex-col gap-2">
                   <div className="p-3.5 bg-black rounded-md ">
                     <input
-                      type="submit"
-                      value={"Sign up"}
-                      onClick={handleSubmit}
+                      type="submit"      
                       className=" border-none w-full outline-none text-white font-semibold"
                     />
                   </div>
                 </div>
               </form>
             ) : (
-              <form action="" className=" text-white space-y-5">
+              <form action="" className=" text-white space-y-5" onSubmit={handleSubmit}>
                 <div className=" flex flex-col gap-2">
                   <h1>Email</h1>
                   <div className="p-2 bg-white rounded-md px-3">
@@ -205,8 +216,6 @@ const Login = () => {
                   <div className="p-3.5 bg-black rounded-md ">
                     <input
                       type="submit"
-                      onClick={handleSubmit}
-                      value={"Login"}
                       className=" border-none w-full outline-none text-white font-semibold"
                     />
                   </div>

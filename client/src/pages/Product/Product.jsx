@@ -1,22 +1,27 @@
 import React, { useEffect, useState } from "react";
 import currencyFormatter from "currency-formatter";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Heart } from "lucide-react";
 import Navbar from "../../Componenets/Navbar/Navbar";
 import { useDispatch, useSelector } from "react-redux";
-import { createWishlist, removeFromWishlist } from "../../Action/WishlistAction";
+import {
+  createWishlist,
+  removeFromWishlist,
+} from "../../Action/WishlistAction";
+import LoginModel from "../../Componenets/LoginModel/LoginModel";
 
 const Product = () => {
-  const user = useSelector((state) => state.authReducer.authData.user._id);
+  // const user = useSelector((state) => state.authReducer.authData.user._id);
+  // console.log(user);
   const { id } = useParams();
   const [productData, setProductData] = useState(null);
   const dispatch = useDispatch();
+  const navigate = useNavigate()
   const [error, setError] = useState(null);
   const { products } = useSelector((state) => state.productReducer);
   const { wishlist } = useSelector((state) => state.wishlistReducer);
   const [selectedButton, setSelectedButton] = useState(null);
   const [wishlistbtn, setWishlist] = useState();
-  console.log(wishlist);
 
   useEffect(() => {
     wishlist.includes(id) ? setWishlist(true) : setWishlist(false);
@@ -31,20 +36,29 @@ const Product = () => {
       setError("This product is not available.");
     }
   }, [id, products]);
+  console.log(products);
 
   const selectButton = (buttonId) => {
     setSelectedButton((prevSelectedButton) =>
       prevSelectedButton === buttonId ? null : buttonId
     );
   };
+  console.log(localStorage.getItem("user"));
+  const user = localStorage.getItem("user");
 
   const handleWishlist = () => {
-    if (wishlistbtn) {
-      dispatch(removeFromWishlist(user, id));
-      setWishlist(false)
+    if (!user) {
+      document.getElementById("my_modal_1").showModal();
+      
+    
     } else {
-      dispatch(createWishlist(user, id));
-      setWishlist(true)
+      if (wishlistbtn) {
+        dispatch(removeFromWishlist(user, id));
+        setWishlist(false);
+      } else {
+        dispatch(createWishlist(user, id));
+        setWishlist(true);
+      }
     }
   };
 
@@ -146,6 +160,7 @@ const Product = () => {
           </div>
         </div>
       </div>
+      <LoginModel modelOpen={true} />
     </div>
   );
 };

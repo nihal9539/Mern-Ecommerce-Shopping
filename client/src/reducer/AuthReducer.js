@@ -8,8 +8,8 @@ const authReducer =
                 return { ...state, authData: action.data,errorMessage:null , loading: false, error: false }
             case 'AUTH_ERROR':
                 return { ...state, loading: false, errorMessage:action.data, error: true, }
-            case 'AUTH_FAIL':
-                return { ...state, loading: false,errorMessage:null , error: true, }
+            // case 'AUTH_FAIL':
+            //     return { ...state, loading: false,errorMessage:null , error: true, }
             case 'UPDATING_START':
                 return { ...state, updateLoading: true, error: false }
             case 'UPDATING_SUCCESS':

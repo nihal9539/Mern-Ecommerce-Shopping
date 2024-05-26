@@ -5,7 +5,6 @@ import jwt from "jsonwebtoken";
 
 // Register New User
 export const registerUser = async (req, res) => {
-    console.log(req.body);
     const { username, email } = req.body;
     const oldUser = await UserModel.findOne({
         $or: [{
@@ -41,6 +40,7 @@ export const registerUser = async (req, res) => {
 }
 
 export const loginUser = async (req, res) => {
+    console.log("hii");
     const { email, password } = req.body;
 
     try {
@@ -51,6 +51,7 @@ export const loginUser = async (req, res) => {
             if (!validity) {
 
                 res.status(400).json("Wrong password")
+                console.log("wron");
             } else {
                 const token = jwt.sign({
                     username: user.username,
