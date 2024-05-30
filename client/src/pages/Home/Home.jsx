@@ -4,8 +4,13 @@ import HomeGridImages from '../../Componenets/HomeGridImages/HomeGridImages'
 import Products from '../../Componenets/Products/Products'
 import Slider from '../../Componenets/Slider/Slider'
 import Footer from '../../Componenets/Footer/Footer'
+import { useDispatch, useSelector } from 'react-redux'
+import { useEffect } from 'react'
+import { fetchWishlist } from '../../Action/WishlistAction'
 
 const Home = () => {
+   
+
     return (
         <div className=' h-[85vh] '>
             

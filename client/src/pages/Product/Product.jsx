@@ -6,6 +6,7 @@ import Navbar from "../../Componenets/Navbar/Navbar";
 import { useDispatch, useSelector } from "react-redux";
 import {
   createWishlist,
+  fetchWishlist,
   removeFromWishlist,
 } from "../../Action/WishlistAction";
 import LoginModel from "../../Componenets/LoginModel/LoginModel";
@@ -19,11 +20,11 @@ const Product = () => {
   const { wishlist } = useSelector((state) => state.wishlistReducer);
   const [selectedButton, setSelectedButton] = useState(null);
   const [wishlistbtn, setWishlist] = useState();
- 
-  useEffect(() => {
-    wishlist.find((data)=>data._id == id) ? setWishlist(true) : setWishlist(false);
-  }, [products, id]);
 
+  const user = useSelector((state) => state.authReducer?.authData?.user?._id);
+  useEffect(() => {
+    dispatch(fetchWishlist(user));
+  }, []);
 
   useEffect(() => {
     const product = products?.find((product) => product._id === id);
@@ -40,9 +41,9 @@ const Product = () => {
     );
   };
 
-  const userid = useSelector((state) => state?.authReducer?.authData?.user?._id);
-
-
+  const userid = useSelector(
+    (state) => state?.authReducer?.authData?.user?._id
+  );
 
   const handleWishlist = () => {
     if (!userid) {
@@ -57,6 +58,11 @@ const Product = () => {
       }
     }
   };
+  useEffect(() => {
+    wishlist.find((data) => data._id == id)
+      ? setWishlist(true)
+      : setWishlist(false);
+  }, [products, id]);
 
   if (!productData && !error) {
     return (
@@ -68,7 +74,7 @@ const Product = () => {
   if (!productData && error) {
     return (
       <div className="flex justify-center items-center h-screen">{error}</div>
-    ); 
+    );
   }
 
   return (
