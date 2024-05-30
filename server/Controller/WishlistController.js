@@ -54,23 +54,23 @@ export const removeFromWishlist = async (req, res) => {
 };
 export const getWishlist = async (req, res) => {
 
-   console.log("hii");
-    // try {
-    //     const id = req.params.id;
+  
+    try {
+        const id = req.params.id;
 
-    //     // Find the wishlist for the user
-    //     const wishlist = await WishlistModel.findOne({ userId: id });
+        // Find the wishlist for the user
+        const wishlist = await WishlistModel.findOne({ userId: id });
 
-    //     if (!wishlist) {
-    //         return res.status(404).json({ message: 'Wishlist not found' });
-    //     }
+        if (!wishlist) {
+            return res.status(404).json({ message: 'Wishlist not found' });
+        }
 
-    //     // Fetch products based on product IDs in the wishlist
-    //     const products = await ProductModel.find({ _id: { $in: wishlist.productIds } });
+        // Fetch products based on product IDs in the wishlist
+        const products = await ProductModel.find({ _id: { $in: wishlist.productIds } });
 
-    //     res.json({ wishlist, products });
-    // } catch (error) {
-    //     console.error(error);
-    //     res.status(500).json({ message: 'Server error' });
-    // }
+        res.json({ wishlist, products });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    }
 }

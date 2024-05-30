@@ -25,7 +25,6 @@ import 'react-toastify/dist/ReactToastify.min.css';
 
 function App() {
   const user = useSelector((state) => state.authReducer.authData);
-  console.log(user);
 
   return (
     <BrowserRouter>

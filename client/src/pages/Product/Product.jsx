@@ -11,21 +11,19 @@ import {
 import LoginModel from "../../Componenets/LoginModel/LoginModel";
 
 const Product = () => {
-  // const user = useSelector((state) => state.authReducer.authData.user._id);
-  // console.log(user);
   const { id } = useParams();
   const [productData, setProductData] = useState(null);
   const dispatch = useDispatch();
-  const navigate = useNavigate()
   const [error, setError] = useState(null);
   const { products } = useSelector((state) => state.productReducer);
   const { wishlist } = useSelector((state) => state.wishlistReducer);
   const [selectedButton, setSelectedButton] = useState(null);
   const [wishlistbtn, setWishlist] = useState();
-
+ 
   useEffect(() => {
-    wishlist.includes(id) ? setWishlist(true) : setWishlist(false);
+    wishlist.find((data)=>data._id == id) ? setWishlist(true) : setWishlist(false);
   }, [products, id]);
+
 
   useEffect(() => {
     const product = products?.find((product) => product._id === id);
@@ -36,27 +34,25 @@ const Product = () => {
       setError("This product is not available.");
     }
   }, [id, products]);
-  console.log(products);
-
   const selectButton = (buttonId) => {
     setSelectedButton((prevSelectedButton) =>
       prevSelectedButton === buttonId ? null : buttonId
     );
   };
-  console.log(localStorage.getItem("user"));
-  const user = localStorage.getItem("user");
+
+  const userid = useSelector((state) => state?.authReducer?.authData?.user?._id);
+
+
 
   const handleWishlist = () => {
-    if (!user) {
+    if (!userid) {
       document.getElementById("my_modal_1").showModal();
-      
-    
     } else {
       if (wishlistbtn) {
-        dispatch(removeFromWishlist(user, id));
+        dispatch(removeFromWishlist(userid, id));
         setWishlist(false);
       } else {
-        dispatch(createWishlist(user, id));
+        dispatch(createWishlist(userid, id));
         setWishlist(true);
       }
     }
@@ -72,7 +68,7 @@ const Product = () => {
   if (!productData && error) {
     return (
       <div className="flex justify-center items-center h-screen">{error}</div>
-    ); // Display error message if product data cannot be fetched
+    ); 
   }
 
   return (
