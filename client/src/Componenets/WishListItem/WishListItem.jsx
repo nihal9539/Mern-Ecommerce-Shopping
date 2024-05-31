@@ -33,7 +33,7 @@ const WishListItem = ({ data, setReload }) => {
           />
         </div>
         <Link to={`/product/${data?._id}`} className="h-56 max-sm:h-60 w-full flex justify-center items-center flex-col">
-          <img src={data?.image} className="w-10/12 p-3 h-full" alt="Shoes" />
+          <img src={data?.images?.url} className="w-10/12 p-3 h-full" alt="Image" />
         </Link>
       </figure>
           <h1 className="font-semibold text-center">₹{data?.price}</h1>

@@ -9,6 +9,9 @@ export default {
       fontSize: {
         14: '14px',
       },
+      boxShadow:{
+        'boxShadow1':"inset 0 0 0 1.5px white" 
+      },
       backgroundColor: {
         'main-bg': '#FAFBFB',
         'main-dark-bg': '#20232A',

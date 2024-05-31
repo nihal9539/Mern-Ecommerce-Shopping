@@ -24,12 +24,10 @@ const Product = () => {
   const [selectSize, setSelectSize] = useState("S");
   const [wishlistbtn, setWishlist] = useState();
   const [quantity, setQuantity] = useState(1);
-
+  const navigate = useNavigate();
 
   // userId from redux store
   const user = useSelector((state) => state.authReducer?.authData?.user?._id);
-
-
 
   // wishlist fetching
   useEffect(() => {
@@ -54,8 +52,7 @@ const Product = () => {
     );
   };
 
-
-//  handle the wishlist add and remove
+  //  handle the wishlist add and remove
   const handleWishlist = () => {
     if (!user) {
       document.getElementById("my_modal_1").showModal();
@@ -70,7 +67,6 @@ const Product = () => {
     }
   };
 
-  
   useEffect(() => {
     wishlist.find((data) => data._id == id)
       ? setWishlist(true)
@@ -78,16 +74,17 @@ const Product = () => {
   }, [products, id]);
 
   // handle add to cART
-  const handleAddToCart = ()=>{
+  const handleAddToCart = () => {
     const data = {
       quantity,
-      productId:productData?._id,
-      size:selectSize,
-      price:productData.price
-    }
-    dispatch(addToCart(user,data))
-    console.log(data);
-  }
+      productId: productData?._id,
+      size: selectSize,
+      price: productData?.price,
+      imageUrl: productData?.images?.url,
+    };
+    dispatch(addToCart(user, data));
+    navigate('/cart')
+  };
 
   if (!productData && !error) {
     return (
@@ -159,7 +156,7 @@ const Product = () => {
                     disabled={quantity >= 20}
                     onClick={() => setQuantity((prev) => prev + 1)}
                   >
-                    <IoMdAdd color={quantity >= 20 ? "gray" : "black"}/>
+                    <IoMdAdd color={quantity >= 20 ? "gray" : "black"} />
                   </button>
                 </div>
               </div>
@@ -172,7 +169,7 @@ const Product = () => {
 
             <div className="flex flex-col gap-4 mt-5">
               <button
-              onClick={handleAddToCart}
+                onClick={handleAddToCart}
                 className="border 
               hover:scale-[.97]
               max-lg:hover:scale-95

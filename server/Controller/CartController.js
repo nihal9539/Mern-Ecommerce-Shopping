@@ -3,7 +3,7 @@ import CartModel from "../model/CartModel.js";
 
 export const addToCart = async (req, res) => {
     const { userId } = req.params;
-    const { productId, quantity, size, price } = req.body;
+    const { productId,imageUrl, quantity, size, price } = req.body;
     try {
         const cart = await CartModel.findOne({ userId })
         if (!cart) {
@@ -14,7 +14,8 @@ export const addToCart = async (req, res) => {
                         productId,
                         quantity,
                         size,
-                        price
+                        price,
+                        imageUrl
                     }
                 ]
             })
@@ -33,7 +34,8 @@ export const addToCart = async (req, res) => {
                 productId,
                 quantity,
                 size,
-                price
+                price,
+                imageUrl
             }
             const cart = await CartModel.findOneAndUpdate(
                 { userId: userId },

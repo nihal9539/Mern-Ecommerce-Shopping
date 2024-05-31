@@ -161,7 +161,7 @@ const AddProduct = () => {
             </div>
             {image ? (
               <div>
-                <img src={image} className="h-60 w-full" alt="" />
+                <img src={image} className="h-60 w-full" alt="Image" />
               </div>
             ) : (
               <div

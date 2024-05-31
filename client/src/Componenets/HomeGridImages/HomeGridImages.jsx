@@ -10,7 +10,7 @@ const HomeGridImages = () => {
   return (
     <div className=" grid grid-cols-3 p-16 px-28 gap-1 max-lg:px-2 ">
       <div className="relative row-span-2  bg-red-400">
-        <img src={img1} className=" h-full" alt="" />
+        <img src={img1} className=" h-full" alt="Image" />
         <Link
           to={"/collection/all"}
           style={{ transform: "translate(-50%, 0)" }}
@@ -20,7 +20,7 @@ const HomeGridImages = () => {
         </Link>
       </div>
       <div className="col-span-2 row-span-1 relative">
-        <img src={img2} className=" h-72 max-md:h-40 w-full" alt="" />
+        <img src={img2} className=" h-72 max-md:h-40 w-full" alt="Image" />
         <Link
           to={"/collection/all"}
           className=" text-black flex items-center gap-1.5 [&>*]:hover:translate-x-1.5 [&>*]:duration-500 max-lg:text-xs absolute right-5 bottom-6   font-bold "
@@ -30,7 +30,7 @@ const HomeGridImages = () => {
         </Link>
       </div>
       <div className="col-span-2 row-span-1 relative">
-        <img src={img3} className=" h-72 max-md:h-40  w-full" alt="" />
+        <img src={img3} className=" h-72 max-md:h-40  w-full" alt="Image" />
         <Link
           to={"/collection/all"}
           className=" text-black flex items-center gap-1.5 [&>*]:hover:translate-x-1.5 [&>*]:duration-500 max-lg:text-xs absolute left-5  bottom-6   font-bold "
