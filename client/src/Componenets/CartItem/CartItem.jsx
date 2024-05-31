@@ -3,8 +3,8 @@ import { IoMdAdd } from "react-icons/io";
 import { RiSubtractFill } from "react-icons/ri";
 import { RiDeleteBin6Line } from "react-icons/ri";
 
-const CartItem = () => {
-  const [quantity, setQuantity] = useState(1);
+const CartItem = ({data}) => {
+  const [quantity, setQuantity] = useState(data.quantity);
 
   return (
     <div className=" border rounded-md p-4 flex flex-row items-start justify-between  gap-4">
@@ -17,7 +17,7 @@ const CartItem = () => {
         <div className="flex  items-center justify-between max-lg:w-72 w-[30rem] ">
           <div className="flex gap-4 j flex-col">
             <h1 className="text-xl font-bold">Man shirt</h1>
-            <span className="text-gray-700">Size : M</span>
+            <span className="text-gray-700">Size : {data.size}</span>
           </div>
           <div className="flex ">
             <button
@@ -31,18 +31,18 @@ const CartItem = () => {
               {quantity}
             </div>
             <button
-              disabled={quantity === 10}
+              disabled={quantity === 20}
               className="border p-1 flex justify-center items-center rounded-r-md w-10 text-3xl  "
               onClick={() => setQuantity(quantity + 1)}
             >
-              <IoMdAdd />
+              <IoMdAdd fill={`${quantity == 20 ? "gray" : "black"}`}/>
             </button>
           </div>
         </div>
       </div>
       <div className=" flex gap-16 flex-col min-w-20   relative items-center">
         <div className="text-xl font-bold">
-          ₹<span>{quantity * 500}</span>
+          ₹<span>{quantity * data.price}</span>
         </div>
         <div className="relative bottom-0">
           <RiDeleteBin6Line size={30} fill="red" className="cursor-pointer" />

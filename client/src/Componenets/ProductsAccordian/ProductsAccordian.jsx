@@ -15,7 +15,6 @@ const ProductsAccordian = () => {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  console.log(renderPage);
 
   useEffect(() => {
     setRenderPage(true); // Update state to render the page

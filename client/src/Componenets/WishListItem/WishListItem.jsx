@@ -2,6 +2,7 @@ import { Heart } from "lucide-react";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { removeFromWishlist } from "../../Action/WishlistAction";
+import { Link } from "react-router-dom";
 
 const WishListItem = ({ data, setReload }) => {
   const dispatch = useDispatch();
@@ -31,9 +32,9 @@ const WishListItem = ({ data, setReload }) => {
             stroke={`${WishList ? "red " : "black"}`}
           />
         </div>
-        <div className="h-56 max-sm:h-60 w-full flex justify-center items-center flex-col">
+        <Link to={`/product/${data?._id}`} className="h-56 max-sm:h-60 w-full flex justify-center items-center flex-col">
           <img src={data?.image} className="w-10/12 p-3 h-full" alt="Shoes" />
-        </div>
+        </Link>
       </figure>
           <h1 className="font-semibold text-center">₹{data?.price}</h1>
       <div className="card-body p-2">

@@ -10,6 +10,9 @@ import {
   removeFromWishlist,
 } from "../../Action/WishlistAction";
 import LoginModel from "../../Componenets/LoginModel/LoginModel";
+import { IoMdAdd } from "react-icons/io";
+import { RiSubtractLine } from "react-icons/ri";
+import { addToCart } from "../../Action/CartReducer";
 
 const Product = () => {
   const { id } = useParams();
@@ -18,14 +21,22 @@ const Product = () => {
   const [error, setError] = useState(null);
   const { products } = useSelector((state) => state.productReducer);
   const { wishlist } = useSelector((state) => state.wishlistReducer);
-  const [selectedButton, setSelectedButton] = useState(null);
+  const [selectSize, setSelectSize] = useState("S");
   const [wishlistbtn, setWishlist] = useState();
+  const [quantity, setQuantity] = useState(1);
 
+
+  // userId from redux store
   const user = useSelector((state) => state.authReducer?.authData?.user?._id);
+
+
+
+  // wishlist fetching
   useEffect(() => {
     dispatch(fetchWishlist(user));
   }, []);
 
+  // checking product is available or not
   useEffect(() => {
     const product = products?.find((product) => product._id === id);
     if (product) {
@@ -35,34 +46,48 @@ const Product = () => {
       setError("This product is not available.");
     }
   }, [id, products]);
-  const selectButton = (buttonId) => {
-    setSelectedButton((prevSelectedButton) =>
+
+  // handling the size of the product
+  const handleSize = (buttonId) => {
+    setSelectSize((prevSelectedButton) =>
       prevSelectedButton === buttonId ? null : buttonId
     );
   };
 
-  const userid = useSelector(
-    (state) => state?.authReducer?.authData?.user?._id
-  );
 
+//  handle the wishlist add and remove
   const handleWishlist = () => {
-    if (!userid) {
+    if (!user) {
       document.getElementById("my_modal_1").showModal();
     } else {
       if (wishlistbtn) {
-        dispatch(removeFromWishlist(userid, id));
+        dispatch(removeFromWishlist(user, id));
         setWishlist(false);
       } else {
-        dispatch(createWishlist(userid, id));
+        dispatch(createWishlist(user, id));
         setWishlist(true);
       }
     }
   };
+
+  
   useEffect(() => {
     wishlist.find((data) => data._id == id)
       ? setWishlist(true)
       : setWishlist(false);
   }, [products, id]);
+
+  // handle add to cART
+  const handleAddToCart = ()=>{
+    const data = {
+      quantity,
+      productId:productData?._id,
+      size:selectSize,
+      price:productData.price
+    }
+    dispatch(addToCart(user,data))
+    console.log(data);
+  }
 
   if (!productData && !error) {
     return (
@@ -84,7 +109,7 @@ const Product = () => {
         <div className="w-full flex justify-center relative items-center flex-row max-lg:flex-col max-lg:gap-5">
           <div className="w-1/2 max-lg:w-full max-lg:px-4 relative top-0 left-0   flex justify-center  items-center ">
             <img
-              src={productData.image}
+              src={productData?.images?.url}
               className="h-[550px] w-[450px] max-lg:h-[400px] max-lg:w-[350px]"
               alt="Loading.."
             />
@@ -106,11 +131,10 @@ const Product = () => {
               <div className="flex flex-row gap-2 py-4">
                 {productData?.sizes.map((size) => (
                   <button
-                    onClick={() => selectButton(size.size)}
-                    // disabled={size == "S" }
+                    onClick={() => handleSize(size.size)}
                     key={size.size}
                     className={`${
-                      selectedButton === size.size
+                      selectSize === size.size
                         ? "bg-black text-white"
                         : "hover:bg-black hover:text-white"
                     }  disabled:text-gray-400 cursor-pointer disabled:border-gray-400 disabled:hover:bg-white p-2 border border-gray-500 rounded-md min-w-10 min-h-10 flex justify-center items-center`}
@@ -118,6 +142,26 @@ const Product = () => {
                     <h1 className="">{size.size} </h1>
                   </button>
                 ))}
+              </div>
+              <div className="flex flex-row  gap-5 items-center">
+                Quantity :
+                <div className="flex justify-center items-center gap-5 rounded-2xl border border-gray-700 px-3 p-1.5">
+                  <button
+                    className=""
+                    disabled={quantity <= 1}
+                    onClick={() => setQuantity((prev) => prev - 1)}
+                  >
+                    <RiSubtractLine color={quantity <= 1 ? "gray" : "black"} />
+                  </button>
+                  <div>{quantity}</div>
+                  <button
+                    className=""
+                    disabled={quantity >= 20}
+                    onClick={() => setQuantity((prev) => prev + 1)}
+                  >
+                    <IoMdAdd color={quantity >= 20 ? "gray" : "black"}/>
+                  </button>
+                </div>
               </div>
             </div>
 
@@ -128,6 +172,7 @@ const Product = () => {
 
             <div className="flex flex-col gap-4 mt-5">
               <button
+              onClick={handleAddToCart}
                 className="border 
               hover:scale-[.97]
               max-lg:hover:scale-95
@@ -138,8 +183,6 @@ const Product = () => {
               </button>
 
               <button
-                // style={{boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)"}}
-                // style={{boxShadow:" 0 6px 12px rgba(0, 0, 0, 0.15)"}}
                 onClick={handleWishlist}
                 className={`
               hover:scale-[.97]

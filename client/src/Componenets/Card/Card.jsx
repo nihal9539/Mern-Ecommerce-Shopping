@@ -13,8 +13,8 @@ const Card = ({data,homepageCard}) => {
       <figure className="w-full max-sm:h-60 h-80">
         <img
           className=" w-full max-sm:p-0  rounded-md h-full"
-          src={data?.image}
-          alt="Shoes"
+          src={data?.images?.url}
+          alt="Image"
         />
       </figure>
       <div className="card-body p-2 py-1.5 gap-1.5 max-sm:px-2  " >

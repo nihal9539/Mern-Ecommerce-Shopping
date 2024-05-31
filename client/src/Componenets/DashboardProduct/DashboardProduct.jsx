@@ -39,7 +39,7 @@ const DashboardProduct = () => {
               ? "Fetching Product"
               : products.map((post, index) => (
                   <div key={index} className="flex">
-                    <img src={post.image} className="h-20 w-20" alt="" />
+                    <img src={post?.images?.url} className="h-20 w-20" alt="" />
                     <span>{post.productname}</span>
                   </div>
                 ))}
