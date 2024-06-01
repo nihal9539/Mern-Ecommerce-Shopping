@@ -12,19 +12,20 @@ import {
 import LoginModel from "../../Componenets/LoginModel/LoginModel";
 import { IoMdAdd } from "react-icons/io";
 import { RiSubtractLine } from "react-icons/ri";
-import { addToCart } from "../../Action/CartReducer";
+import { addToCart } from "../../Action/CartAction";
+import { v4 as uuidv4 } from 'uuid';
 
 const Product = () => {
   const { id } = useParams();
   const [productData, setProductData] = useState(null);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [error, setError] = useState(null);
   const { products } = useSelector((state) => state.productReducer);
   const { wishlist } = useSelector((state) => state.wishlistReducer);
   const [selectSize, setSelectSize] = useState("S");
   const [wishlistbtn, setWishlist] = useState();
   const [quantity, setQuantity] = useState(1);
-  const navigate = useNavigate();
 
   // userId from redux store
   const user = useSelector((state) => state.authReducer?.authData?.user?._id);
@@ -80,10 +81,10 @@ const Product = () => {
       productId: productData?._id,
       size: selectSize,
       price: productData?.price,
-      imageUrl: productData?.images?.url,
+      uuid:uuidv4()
     };
-    dispatch(addToCart(user, data));
-    navigate('/cart')
+    dispatch(addToCart(user, data,navigate));
+    
   };
 
   if (!productData && !error) {

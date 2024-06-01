@@ -8,10 +8,9 @@ const CartSchema = mongoose.Schema({
             quantity: { type: Number, require: true },
             size: { type: String, require: true },
             price: { type: Number, require: true },
-            imageUrl: { type: String, require: true }
+            uuid: { type: String, require: true }
         },
     ]
-
 
 }, {
     timestamps: true

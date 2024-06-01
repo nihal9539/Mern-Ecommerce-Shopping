@@ -18,10 +18,9 @@ import DashboardProduct from "./Componenets/DashboardProduct/DashboardProduct";
 import AddProduct from "./Componenets/AddProduct/AddProduct";
 import Product from "./pages/Product/Product";
 
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import 'react-toastify/dist/ReactToastify.min.css';
-
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import "react-toastify/dist/ReactToastify.min.css";
 
 function App() {
   const user = useSelector((state) => state.authReducer.authData);
@@ -34,23 +33,30 @@ function App() {
           <Route path="*" element={<NoMatch />} />
         </Route>
         <Route path="/collection/all" element={<MenProducts />} />
+        <Route path="/product/:id" element={<Product />} />
+        <Route
+          path="/cart"
+          element={user ? <Cart /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/wishList"
+          element={user ? <WishList /> : <Navigate to="/login" />}
+        />
+        <Route path="/login" element={user ? <Navigate to="/" /> : <Login />} />
+
+        {/* Dash board routes */}
         <Route path="/" element={<DashboardLayout />}>
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="ecommerce" element={<Dashboard />} />
-          <Route path="products" element={<DashboardProduct />}>
-          </Route>
+          <Route path="products" element={<DashboardProduct />}></Route>
           <Route path="products/add-product" element={<AddProduct />} />
 
           <Route path="orders" element={<DashboardOrders />} />
           <Route index path="employees" element={<DashboardEmployees />} />
           <Route path="customers" element={<DashboardCustomers />} />
         </Route>
-        <Route path="/product/:id" element={<Product />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/wishList" element={user ?<WishList />:<Navigate to="/login" /> } />
-        <Route path="/login" element={user ? <Navigate to="/" /> : <Login />} />
       </Routes>
-      <ToastContainer style={{ fontSize: "14px", zIndex: "999999" }}/> 
+      <ToastContainer style={{ fontSize: "14px", zIndex: "999999" }} />
     </BrowserRouter>
   );
 }

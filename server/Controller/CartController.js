@@ -5,7 +5,7 @@ import { ObjectId } from "mongodb"
 
 export const addToCart = async (req, res) => {
     const { userId } = req.params;
-    const { productId, imageUrl, quantity, size, price } = req.body;
+    const { productId, uuid, quantity, size, price } = req.body;
     const product = new ObjectId(productId)
     try {
         const cart = await CartModel.findOne({ userId })
@@ -18,11 +18,12 @@ export const addToCart = async (req, res) => {
                         quantity,
                         size,
                         price,
-                        imageUrl
+                        uuid
                     }
                 ]
             })
             await cart.save()
+            console.log(cart);
             return res.status(200).json(cart);
         }
         const itemIndex = cart.products.findIndex(item => item.productId.toString() === productId && item.size === size);
@@ -37,7 +38,7 @@ export const addToCart = async (req, res) => {
                 quantity,
                 size,
                 price,
-                imageUrl
+                uuid
             }
             const cart = await CartModel.findOneAndUpdate(
                 { userId: userId },
@@ -52,24 +53,33 @@ export const addToCart = async (req, res) => {
 
     }
 }
-// export const getUserCart = async (req, res) => {
-//     const { userId } = req.params;
-//     console.log(userId);
-//     try {
-//         const cart = await CartModel.findOne({ userId: userId })
-//         if (cart) {
 
-//             res.status(200).json(cart.products)
-//         } else {
-//             res.status(400).json("Cart Not Found")
+export const cartQuantityUpdate = async (req, res) => {
+    const { userId, quantity, productId, size } = req.params;
+    const count = parseInt(quantity)
 
-//         }
+    try {
 
-//     } catch (error) {
-//         res.status(500).json(error.message)
-//     }
+        const cart = await CartModel.findOneAndUpdate(
+            {
+                userId: userId,
+                "products.productId": productId,
+                "products.size": size,
+            },
+            { $inc: { "products.$.quantity": count } }
+        )
 
-// }
+        if (!cart) {
+            return  res.status(400).json({ message:'Product not found in cart or quantity is already at minimum'});
+        }
+        return res.status(200).json(cart);
+
+
+
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+}
 export const getUserCart = async (req, res) => {
     const { userId } = req.params;
     console.log(userId);
@@ -86,7 +96,8 @@ export const getUserCart = async (req, res) => {
                     'quantity': '$products.quantity',
                     'size': '$products.size',
                     'price': '$products.price',
-                    'productId': '$products.productId'
+                    'productId': '$products.productId',
+                    'uuid': '$products.uuid'
                 }
             }, {
                 '$lookup': {
@@ -100,7 +111,8 @@ export const getUserCart = async (req, res) => {
                     'size': 1,
                     'quantity': 1,
                     'price': 1,
-                    'productId':1,
+                    'productId': 1,
+                    'uuid': 1,
                     'productname': {
                         '$arrayElemAt': [
                             '$productData.productname', 0
@@ -116,8 +128,8 @@ export const getUserCart = async (req, res) => {
         ]);
         return res.status(200).json(cartDetails);
 
-       
-    
+
+
     } catch (error) {
         res.status(500).json(error.message)
     }

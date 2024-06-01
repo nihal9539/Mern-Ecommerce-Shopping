@@ -3,7 +3,7 @@ import { IoMdAdd } from "react-icons/io";
 import { RiSubtractFill } from "react-icons/ri";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
-import { removeFromCart } from "../../Action/CartReducer";
+import { cartQuantityUpdate, removeFromCart } from "../../Action/CartAction";
 
 const CartItem = ({ data }) => {
   const [quantity, setQuantity] = useState(data.quantity);
@@ -12,6 +12,10 @@ const CartItem = ({ data }) => {
 
   const handleRemoveFromCart = () => {
     dispatch(removeFromCart(userid, data?.productId, data.size));
+  };
+  const handleCount = (count) => {
+    dispatch(cartQuantityUpdate(userid, data?.productId, data?.size, count));
+    setQuantity((prev) => prev + count);
   };
 
   console.log(data);
@@ -25,16 +29,21 @@ const CartItem = ({ data }) => {
         />
         <div className="flex  items-center justify-between max-lg:w-72 max-md:w-64 w-[30rem] ">
           <div className="flex gap-4 j flex-col">
-            <h1 className="text-xl max-lg:text-base font-bold">{data?.productname}</h1>
+            <h1 className="text-xl max-lg:text-base font-bold">
+              {data?.productname}
+            </h1>
             <span className="text-gray-700">Size : {data.size}</span>
           </div>
           <div className="flex ">
             <button
               disabled={quantity === 1}
               className="border p-1 flex justify-center items-center rounded-l-md w-10 max-lg:w-7 text-2xl  "
-              onClick={() => setQuantity(quantity - 1)}
+              onClick={() => handleCount(-1)}
             >
-              <RiSubtractFill className="max-md:w-8" fill={`${quantity == 1 ? "gray" : "black"}`} />
+              <RiSubtractFill
+                className="max-md:w-8"
+                fill={`${quantity == 1 ? "gray" : "black"}`}
+              />
             </button>
             <div className="border p-1 flex justify-center items-center  w-10 max-lg:w-7 text-xl max-lg:text-base ">
               {quantity}
@@ -42,19 +51,24 @@ const CartItem = ({ data }) => {
             <button
               disabled={quantity === 20}
               className="border p-1 flex justify-center items-center rounded-r-md w-10 max-md:w-7 text-2xl  "
-              onClick={() => setQuantity(quantity + 1)}
+              onClick={() => handleCount(1)}
             >
-              <IoMdAdd  fill={`${quantity == 20 ? "gray" : "black"}`} />
+              <IoMdAdd fill={`${quantity == 20 ? "gray" : "black"}`} />
             </button>
           </div>
         </div>
       </div>
       <div className=" flex gap-10 h-full  flex-col min-w-20  items-center">
-        <div className="text-xl max-md:text-base font-bold">
+        <div className="text-xl max-md:text-sm font-bold">
           ₹<span>{quantity * data?.price}</span>
         </div>
         <div className="">
-          <RiDeleteBin6Line size={20} fill="red" onClick={handleRemoveFromCart} className="cursor-pointer" />
+          <RiDeleteBin6Line
+            size={20}
+            fill="red"
+            onClick={handleRemoveFromCart}
+            className="cursor-pointer"
+          />
         </div>
       </div>
     </div>

@@ -2,41 +2,67 @@ import { Heart } from "lucide-react";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { removeFromWishlist } from "../../Action/WishlistAction";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { v4 as uuidv4 } from "uuid";
+import { addToCart } from "../../Action/CartAction";
+import { IoMdAdd } from "react-icons/io";
+import { RiSubtractLine } from "react-icons/ri";
 
 const WishListItem = ({ data, setReload }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const [WishList, setWishlist] = useState(true);
   const [size, setSize] = useState("S");
-  const userid = useSelector(
-    (state) => state?.authReducer?.authData?.user?._id
-  );
+  const [quantity, setQuantity] = useState(1);
+
+  const user = useSelector((state) => state?.authReducer?.authData?.user?._id);
 
   function handleAddrTypeChange(e) {
     setSize(e.target.value);
   }
   const handleWishlist = () => {
     if (WishList) {
-      dispatch(removeFromWishlist(userid, data?._id));
+      dispatch(removeFromWishlist(user, data?._id));
       setReload(true);
     }
+  };
+  const handleAddToCart = () => {
+    const formData = {
+      quantity,
+      productId: data?._id,
+      size: size,
+      price: data?.price,
+      uuid: uuidv4(),
+    };
+    console.log(formData);
+    dispatch(addToCart(user, formData, navigate));
   };
   return (
     <div className="card w-64 h-[26rem] max-sm:w-56  bg-base-100 shadow-xl rounded-xl">
       <figure>
-        <div className="z-40  absolute top-3 right-3 cursor-pointer visited:bg-red-400 bg-white w-8 h-8 rounded-md shadow-lg grid place-content-center">
-          <Heart
-            onClick={handleWishlist}
-            className=""
-            fill={`${WishList ? "red " : "transparent"}`}
-            stroke={`${WishList ? "red " : "black"}`}
-          />
+        <div className="z-40   absolute top-3 right-3 cursor-pointer visited:bg-red-400 bg-white w-8 h-8 rounded-md shadow-lg grid place-content-center">
+          <div className="hover:scale-90 duration-500">
+            <Heart
+              onClick={handleWishlist}
+              className=""
+              fill={"red "}
+              stroke={"red"}
+            />
+          </div>
         </div>
-        <Link to={`/product/${data?._id}`} className="h-56 max-sm:h-60 w-full flex justify-center items-center flex-col">
-          <img src={data?.images?.url} className="w-10/12 p-3 h-full" alt="Image" />
+        <Link
+          to={`/product/${data?._id}`}
+          className="h-56 max-sm:h-60 w-full flex justify-center items-center flex-col"
+        >
+          <img
+            src={data?.images?.url}
+            className="w-10/12 p-3 h-full"
+            alt="Image"
+          />
         </Link>
       </figure>
-          <h1 className="font-semibold text-center">₹{data?.price}</h1>
+      <h1 className="font-semibold text-center">₹{data?.price}</h1>
       <div className="card-body p-2">
         <h2 className=" font-semibold">{data?.productname}</h2>
         {data.sizes ? (
@@ -56,9 +82,29 @@ const WishListItem = ({ data, setReload }) => {
         ) : (
           ""
         )}
+        <div className="w-full flex justify-evenly items-center h-10 rounded-lg border">
+          <button
+          className={`${quantity <= 1 ? "text-gray-300":"text-teal-700 "}`}
+            disabled={quantity <= 1}
+            onClick={() => setQuantity((prev) => prev - 1)}
+          >
+             <RiSubtractLine size={25}  />
+          </button>
+          {quantity}
+          <button
+          className={`${quantity >= 20? "text-gray-300":"text-teal-700 "} text-2xl`}
+            disabled={quantity >= 20}
+            onClick={() => setQuantity((prev) => prev + 1)}
+          >
+             <IoMdAdd  size={25}  />
+          </button>
+        </div>
 
         <div className="card-actions w-full justify-center">
-          <button className="btn  bg-black w-10/12 text-white hover:bg-gray-950">
+          <button
+            onClick={handleAddToCart}
+            className="btn  bg-black w-10/12 text-white hover:bg-gray-950"
+          >
             Add to Cart <img src="./shopping-cart.svg" alt="" />
           </button>
         </div>
