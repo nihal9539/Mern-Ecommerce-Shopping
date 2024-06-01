@@ -19,42 +19,42 @@ const CartItem = ({ data }) => {
     <div className=" border border-gray-400 rounded-md p-2 flex flex-row items-start justify-between  gap-4">
       <div className=" flex items-center gap-4">
         <img
-          src={data?.imageUrl}
+          src={data?.imagrUrl}
           className="w-20 h-24 rounded-md"
           alt="Image"
         />
         <div className="flex  items-center justify-between max-lg:w-72 max-md:w-64 w-[30rem] ">
           <div className="flex gap-4 j flex-col">
-            <h1 className="text-xl max-md:text-base font-bold">{data.productName}</h1>
+            <h1 className="text-xl max-lg:text-base font-bold">{data?.productname}</h1>
             <span className="text-gray-700">Size : {data.size}</span>
           </div>
           <div className="flex ">
             <button
               disabled={quantity === 1}
-              className="border p-1 flex justify-center items-center rounded-l-md w-10 max-md:w-7 text-3xl  "
+              className="border p-1 flex justify-center items-center rounded-l-md w-10 max-lg:w-7 text-2xl  "
               onClick={() => setQuantity(quantity - 1)}
             >
-              <RiSubtractFill fill={`${quantity == 1 ? "gray" : "black"}`} />
+              <RiSubtractFill className="max-md:w-8" fill={`${quantity == 1 ? "gray" : "black"}`} />
             </button>
-            <div className="border p-1 flex justify-center items-center  w-10 max-md:w-7 text-xl ">
+            <div className="border p-1 flex justify-center items-center  w-10 max-lg:w-7 text-xl max-lg:text-base ">
               {quantity}
             </div>
             <button
               disabled={quantity === 20}
-              className="border p-1 flex justify-center items-center rounded-r-md w-10 max-md:w-7 text-3xl  "
+              className="border p-1 flex justify-center items-center rounded-r-md w-10 max-md:w-7 text-2xl  "
               onClick={() => setQuantity(quantity + 1)}
             >
-              <IoMdAdd fill={`${quantity == 20 ? "gray" : "black"}`} />
+              <IoMdAdd  fill={`${quantity == 20 ? "gray" : "black"}`} />
             </button>
           </div>
         </div>
       </div>
       <div className=" flex gap-10 h-full  flex-col min-w-20  items-center">
         <div className="text-xl max-md:text-base font-bold">
-          ₹<span>{quantity * data.price}</span>
+          ₹<span>{quantity * data?.price}</span>
         </div>
         <div className="">
-          <RiDeleteBin6Line size={30} fill="red" onClick={handleRemoveFromCart} className="cursor-pointer" />
+          <RiDeleteBin6Line size={20} fill="red" onClick={handleRemoveFromCart} className="cursor-pointer" />
         </div>
       </div>
     </div>

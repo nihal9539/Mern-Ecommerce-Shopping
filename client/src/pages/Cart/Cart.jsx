@@ -61,29 +61,29 @@ const Cart = () => {
           className="col-span-2 flex flex-col justify-between pt-28 p-10 text-black max-md:fixed    relative right-0 max-md:right-auto top-0 max-md:top-auto w-full h-screen  max-md:h-40 bottom-0  left-0"
         >
           <div>
-            <h1 className="text-xl font-bold">Order Summery</h1>
+            <h1 className="text-xl max-lg:text-base font-bold">Order Summery</h1>
             <hr className="my-4 border-black border" />
-            <h1 className="text-lg flex justify-between">
+            <h1 className="text-lg max-lg:text-base flex justify-between">
               Cart Total : <span className="font-semibold">₹{totalPrice}</span>{" "}
             </h1>
-            <h1 className="text-lg flex justify-between">
+            <h1 className="text-lg max-lg:text-base flex justify-between">
               Delivery Fee : <span className="font-semibold">Free</span>{" "}
             </h1>
             <hr className="my-2 border-black border" />
-            <h1 className="text-lg flex justify-between">
+            <h1 className="text-lg max-lg:text-base flex justify-between">
               Order Total : <span className="font-semibold">₹{totalPrice}</span>{" "}
             </h1>
           </div>
           <div>
             <div className="my-4">
-              <h1 className="text-lg font-bold">Return/Refund policy</h1>
+              <h1 className="text-lg max-lg:text-base font-bold">Return/Refund policy</h1>
               <p className="text-sm">
                 In case of return, we ensure quick refunds. Full amount will be
                 refunded excluding Convenience Fee
               </p>
             </div>
             <div className="mb-8">
-              <h1 className="text-lg font-bold">Free Shipping</h1>
+              <h1 className="text-lg max-lg:text-base font-bold">Free Shipping</h1>
               <p className="text-sm">
                 Great news! Enjoy shopping with us and get free delivery on
                 every order. No extra charges, just pure savings!{" "}
@@ -91,7 +91,7 @@ const Cart = () => {
             </div>
             <div
               
-              className=" bg-black hover:shadow-boxShadow1 border-black border-2 cursor-pointer text-white p-3 text-center rounded-lg"
+              className=" bg-black hover:shadow-boxShadow1 duration-300 border-black border-2 cursor-pointer text-white p-3 text-center rounded-lg"
             >
               Check Out
             </div>
