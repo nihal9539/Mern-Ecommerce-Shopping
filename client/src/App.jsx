@@ -21,6 +21,7 @@ import Product from "./pages/Product/Product";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "react-toastify/dist/ReactToastify.min.css";
+import Checkout from "./pages/Checkout/Checkout";
 
 function App() {
   const user = useSelector((state) => state.authReducer.authData);
@@ -43,6 +44,10 @@ function App() {
           element={user ? <WishList /> : <Navigate to="/login" />}
         />
         <Route path="/login" element={user ? <Navigate to="/" /> : <Login />} />
+        <Route
+          path="/checkout"
+          element={user ? <Checkout /> : <Navigate to="/login" />}
+        />
 
         {/* Dash board routes */}
         <Route path="/" element={<DashboardLayout />}>

@@ -8,6 +8,7 @@ import CartRoute from "./Routes/CartRoute.js"
 import UserRoute from "./Routes/UserRoute.js"
 import ProductRoute from "./Routes/ProductRoute.js"
 import WishlistRoute from "./Routes/WishlistRoute.js"
+import PaymentRoutes from "./Routes/PaymentRoutes.js"
 
 const app = express()
 
@@ -30,3 +31,4 @@ app.use('/user',UserRoute)
 app.use('/cart',CartRoute)
 app.use('/product',ProductRoute)
 app.use('/wishlist',WishlistRoute)
+app.use('/payment',PaymentRoutes)

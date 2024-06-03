@@ -4,10 +4,11 @@ import CartItem from "../../Componenets/CartItem/CartItem";
 import { useDispatch, useSelector } from "react-redux";
 import cartReducer from "../../reducer/CartReducer";
 import { getUserCart } from "../../Action/CartAction";
-import { Link } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 
 const Cart = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { cartData } = useSelector((state) => state.cartReducer);
   const user = useSelector((state) => state.authReducer?.authData?.user?._id);
@@ -92,8 +93,8 @@ const Cart = () => {
               </p>
             </div>
             <div
-              
-              className=" bg-black hover:shadow-boxShadow1 max-md:mt-5 duration-300 border-black border-2 cursor-pointer text-white p-3 text-center rounded-lg"
+              onClick={()=>navigate('/checkout')}
+              className=" bg-black w-full hover:shadow-boxShadow1 max-md:mt-5 duration-300 border-black border-2 cursor-pointer text-white p-3 text-center rounded-lg"
             >
               Check Out
             </div>
