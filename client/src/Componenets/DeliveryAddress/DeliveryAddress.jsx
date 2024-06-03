@@ -1,9 +1,16 @@
 import { Button, Group, Select, Textarea, TextInput } from "@mantine/core";
 import useCountries from "../../hooks/useCountries";
 import { useForm } from "@mantine/form";
+import { useDispatch, useSelector } from "react-redux";
+import { addNewAddress } from "../../Action/AddressAction";
 
 const DeliveryAddress = ({ orderDetails, setOrderDetails, nextStep }) => {
   const { allStates } = useCountries();
+  const dispatch = useDispatch();
+  const user = useSelector(state=>state.authReducer.authData.user._id)
+  const {addressData} = useSelector(state=>state.addressReducer)
+  console.log(addressData);
+
   const form = useForm({
     validateInputOnChange: true,
     initialValues: {
@@ -11,8 +18,9 @@ const DeliveryAddress = ({ orderDetails, setOrderDetails, nextStep }) => {
         lastName: orderDetails.lastName,
         phone: orderDetails.phone,
         state:orderDetails.state,
-        address: orderDetails.address,
+        city:orderDetails.city,
         pincode: orderDetails.pincode,
+        address: orderDetails.address,
      
     },
 
@@ -20,24 +28,27 @@ const DeliveryAddress = ({ orderDetails, setOrderDetails, nextStep }) => {
     //   firstName: (value) =>
     //     value.length < 5 ? "First name must have at least 5 letters" : null,
     //   lastName: (value) =>
-    //     value.length < 5 ? "First name must have at least 5 letters" : null,
+    //     value.length < 1 ? "last name is Required" : null,
     //   pincode: (value) =>
     //     value.length < 5 ? "Select a valid pincode" : null,
     //   phone: (value) =>
     //     value.length < 5 ? "Select a valid Phone Number" : null,
     //   address: (value) =>
     //     value.length < 10 ? "Address must have at least 5 letters" : null,
-
-    //   country: (value) =>
-    //     allCountries.includes(value) ? null : "Select a valid country",
+    //   city: (value) =>
+    //     value.length < 10 ? "City is Required" : null,
+    //   state: (value) =>
+    //     allStates.includes(value) ? null : "Select a valid state",
     // },
   });
   const handleSubmit = () => {
-    // const { hasErrors } = form.validate();
-    // if (!hasErrors) {
+    const { hasErrors } = form.validate();
+    console.log(form.values);
+    if (!hasErrors) {
         // setOrderDetails((prev) => ({ ...prev, city, address, country }))
+        // dispatch(addNewAddress(user,form.values,nextStep))
         nextStep()
-    // }
+    }
 }
 
   return (
@@ -84,6 +95,7 @@ const DeliveryAddress = ({ orderDetails, setOrderDetails, nextStep }) => {
           w={"100%"}
           withAsterisk
           label={"Phone"}
+          maxLength={10}
           {...form.getInputProps("phone", { type: "input" })}
         />
         <TextInput

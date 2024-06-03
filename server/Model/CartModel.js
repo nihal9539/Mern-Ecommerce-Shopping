@@ -1,14 +1,14 @@
 import mongoose from "mongoose"
 
 const CartSchema = mongoose.Schema({
-    userId: { type: String, require: true },
+    userId: { type: String, required: true },
     products: [
         {
-            productId: { type: mongoose.Schema.Types.ObjectId, ref: 'product', require: true },
-            quantity: { type: Number, require: true },
-            size: { type: String, require: true },
-            price: { type: Number, require: true },
-            uuid: { type: String, require: true }
+            productId: { type: mongoose.Schema.Types.ObjectId, ref: 'product', required: true },
+            quantity: { type: Number, required: true },
+            size: { type: String, required: true },
+            price: { type: Number, required: true },
+            uuid: { type: String, required: true }
         },
     ]
 

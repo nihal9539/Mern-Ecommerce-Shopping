@@ -17,17 +17,16 @@ const Checkout = () => {
     firstName: "",
     lastName: "",
     phone: "",
-    country: "",
     state: "",
+    city: "",
     address: "",
     pincode: "",
-    
   });
 
   return (
     <>
-      <div className="grid grid-cols-7">
-        <div className="col-span-5">
+      <div className="p-10 h-screen overflow-hidden">
+        <div className="">
           {" "}
           <Stepper
             className=" p-10"
@@ -43,26 +42,16 @@ const Checkout = () => {
               />
             </Stepper.Step>
             <Stepper.Step label="Order" description="Summery">
-          <OrderSummery
-           nextStep={nextStep}
-           orderDetails={orderDetails}
-           setOrderDetails={setOrderDetails}
-          />
-        </Stepper.Step>
-            <Stepper.Step label="Payment" description=" Option"></Stepper.Step>
-            <Stepper.Step
-              label="Final step"
-              description="Basic Details"
-            ></Stepper.Step>
-            <Stepper.Completed>
-              Completed, click back button to get to previous step
-            </Stepper.Completed>
+              <OrderSummery
+                nextStep={nextStep}
+                orderDetails={orderDetails}
+                setOrderDetails={setOrderDetails}
+              />
+            </Stepper.Step>
+            <Stepper.Step label="Payment" description=" "></Stepper.Step>
+            
           </Stepper>
         </div>
-        <div
-          style={{ background: "#e9edd1" }}
-          className="col-span-2 bg-red-300 h-screen"
-        ></div>
       </div>
     </>
   );

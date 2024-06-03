@@ -3,19 +3,19 @@ import mongoose from "mongoose";
 const productScehema = new mongoose.Schema({
     productname: {
         type: String,
-        require: true
+        required: true
     },
     subTitle: {
         type: String,
-        require: true
+        required: true
     },
     description: {
         type: String,
-        require: true
+        required: true
     },
     image: {
         type: String,
-        require: true
+        required: true
     },
     images:{
         type:Object
@@ -27,7 +27,7 @@ const productScehema = new mongoose.Schema({
     gender: String,
     price: {
         type: Number,
-        require: true
+        required: true
 
     },
     discount: {

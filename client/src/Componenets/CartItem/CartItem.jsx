@@ -5,7 +5,7 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import { cartQuantityUpdate, removeFromCart } from "../../Action/CartAction";
 
-const CartItem = ({ data }) => {
+const CartItem = ({ data ,order}) => {
   const [quantity, setQuantity] = useState(data.quantity);
   const userid = useSelector((state) => state.authReducer.authData.user._id);
   const dispatch = useDispatch();
@@ -18,9 +18,9 @@ const CartItem = ({ data }) => {
     setQuantity((prev) => prev + count);
   };
 
-  console.log(data);
+
   return (
-    <div className=" border border-gray-400 rounded-md p-2 flex flex-row items-start justify-between  gap-4">
+    <div className=" border border-gray-400 rounded-md p-2 flex flex-row items-center justify-between  gap-4">
       <div className=" flex items-center gap-4">
         <img
           src={data?.imagrUrl}
@@ -31,10 +31,13 @@ const CartItem = ({ data }) => {
           <div className="flex gap-4 j flex-col">
             <h1 className="text-xl max-lg:text-base font-bold">
               {data?.productname}
+              {order? (
+                <span className="font-medium">{" /" +data.size}</span>
+              ):""}
             </h1>
-            <span className="text-gray-700">Size : {data.size}</span>
+            {order ? <span>Quantity: {quantity}</span>:<span className="text-gray-700">Size : {data.size}</span>}
           </div>
-          <div className="flex ">
+          {order ? "":<div className="flex ">
             <button
               disabled={quantity === 1}
               className="border p-1 flex justify-center items-center rounded-l-md w-10 max-lg:w-7 text-2xl  "
@@ -55,21 +58,23 @@ const CartItem = ({ data }) => {
             >
               <IoMdAdd fill={`${quantity == 20 ? "gray" : "black"}`} />
             </button>
-          </div>
+          </div>}
+
+          <div></div>
         </div>
       </div>
-      <div className=" flex gap-10 h-full  flex-col min-w-20  items-center">
+      <div className={` flex gap-10 h-full  flex-col min-w-20 justify-center items-center`}>
         <div className="text-xl max-md:text-sm font-bold">
           ₹<span>{quantity * data?.price}</span>
         </div>
-        <div className="">
+        {order ? "":<div className="">
           <RiDeleteBin6Line
             size={20}
             fill="red"
             onClick={handleRemoveFromCart}
             className="cursor-pointer"
           />
-        </div>
+        </div>}
       </div>
     </div>
   );

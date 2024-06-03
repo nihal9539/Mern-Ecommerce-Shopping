@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import cartReducer from "../../reducer/CartReducer";
 import { getUserCart } from "../../Action/CartAction";
 import { Link, NavLink, useNavigate } from "react-router-dom";
+import currencyFormatter from "currency-formatter"
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -61,7 +62,7 @@ const Cart = () => {
         {/* Right Side */}
         <div
           style={{ background: "#e9edd1" }}
-          className=" shadow-md max-md:h-[25vh] col-span-2 flex flex-col justify-between pt-28 max-md:pt-5 p-10 max-lg:px-6 text-black max-md:fixed    relative right-0 max-md:right-auto top-0 max-md:top-auto w-full h-screen  bottom-0  left-0"
+          className=" shadow-md max-md:h-[25vh] col-span-2 flex flex-col justify-between pt-28 max-md:pt-5 p-10 max-lg:px-6 text-black max-md:fixed  relative right-0 max-md:right-auto top-0 max-md:top-auto w-full h-screen  bottom-0  left-0"
         >
           <div>
             <h1 className="text-xl max-md:hidden max-lg:text-base font-bold">Order Summery</h1>
@@ -74,7 +75,9 @@ const Cart = () => {
             </h1>
             <hr className="my-2 border-black border" />
             <h1 className="text-lg max-lg:text-base flex justify-between">
-              Order Total : <span className="font-semibold">₹{totalPrice}</span>{" "}
+              Order Total : <span className="font-semibold">₹ {currencyFormatter.format(totalPrice, {
+                  code: "IND",
+                })}</span>{" "}
             </h1>
           </div>
           <div>
