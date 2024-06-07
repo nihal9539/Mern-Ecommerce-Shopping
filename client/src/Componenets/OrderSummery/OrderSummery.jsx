@@ -17,66 +17,67 @@ const OrderSummery = () => {
     });
     setAmount(totalAmount);
   }, [cartData]);
+
   const handlePayment = async () => {
     try {
-      const res = await fetch(`http://localhost:5000/payment/99`, {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-        },
-        body: JSON.stringify({
-          amount,
-        }),
-      });
-
-      const data = await res.json();
-      console.log(data);
-      handlePaymentVerify(data.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const handlePaymentVerify = async (data) => {
-    const options = {
-      key: "rzp_test_dnkn088g41YsW6",
-      amount: data.amount,
-      currency: data.currency,
-      name: "Nihal",
-      description: "Test Mode",
-      order_id: data.id,
-      handler: async (response) => {
-        console.log("response", response);
-        alert("response")
-        try {
-          const res = await fetch(`http://localhost:5000/payment/verify`, {
+        const res = await fetch(`http://localhost:5000/payment/order`, {
             method: "POST",
             headers: {
-              "content-type": "application/json",
+                "content-type": "application/json"
             },
             body: JSON.stringify({
-              razorpay_order_id: response.razorpay_order_id,
-              razorpay_payment_id: response.razorpay_payment_id,
-              razorpay_signature: response.razorpay_signature,
-            }),
-          });
+                amount
+            })
+        });
 
-          const verifyData = await res.json();
+        const data = await res.json();
+        console.log(data);
+        handlePaymentVerify(data.data)
+    } catch (error) {
+        console.log(error);
+    }
+}
+ 
+  const handlePaymentVerify = async (data) => {
+    console.log("data" + data);
+    const options = {
+        key: import.meta.env.RAZORPAY_KEY_ID,
+        amount: data.amount,
+        currency: data.currency,
+        name: "Nihal",
+        description: "Test Mode",
+        order_id: data.id,
+        handler: async (response) => {
+            console.log("response", response)
+            try {
+                const res = await fetch(`http://localhost:5000/payment/verify`, {
+                    method: 'POST',
+                    headers: {
+                        'content-type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        razorpay_order_id: response.razorpay_order_id,
+                        razorpay_payment_id: response.razorpay_payment_id,
+                        razorpay_signature: response.razorpay_signature,
+                    })
+                })
 
-          if (verifyData.message) {
-            toast.success(verifyData.message);
-          }
-        } catch (error) {
-          console.log(error);
+                const verifyData = await res.json();
+
+                if (verifyData.message) {
+                    toast.success(verifyData.message)
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        theme: {
+            color: "#5f63b8"
         }
-      },
-      theme: {
-        color: "#5f63b8",
-      },
     };
     const rzp1 = new window.Razorpay(options);
     rzp1.open();
-  };
+}
   return (
     <div className="grid grid-cols-7  w-full">
       <div className="col-span-5  max-md:col-span-7 px-5">
