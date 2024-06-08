@@ -82,12 +82,11 @@ export const cartQuantityUpdate = async (req, res) => {
 }
 export const getUserCart = async (req, res) => {
     const { userId } = req.params;
-    console.log(userId);
     try {
         const cartDetails = await CartModel.aggregate([
             {
                 '$match': {
-                    'userId': '66313f497af6ea82c6844113'
+                    'userId': userId
                 }
             }, {
                 '$unwind': '$products'

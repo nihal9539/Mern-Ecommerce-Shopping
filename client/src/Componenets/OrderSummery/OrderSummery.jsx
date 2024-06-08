@@ -7,6 +7,9 @@ import currencyFormatter from "currency-formatter";
 
 const OrderSummery = () => {
   const { cartData } = useSelector((state) => state.cartReducer);
+  console.log(cartData);
+  const addressId= useSelector((state) => state.addressReducer.addressData._id);
+  const userId = useSelector((state) => state.authReducer.authData.user._id);
 
   const [amount, setAmount] = useState(0);
 
@@ -31,7 +34,6 @@ const OrderSummery = () => {
         });
 
         const data = await res.json();
-        console.log(data);
         handlePaymentVerify(data.data)
     } catch (error) {
         console.log(error);
@@ -39,7 +41,6 @@ const OrderSummery = () => {
 }
  
   const handlePaymentVerify = async (data) => {
-    console.log("data" + data);
     const options = {
         key: import.meta.env.RAZORPAY_KEY_ID,
         amount: data.amount,
@@ -59,6 +60,8 @@ const OrderSummery = () => {
                         razorpay_order_id: response.razorpay_order_id,
                         razorpay_payment_id: response.razorpay_payment_id,
                         razorpay_signature: response.razorpay_signature,
+                        addressId:addressId,
+                        userId:userId
                     })
                 })
 

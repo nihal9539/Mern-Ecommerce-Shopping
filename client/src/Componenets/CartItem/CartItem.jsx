@@ -7,14 +7,14 @@ import { cartQuantityUpdate, removeFromCart } from "../../Action/CartAction";
 
 const CartItem = ({ data ,order}) => {
   const [quantity, setQuantity] = useState(data.quantity);
-  const userid = useSelector((state) => state.authReducer.authData.user._id);
+  const userId = useSelector((state) => state.authReducer.authData.user._id);
   const dispatch = useDispatch();
 
   const handleRemoveFromCart = () => {
-    dispatch(removeFromCart(userid, data?.productId, data.size));
+    dispatch(removeFromCart(userId, data?.productId, data?.size));
   };
   const handleCount = (count) => {
-    dispatch(cartQuantityUpdate(userid, data?.productId, data?.size, count));
+    dispatch(cartQuantityUpdate(userId, data?.productId, data?.size, count));
     setQuantity((prev) => prev + count);
   };
 

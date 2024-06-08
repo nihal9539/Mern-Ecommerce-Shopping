@@ -2,10 +2,12 @@
 import Razorpay from 'razorpay';
 import crypto from 'crypto';
 import paymentModel from '../model/PaymentModel.js';
+import CartModel from '../model/CartModel.js';
+import orderModel from '../model/OrderModel.js';
 var razorpayInstance = new Razorpay({
     key_id: process.env.RAZORPAY_KEY_ID,
     key_secret: process.env.RAZORPAY_KEY_SECRET,
-  });
+});
 export const order = async (req, res) => {
     const { amount } = req.body;
 
@@ -15,7 +17,7 @@ export const order = async (req, res) => {
             currency: "INR",
             receipt: crypto.randomBytes(10).toString("hex"),
         }
-        
+
         razorpayInstance.orders.create(options, (error, order) => {
             if (error) {
                 console.log(error);
@@ -29,12 +31,8 @@ export const order = async (req, res) => {
         console.log(error);
     }
 }
- export const verify =async (req, res) => {
-    console.log("hii");
-    const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
-
-    // console.log("req.body", req.body);
-
+export const verify = async (req, res) => {
+    const { razorpay_order_id, razorpay_payment_id, razorpay_signature, userId, addressId } = req.body;
     try {
         // Create Sign
         const sign = razorpay_order_id + "|" + razorpay_payment_id;
@@ -59,12 +57,67 @@ export const order = async (req, res) => {
 
             // Save Payment 
             await payment.save();
+            const cart = await CartModel.aggregate([
+                {
+                    '$match': {
+                        'userId': userId
+                    }
+                }, {
+                    '$unwind': '$products'
+                }, {
+                    '$project': {
+                        'quantity': '$products.quantity',
+                        'size': '$products.size',
+                        'price': '$products.price',
+                        'productId': '$products.productId',
+                    }
+                }, {
+                    '$lookup': {
+                        'from': 'products',
+                        'localField': 'productId',
+                        'foreignField': '_id',
+                        'as': 'productData'
+                    }
+                }, {
+                    '$project': {
+                        'size': 1,
+                        'quantity': 1,
+                        'price': 1,
+                        'productname': {
+                            '$arrayElemAt': [
+                                '$productData.productname', 0
+                            ]
+                        },
+                        'imagrUrl': {
+                            '$arrayElemAt': [
+                                '$productData.images.url', 0
+                            ]
+                        }
+                    }
+                }
+            ]);
+            const newOrder = new orderModel({
+                userId: userId,
+                orderItems: [
+                    cart
+                ],
+                shippingAddressId: addressId,
+                isDelivered: false,
+                paymentResultId:payment
+            })
+            await newOrder.save()
+            if (newOrder) {
+               await CartModel.deleteOne({
+                    userId:userId
+                })
+            }
+
 
             // Send Message 
             res.json({
                 message: "Payement Successfully"
             });
-            
+
         }
     } catch (error) {
         res.status(500).json({ message: "Internal Server Error!" });

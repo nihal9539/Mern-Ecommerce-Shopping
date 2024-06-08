@@ -7,14 +7,12 @@ export const addNewAddress =async(req,res)=>{
 
     try {
         
-       
-      
-            const contryCode = 91
-
+            const contryCode = "+91"
+              
             const newAddress = new AddressModel({
                 userId:userId,
                 name:firstName + lastName,
-                phone:contryCode+phone,
+                phone:contryCode +phone,
                 state,
                 city:city,
                 pinCode:pincode,
@@ -23,6 +21,7 @@ export const addNewAddress =async(req,res)=>{
 
             })
             await newAddress.save()
+            console.log(newAddress);
             res.status(200).json(newAddress)
         
 
