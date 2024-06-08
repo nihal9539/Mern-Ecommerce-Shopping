@@ -1,27 +1,37 @@
 import { useState } from "react";
-import { Stepper, Button, Group } from "@mantine/core";
+import { Stepper } from "@mantine/core";
 import DeliveryAddress from "../../Componenets/DeliveryAddress/DeliveryAddress";
-import { Container } from "lucide-react";
 import "@mantine/core/styles.css";
 import OrderSummery from "../../Componenets/OrderSummery/OrderSummery";
-import { State } from "country-state-city";
+import PaymentSuccess from "../../Componenets/PaymentSuccess/PaymentSuccess";
+import { useSelector } from "react-redux";
+import Navbar from "../../Componenets/Navbar/Navbar";
+import { Link } from "react-router-dom";
+import checkout from "../../assets/checkout.svg"
 
 const Checkout = () => {
   const [active, setActive] = useState(0);
   const nextStep = () =>
     setActive((current) => (current < 2 ? current + 1 : current));
-  const prevStep = () =>
-    setActive((current) => (current > 0 ? current - 1 : current));
+  const { cartData } = useSelector((state) => state.cartReducer);
 
-  const [orderDetails, setOrderDetails] = useState({
-    firstName: "",
-    lastName: "",
-    phone: "",
-    state: "",
-    city: "",
-    address: "",
-    pincode: "",
-  });
+  if (cartData) {
+    return(
+      <>
+       <Navbar bgWhite={true} />
+        <div className="flex flex-col gap-5 justify-center items-center h-screen w-full">
+          <h1 className="text-2xl font-semibold">
+            <img width={200} src={checkout} alt="" />
+            Your Cart is <span className="text-red-600">Empty!</span>
+          </h1>
+          <Link to={'/'} className=' bg-black text-white p-3 px-5 rounded-lg border duration-300 hover:shadow-boxShadow1 border-black'>Back to Home</Link>
+             
+        </div>
+      </>
+    )
+  }
+
+
 
   return (
     <>
@@ -37,18 +47,18 @@ const Checkout = () => {
             <Stepper.Step label="Delivery" description="Address">
               <DeliveryAddress
                 nextStep={nextStep}
-                orderDetails={orderDetails}
-                setOrderDetails={setOrderDetails}
+               
               />
             </Stepper.Step>
             <Stepper.Step label="Order" description="Summery">
               <OrderSummery
                 nextStep={nextStep}
-                orderDetails={orderDetails}
-                setOrderDetails={setOrderDetails}
+                
               />
             </Stepper.Step>
-            <Stepper.Step label="Payment" description=" "></Stepper.Step>
+            <Stepper.Step label="Payment" description=" ">
+              <PaymentSuccess/>
+            </Stepper.Step>
             
           </Stepper>
         </div>

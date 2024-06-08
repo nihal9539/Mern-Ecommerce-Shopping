@@ -23,7 +23,7 @@ export const order = async (req, res) => {
                 console.log(error);
                 return res.status(500).json({ message: "Something Went Wrong!" });
             }
-            res.status(200).json({ data: order });
+            res.status(200).json( order );
             console.log(order)
         });
     } catch (error) {

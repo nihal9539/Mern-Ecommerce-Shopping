@@ -5,6 +5,7 @@ import productReducer from "./ProductReducer";
 import wishlistReducer from "./WishlistReducer";
 import cartReducer from "./CartReducer";
 import addressReducer from "./AddressReducer";
+import paymentReducer from "./PaymentReducer";
 
 
-export const reducers = combineReducers({authReducer,sidebarReducer,productReducer,addressReducer,wishlistReducer,cartReducer})
+export const reducers = combineReducers({ authReducer, sidebarReducer, productReducer, addressReducer, wishlistReducer, cartReducer,paymentReducer })
