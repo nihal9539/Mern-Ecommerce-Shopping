@@ -8,7 +8,7 @@ import { addToCart } from "../../Action/CartAction";
 import { IoMdAdd } from "react-icons/io";
 import { RiSubtractLine } from "react-icons/ri";
 
-const WishListItem = ({ data, setReload }) => {
+const WishListItem = ({ data, setReload, forAccountPage }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -39,7 +39,11 @@ const WishListItem = ({ data, setReload }) => {
     dispatch(addToCart(user, formData, navigate));
   };
   return (
-    <div className="card w-64 h-[26rem] max-sm:w-56  bg-base-100 shadow-xl rounded-xl">
+    <div
+      className={`card ${
+        forAccountPage ? "w-56 max-md:w-40 h-[22rem]" : "w-64 h-[26rem] max-sm:w-56"
+      }   bg-base-100 shadow-xl rounded-xl`}
+    >
       <figure>
         <div className="z-40   absolute top-3 right-3 cursor-pointer visited:bg-red-400 bg-white w-8 h-8 rounded-md shadow-lg grid place-content-center">
           <div className="hover:scale-90 duration-500">
@@ -57,21 +61,22 @@ const WishListItem = ({ data, setReload }) => {
         >
           <img
             src={data?.images?.url}
-            className="w-10/12 p-3 h-full"
+            className={` "w-10/12 h-32 "
+            `}
             alt="Image"
           />
         </Link>
       </figure>
       <h1 className="font-semibold text-center">₹{data?.price}</h1>
       <div className="card-body p-2">
-        <h2 className=" font-semibold">{data?.productname}</h2>
+        <h2 className={`${forAccountPage && "text-sm"} font-semibold `}>{data?.productname}</h2>
         {data.sizes ? (
           <select
             name=""
             id=""
             defaultValue={size}
             onChange={handleAddrTypeChange}
-            className="border-2 border-gray-200 rounded-md p-2 "
+            className={`border-2 border-gray-200 rounded-md ${forAccountPage ?"p-1":"p-2"} `}
           >
             {data?.sizes.map((size) => (
               <option value={size?.size} key={size?.size}>
@@ -82,28 +87,30 @@ const WishListItem = ({ data, setReload }) => {
         ) : (
           ""
         )}
-        <div className="w-full flex justify-evenly items-center h-10 rounded-lg border">
+        <div className={`w-full flex justify-evenly items-center ${forAccountPage ?"h-8":"h-10"} rounded-lg border`}>
           <button
-          className={`${quantity <= 1 ? "text-gray-300":"text-teal-700 "}`}
+            className={`${quantity <= 1 ? "text-gray-300" : "text-teal-700 "}`}
             disabled={quantity <= 1}
             onClick={() => setQuantity((prev) => prev - 1)}
           >
-             <RiSubtractLine size={25}  />
+            <RiSubtractLine size={25} />
           </button>
           {quantity}
           <button
-          className={`${quantity >= 20? "text-gray-300":"text-teal-700 "} text-2xl`}
+            className={`${
+              quantity >= 20 ? "text-gray-300" : "text-teal-700 "
+            } text-2xl`}
             disabled={quantity >= 20}
             onClick={() => setQuantity((prev) => prev + 1)}
           >
-             <IoMdAdd  size={25}  />
+            <IoMdAdd size={25} />
           </button>
         </div>
 
         <div className="card-actions w-full justify-center">
           <button
             onClick={handleAddToCart}
-            className="btn  bg-black w-10/12 text-white hover:bg-gray-950"
+            className={` ${forAccountPage ? "h-9":"h-12"} rounded-md hover:shadow-boxShadow1 duration-300 border-black border-2  bg-black w-10/12 text-white `}
           >
             Add to Cart <img src="./shopping-cart.svg" alt="" />
           </button>

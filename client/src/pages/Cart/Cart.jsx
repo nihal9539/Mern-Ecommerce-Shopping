@@ -7,7 +7,7 @@ import { getUserCart } from "../../Action/CartAction";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import currencyFormatter from "currency-formatter"
 
-const Cart = () => {
+const Cart = ({forAccountPage}) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -28,7 +28,7 @@ const Cart = () => {
     return (
       <div>
         <Navbar bgWhite={true} />
-        <div className="flex flex-col gap-5 justify-center items-center h-screen w-full">
+        <div className={`flex flex-col gap-5 justify-center items-center ${forAccountPage ? "h-96" : "h-screen"}  w-full`}>
           <h1 className="text-2xl font-semibold">
             <img width={200} src="/gif-1.gif" alt="" />
             Your Cart is <span className="text-red-600">Empty!</span>

@@ -22,6 +22,9 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "react-toastify/dist/ReactToastify.min.css";
 import Checkout from "./pages/Checkout/Checkout";
+import Account from "./pages/Account/Account";
+import Profile from "./Componenets/Profile/Profile";
+import Order from "./Componenets/Order/Order";
 
 function App() {
   const user = useSelector((state) => state.authReducer.authData);
@@ -59,6 +62,12 @@ function App() {
           <Route path="orders" element={<DashboardOrders />} />
           <Route index path="employees" element={<DashboardEmployees />} />
           <Route path="customers" element={<DashboardCustomers />} />
+        </Route>
+        <Route path="/account" element={<Account />}>
+          <Route path="profile" element={<Profile />} />
+          <Route path="cart" element={<Cart forAccountPage={true} />} />
+          <Route path="wishList" element={<WishList forAccountPage={true}  />} />
+          <Route path="order" element={<Order forAccountPage={true}  />} />
         </Route>
       </Routes>
       <ToastContainer style={{ fontSize: "14px", zIndex: "999999" }} />

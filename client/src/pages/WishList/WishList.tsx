@@ -6,7 +6,7 @@ import { fetchWishlist } from "../../Action/WishlistAction";
 import { Link } from "react-router-dom";
 import { MdOutlineArrowBackIosNew, MdOutlineKeyboardBackspace } from "react-icons/md";
 
-const WishList = () => {
+const WishList = ({forAccountPage }) => {
   const { wishlist } = useSelector((state) => state.wishlistReducer);
   const user = useSelector((state) => state.authReducer.authData.user._id);
   const dispatch = useDispatch();
@@ -40,11 +40,11 @@ const WishList = () => {
   return (
     <div>
       <Navbar bgWhite={true} />
-      <div className="p-12 max-lg:px-5 max-sm:px-2  pt-32 ">
+      <div className={`${forAccountPage ?" p-0":"p-12 max-lg:px-5 max-sm:px-2  pt-32"}  `} >
 
-        <div className=" px-36 grid place-items-center items-start  grid-cols-4 max-lg:grid-cols-3 max-md:grid-col-2 max-sm:grid-cols-2">
+        <div className={`${forAccountPage?" px-10 max-md:px-2 grid-cols-3 max-lg:grid-cols-2 py-5  max-md:grid-col-2 max-sm:grid-cols-2":"px-36 grid-cols-4 max-lg:grid-cols-3 max-md:grid-col-2 max-sm:grid-cols-2"}  grid place-items-center items-start  `}>
           {wishlist?.map((data, i) => (
-            <WishListItem setReload={setReload} key={i} data={data} />
+            <WishListItem forAccountPage={forAccountPage} setReload={setReload} key={i} data={data} />
           ))}
         </div>
       </div>

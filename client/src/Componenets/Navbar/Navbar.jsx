@@ -4,6 +4,8 @@ import { TfiAlignJustify } from "react-icons/tfi";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../Action/AuthAction";
 
+import { User } from "lucide-react";
+
 const Navbar = ({ bgWhite }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -58,12 +60,15 @@ const Navbar = ({ bgWhite }) => {
         <Link to={"/wishlist"}>WishList</Link>
         <li>About</li>
         {user ? (
-          <li
+          <>
+          {/* <li
             onClick={handleLogout}
             className=" p-1 px-5  border-2 border-black flex rounded-md   shadow-[4.0px_8.0px_8.0px_rgba(0,0,0,0.12)]"
-          >
+            >
             LOG OUT
-          </li>
+          </li> */}
+          <User onClick={()=>navigate('/account')}/>
+            </>
         ) : (
           <Link
             to={"/login"}
@@ -103,12 +108,8 @@ const Navbar = ({ bgWhite }) => {
         <Link to={"/wishlist"}>WishList</Link>
         <li>About</li>
         {user ? (
-          <li
-            onClick={handleLogout}
-            className=" p-1 px-5  border-2 border-black flex rounded-md   shadow-[4.0px_8.0px_8.0px_rgba(0,0,0,0.12)]"
-          >
-            LOG OUT
-          </li>
+                   <User onClick={()=>navigate('/account')}/>
+
         ) : (
           <Link
             to={"/login"}

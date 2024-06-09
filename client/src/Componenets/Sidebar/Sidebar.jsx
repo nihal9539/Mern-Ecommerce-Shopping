@@ -10,42 +10,45 @@ import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setButtonFalse, setButtonTrue } from "../../Action/SidebarReducer";
 const Sidebar = () => {
-  const sidebarMenu = useSelector(state => state.sidebarReducer.sidebarAction);
+  const sidebarMenu = useSelector(
+    (state) => state.sidebarReducer.sidebarAction
+  );
   const dispatch = useDispatch();
-
 
   const Links = [
     {
-        title: 'Dashboard',
-        links:[ {
-            name: "ecommerce",
-            link: "ecommerce",
-            icon: <RiShoppingBag3Line size={22}/>
-        }]
+      title: "Dashboard",
+      links: [
+        {
+          name: "ecommerce",
+          link: "ecommerce",
+          icon: <RiShoppingBag3Line size={22} />,
+        },
+      ],
     },
     {
-        title: 'Pages',
-        links: [
-            {
-                name: "products",
-                link: "products",
-                icon: <Container size={22}/>,
-            },
-            {
-                name: "orders",
-                link: "orders",
-                icon: <TiShoppingCart size={22}/>,
-            },
+      title: "Pages",
+      links: [
+        {
+          name: "products",
+          link: "products",
+          icon: <Container size={22} />,
+        },
+        {
+          name: "orders",
+          link: "orders",
+          icon: <TiShoppingCart size={22} />,
+        },
 
-            {
-                name: "customers",
-                link: "customers",
-                icon: <BsPersonLinesFill size={22}/>
-            },
-        ]
+        {
+          name: "customers",
+          link: "customers",
+          icon: <BsPersonLinesFill size={22} />,
+        },
+      ],
     },
-
-]
+  ];
+ 
   const handleClick = () => {
     // Dispatching appropriate action based on current button state
     if (sidebarMenu) {
@@ -65,7 +68,11 @@ const Sidebar = () => {
         <>
           <div className="flex justify-between items-center text-2xl font-bold p-3 ">
             <span>Dashboard</span>
-            <button type="button" onClick={handleClick} className="text-xl  max-md:block hidden">
+            <button
+              type="button"
+              onClick={handleClick}
+              className="text-xl  max-md:block hidden"
+            >
               <AiOutlineCloseCircle size={25} />
             </button>
           </div>
@@ -75,7 +82,7 @@ const Sidebar = () => {
                 <p className="text-gray-400 m-3 mt-4 uppercase">{item.title}</p>
                 <p>
                   {item.links.map((links) => (
-                    <div>
+                    <div key={links}>
                       <NavLink
                         className={({ isActive }) =>
                           isActive ? activeLink : normalLink
