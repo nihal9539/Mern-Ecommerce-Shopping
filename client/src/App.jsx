@@ -65,9 +65,8 @@ function App() {
         </Route>
         <Route path="/account" element={<Account />}>
           <Route path="profile" element={<Profile />} />
-          <Route path="cart" element={<Cart forAccountPage={true} />} />
           <Route path="wishList" element={<WishList forAccountPage={true}  />} />
-          <Route path="order" element={<Order forAccountPage={true}  />} />
+          <Route path="order" element={<Order   />} />
         </Route>
       </Routes>
       <ToastContainer style={{ fontSize: "14px", zIndex: "999999" }} />

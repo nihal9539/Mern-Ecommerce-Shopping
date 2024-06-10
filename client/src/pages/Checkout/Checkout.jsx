@@ -15,7 +15,7 @@ const Checkout = () => {
     setActive((current) => (current < 2 ? current + 1 : current));
   const { cartData } = useSelector((state) => state.cartReducer);
 
-  if (cartData) {
+  if (!cartData) {
     return(
       <>
        <Navbar bgWhite={true} />

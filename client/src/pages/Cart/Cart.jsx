@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Navbar from "../../Componenets/Navbar/Navbar";
 import CartItem from "../../Componenets/CartItem/CartItem";
 import { useDispatch, useSelector } from "react-redux";
-import cartReducer from "../../reducer/CartReducer";
 import { getUserCart } from "../../Action/CartAction";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import currencyFormatter from "currency-formatter"
 
 const Cart = ({forAccountPage}) => {
