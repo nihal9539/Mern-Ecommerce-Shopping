@@ -20,6 +20,8 @@ const WishList = ({forAccountPage }) => {
   if (wishlist.length <= 0) {
     return (
       <>
+              <Navbar bgWhite={true} />
+
         <div className=" h-screen w-full flex flex-col leading-10 justify-center items-center">
           <div className=" text-2xl font-semibold  text-red-700 ">
             Wishlist is empty!
@@ -37,10 +39,12 @@ const WishList = ({forAccountPage }) => {
   }
 
   return (
-    <div className="max-h-screen  overflow-auto rounded-lg shadow-lg shadow-black/10 border-2">
+    
+    <div className={`max-h-screen w-full   overflow-auto ${forAccountPage && "rounded-lg shadow-lg shadow-black/10 border-2"}`}>
+      <Navbar bgWhite={true} />
       <div className={`${forAccountPage ?" p-0":"p-12 max-lg:px-5 max-sm:px-2  pt-32"}  `} >
 
-        <div className={`${forAccountPage?" px-10 max-md:px-2 grid-cols-3 max-lg:grid-cols-2 py-5  max-md:grid-col-2 max-sm:grid-cols-2":"px-36 grid-cols-4 max-lg:grid-cols-3 max-md:grid-col-2 max-sm:grid-cols-2"}  grid place-items-center items-start  `}>
+        <div className={`${forAccountPage?" px-10  grid-cols-3 max-lg:grid-cols-2 py-5   ":"px-36 max-lg:px-10  grid-cols-4 max-lg:grid-cols-3  "} max-md:px-2 max-md:grid-col-2 max-sm:grid-cols-2 grid place-items-center items-start  `}>
           {wishlist?.map((data, i) => (
             <WishListItem forAccountPage={forAccountPage} setReload={setReload} key={i} data={data} />
           ))}

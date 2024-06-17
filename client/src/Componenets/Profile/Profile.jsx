@@ -1,8 +1,9 @@
 import React from 'react'
 
 const Profile = () => {
+  
   return (
-    <div className='p-52'>
+    <div className='h-screen w-full flex justify-center items-center '>
       profile
     </div>
   )

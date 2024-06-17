@@ -7,6 +7,7 @@ import cartReducer from "./CartReducer";
 import addressReducer from "./AddressReducer";
 import paymentReducer from "./PaymentReducer";
 import orderReducer from "./OrderReducer";
+import filterReducer from "./FilterReducer";
 
 
-export const reducers = combineReducers({ authReducer, sidebarReducer, productReducer, addressReducer, wishlistReducer, cartReducer, paymentReducer, orderReducer })
+export const reducers = combineReducers({ authReducer, sidebarReducer, productReducer, addressReducer, wishlistReducer, cartReducer, paymentReducer, orderReducer,filterReducer })

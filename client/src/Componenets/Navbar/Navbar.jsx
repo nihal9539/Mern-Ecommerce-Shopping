@@ -1,4 +1,4 @@
-import React, { useEffect,  useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { TfiAlignJustify } from "react-icons/tfi";
 import { useSelector } from "react-redux";
@@ -9,6 +9,7 @@ const Navbar = ({ bgWhite }) => {
   const navigate = useNavigate();
   const [header, setHeader] = useState(false);
   const user = useSelector((state) => state.authReducer.authData);
+  const { cartData } = useSelector((state) => state.cartReducer);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -48,13 +49,17 @@ const Navbar = ({ bgWhite }) => {
         <Link to={"/"} className="">
           Home
         </Link>
-        <Link to={"/collection/all"} className="">
+        <Link to={"/collection/all"} className="relative">
           Shop
         </Link>
 
-        <Link to={"/cart"}>Cart</Link>
+        <Link to={"/cart"} className="relative">
+          Cart
+          <div className="text-sm bg-black text-white grid place-items-center   rounded-full w-[1.5rem] h-[1.5rem] absolute -top-2 -right-3">
+            {cartData.length}
+          </div>
+        </Link>
         <Link to={"/wishlist"}>WishList</Link>
-        <li>About</li>
         {user ? (
           <>
             <User onClick={() => navigate("/account")} />
@@ -68,18 +73,28 @@ const Navbar = ({ bgWhite }) => {
           </Link>
         )}
       </ul>
-      <TfiAlignJustify
+      <label
+        className="hamburger max-lg:block hidden"
+        >
+        <input type="checkbox"
         onClick={() => setOpen(!isOpen)}
-        className="max-lg:block hidden"
-        size={30}
-      />
+        
+        />
+        <svg viewBox="0 0 32 32">
+          <path
+            className="line line-top-bottom"
+            d="M27 10 13 10C10.8 10 9 8.2 9 6 9 3.5 10.8 2 13 2 15.2 2 17 3.8 17 6L17 26C17 28.2 18.8 30 21 30 23.2 30 25 28.2 25 26 25 23.8 23.2 22 21 22L7 22"
+          ></path>
+          <path className="line" d="M7 16 27 16"></path>
+        </svg>
+      </label>
       <ul
         // ref={menuRef}
         className={`${
           isOpen
             ? "inline-block right-1  duration-700"
             : "right-[-100%]  duration-700 "
-        } border border-gray-300 duration-700    absolute rounded-md  top-[6rem] bg-white flex [&>*]:cursor-pointer flex-col gap-14 p-12 max-sm:p-6 max-sm:px-16 px-36 items-center text-2xl font-semibold  `}
+        } border border-gray-300 duration-700    absolute rounded-md  top-[6rem] bg-white flex [&>*]:cursor-pointer flex-col gap-10 p-12 max-sm:p-6 max-sm:px-16 px-36 items-center text-2xl font-semibold  `}
       >
         <Link to={"/"} className="">
           Home
@@ -94,7 +109,6 @@ const Navbar = ({ bgWhite }) => {
 
         <Link to={"/cart"}>Cart</Link>
         <Link to={"/wishlist"}>WishList</Link>
-        <li>About</li>
         {user ? (
           <User onClick={() => navigate("/account")} />
         ) : (

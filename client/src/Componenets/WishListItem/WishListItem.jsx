@@ -110,9 +110,10 @@ const WishListItem = ({ data, setReload, forAccountPage }) => {
         <div className="card-actions w-full justify-center">
           <button
             onClick={handleAddToCart}
-            className={` ${forAccountPage ? "h-9":"h-12"} rounded-md hover:shadow-boxShadow1 duration-300 border-black border-2  bg-black w-10/12 text-white `}
+            className={` ${forAccountPage ? "h-9":"h-12"} flex justify-center items-center rounded-md hover:shadow-boxShadow1 duration-300 border-black border-2  bg-black w-10/12 text-white `}
           >
-            Add to Cart <img src="./shopping-cart.svg" alt="" />
+             <img src="./shopping-cart.svg" alt="" />
+            Add to Cart
           </button>
         </div>
       </div>

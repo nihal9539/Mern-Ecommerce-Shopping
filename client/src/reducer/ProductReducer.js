@@ -1,8 +1,7 @@
 // reducer.js
 
 const reducer = (state = {
-  addToButton: false,
-  products: null, loading: false, error: false, uploading: false
+  addToButton: false, genderFilterData: [], products: null, loading: false, error: false, uploading: false
 }, action) => {
 
   switch (action.type) {
@@ -21,13 +20,13 @@ const reducer = (state = {
     case "UPLOAD_FAIL":
       return { ...state, uploading: false, error: true };
     case "RETREIVING_START":
-      console.log(state);
       return { ...state, loading: true, error: false };
     case "RETREIVING_SUCCESS":
-      console.log(action);
       return { ...state, products: action.data, loading: false, error: false };
     case "RETREIVING_FAIL":
       return { ...state, loading: false, error: true };
+   
+
     // case "PRODUCT_FETCHING_START":
     //   console.log(state);
     //   return { ...state, loading: true, error: false };
