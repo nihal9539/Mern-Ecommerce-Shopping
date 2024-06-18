@@ -1,4 +1,5 @@
 // actions.js
+import { toast } from "react-toastify";
 import * as ProductApi from "../api/ProductRequest"
 
 
@@ -21,7 +22,7 @@ export const getAllProduct = () => async (dispatch) => {
     dispatch({ type: "RETREIVING_SUCCESS", data: data.data })
   } catch (error) {
     dispatch({ type: "RETREIVING_FAIL" })
-    console.log(error);
+    toast.error(error)
 
   }
 }
@@ -32,7 +33,7 @@ export const getProduct = () => async (dispatch) => {
     dispatch({ type: "PRODUCT_FETCHING_SUCCESS", data: data.data })
   } catch (error) {
     dispatch({ type: "PRODUCT_FETCHING_FAIL" })
-    console.log(error);
+    toast.error(error)
 
   }
 }

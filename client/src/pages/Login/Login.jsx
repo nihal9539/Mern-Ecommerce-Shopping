@@ -75,8 +75,8 @@ const Login = () => {
     setErrors({ email: emailError, password: passwordError, name: nameError });
     if (!emailError && !passwordError) {
       if (isSignup) {
+        
         dispatch(signup(data))
-        // navigate(-1)
         
       } else {
         dispatch(login(data))

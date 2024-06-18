@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { TfiAlignJustify } from "react-icons/tfi";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { User } from "lucide-react";
+import { getUserCart } from "../../Action/CartAction";
 
 const Navbar = ({ bgWhite }) => {
   const navigate = useNavigate();
   const [header, setHeader] = useState(false);
   const user = useSelector((state) => state.authReducer.authData);
-  const { cartData } = useSelector((state) => state.cartReducer);
-
+  const { quantity} = useSelector((state) => state.cartReducer);
   useEffect(() => {
     const handleScroll = () => {
       setHeader(window.scrollY > 100);
@@ -55,9 +55,11 @@ const Navbar = ({ bgWhite }) => {
 
         <Link to={"/cart"} className="relative">
           Cart
-          <div className="text-sm bg-black text-white grid place-items-center   rounded-full w-[1.5rem] h-[1.5rem] absolute -top-2 -right-3">
-            {cartData.length}
-          </div>
+          {quantity !== 0 && (
+            <div className="text-sm bg-black text-white grid place-items-center   rounded-full w-[1.5rem] h-[1.5rem] absolute -top-2 -right-3">
+              {quantity}
+            </div>
+          )}
         </Link>
         <Link to={"/wishlist"}>WishList</Link>
         {user ? (
@@ -73,13 +75,8 @@ const Navbar = ({ bgWhite }) => {
           </Link>
         )}
       </ul>
-      <label
-        className="hamburger max-lg:block hidden"
-        >
-        <input type="checkbox"
-        onClick={() => setOpen(!isOpen)}
-        
-        />
+      <label className="hamburger max-lg:block hidden">
+        <input type="checkbox" onClick={() => setOpen(!isOpen)} />
         <svg viewBox="0 0 32 32">
           <path
             className="line line-top-bottom"
@@ -110,7 +107,7 @@ const Navbar = ({ bgWhite }) => {
         <Link to={"/cart"}>Cart</Link>
         <Link to={"/wishlist"}>WishList</Link>
         {user ? (
-          <User onClick={() => navigate("/account")} />
+          <User onClick={() => navigate("/account/profile")} />
         ) : (
           <Link
             to={"/login"}

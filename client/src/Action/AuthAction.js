@@ -2,14 +2,12 @@ import * as AuthAPI from "../api/AuthRequest"
 
 
 export const login = (formData) => async (dispatch) => {
-    console.log(formData);
-    console.log("res");
+
     dispatch({ type: 'AUTH_START' });
     try {
         const res = await AuthAPI.login(formData);  
         dispatch({ type: 'AUTH_SUCESS', data: res.data });
     } catch (err) {
-        console.log(err.response.data);
         dispatch({ type: 'AUTH_ERROR', data: err.response.data });
     }
 }

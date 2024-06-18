@@ -13,6 +13,15 @@ const UserSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    phone: {
+        type: Number || null
+    },
+    gender: {
+        type: String
+    },
+    birthday: {
+        type: String
+    }
 
 }, {
     timestamps: true

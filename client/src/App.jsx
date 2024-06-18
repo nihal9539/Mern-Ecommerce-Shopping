@@ -51,6 +51,29 @@ function App() {
           path="/checkout"
           element={user ? <Checkout /> : <Navigate to="/login" />}
         />
+        <Route
+          path="/account"
+          element={user ? <Account /> : <Navigate to="/login" />}
+        >
+          <Route
+            path="profile"
+            element={user ? <Profile /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="wishList"
+            element={
+              user ? (
+                <WishList forAccountPage={true} />
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
+          />
+          <Route
+            path="order"
+            element={user ? <Order /> : <Navigate to="/login" />}
+          />
+        </Route>
 
         {/* Dash board routes */}
         <Route path="/" element={<DashboardLayout />}>
@@ -62,11 +85,6 @@ function App() {
           <Route path="orders" element={<DashboardOrders />} />
           <Route index path="employees" element={<DashboardEmployees />} />
           <Route path="customers" element={<DashboardCustomers />} />
-        </Route>
-        <Route path="/account" element={<Account />}>
-          <Route path="profile" element={<Profile />} />
-          <Route path="wishList" element={<WishList forAccountPage={true}  />} />
-          <Route path="order" element={<Order   />} />
         </Route>
       </Routes>
       <ToastContainer style={{ fontSize: "14px", zIndex: "999999" }} />

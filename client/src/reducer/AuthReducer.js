@@ -1,22 +1,16 @@
 const authReducer =
-    (state = { authData: null, loading: false, errorMessage:"", error: false, updateLoading: true }, action) => {
-            switch (action.type) {
-                case "AUTH_START":
-                return { ...state, loading: true, error: false,errorMessage:null }
+    (state = { authData: null, loading: false, errorMessage: "", error: false, updateLoading: true }, action) => {
+        switch (action.type) {
+            case "AUTH_START":
+            case "UPDATE_START":
+                return { ...state, loading: true, error: false, errorMessage: null }
             case 'AUTH_SUCESS':
+            case 'UPDATE_SUCCESS':
                 localStorage.setItem('user', JSON.stringify({ ...action?.data }));
-                return { ...state, authData: action.data,errorMessage:null , loading: false, error: false }
+                return { ...state, authData: action.data, errorMessage: null, loading: false, error: false }
             case 'AUTH_ERROR':
-                return { ...state, loading: false, errorMessage:action.data, error: true, }
-            // case 'AUTH_FAIL':
-            //     return { ...state, loading: false,errorMessage:null , error: true, }
-            case 'UPDATING_START':
-                return { ...state, updateLoading: true, error: false }
-            case 'UPDATING_SUCCESS':
-                localStorage.setItem('user', JSON.stringify({ ...action?.data }))
-                return { ...state, authData: action.data, updateLoading: false, error: false }
-            case 'UPDATING_FAIL':
-                return { ...state, updateLoading: false, error: true }
+            case 'UPDATE_FAIL':
+                return { ...state, loading: false, errorMessage: action.data, error: true, }
             case 'LOG_OUT':
                 localStorage.clear();
 

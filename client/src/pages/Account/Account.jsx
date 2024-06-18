@@ -19,8 +19,8 @@ const Account = () => {
        navigate("profile")
     }
   },[])
-  const { username } = useSelector(
-    (state) => state?.authReducer?.authData?.user
+  const username  = useSelector(
+    (state) => state?.authReducer?.authData?.user?.username
   );
 
   const Links = [
@@ -80,7 +80,7 @@ const Account = () => {
               </p>
             </div>
           ))}
-          <button className="flex items-center capitalize gap-5 max-md:gap-1 max-md:text-xs    mt-4 pl-4 py-3 rounded-lg text-red-500 text-md m-2 max-md:m-1 ">
+          <button onClick={handleLogout} className="flex items-center capitalize gap-5 max-md:gap-1 max-md:text-xs    mt-4 pl-4 py-3 rounded-lg text-red-500 text-md m-2 max-md:m-1 ">
             <LogOut size={25} className="max-md:w-5"/> Log Out
           </button>
         </div>

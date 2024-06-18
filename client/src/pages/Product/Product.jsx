@@ -13,7 +13,7 @@ import LoginModel from "../../Componenets/LoginModel/LoginModel";
 import { IoMdAdd } from "react-icons/io";
 import { RiSubtractLine } from "react-icons/ri";
 import { addToCart } from "../../Action/CartAction";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 
 const Product = () => {
   const { id } = useParams();
@@ -81,10 +81,9 @@ const Product = () => {
       productId: productData?._id,
       size: selectSize,
       price: productData?.price,
-      uuid:uuidv4()
+      uuid: uuidv4(),
     };
-    dispatch(addToCart(user, data,navigate));
-    
+    dispatch(addToCart(user, data, navigate));
   };
 
   if (!productData && !error) {
@@ -127,19 +126,34 @@ const Product = () => {
             <div className=" mt-6">
               <span className=" tracking-wider">SELECT A SIZE</span>
               <div className="flex flex-row gap-2 py-4">
-                {productData?.sizes.map((size) => (
-                  <button
-                    onClick={() => handleSize(size.size)}
-                    key={size.size}
-                    className={`${
-                      selectSize === size.size
-                        ? "bg-black text-white"
-                        : "hover:bg-black hover:text-white"
-                    }  disabled:text-gray-400 cursor-pointer disabled:border-gray-400 disabled:hover:bg-white p-2 border border-gray-500 rounded-md min-w-10 min-h-10 flex justify-center items-center`}
-                  >
-                    <h1 className="">{size.size} </h1>
-                  </button>
-                ))}
+                {productData?.sizes.map((size) =>
+                  size.quantity !== 0 ? (
+                    <button
+                      onClick={() => handleSize(size.size)}
+                      key={size.size}
+                      className={`${
+                        selectSize === size.size
+                          ? "bg-black text-white"
+                          : "hover:bg-black hover:text-white"
+                      }  p-2 border border-black rounded-md min-w-10 min-h-10 flex justify-center items-center`}
+                    >
+                      <h1 className="">{size.size}</h1>
+                    </button>
+                  ) : (
+                    <button
+                      disabled
+                      onClick={() => handleSize(size.size)}
+                      key={size.size}
+                      className={`${
+                        selectSize === size.size
+                          ? "bg-black text-white"
+                          : "hover:bg-black hover:text-white"
+                      }  disabled:text-gray-400 cursor-pointer disabled:border-gray-400 disabled:hover:bg-white p-2 border border-gray-500 rounded-md min-w-10 min-h-10 flex justify-center items-center`}
+                    >
+                      <h1 className="">{size.size}</h1>
+                    </button>
+                  )
+                )}
               </div>
               <div className="flex flex-row  gap-5 items-center">
                 Quantity :

@@ -1,4 +1,25 @@
 /* Accordion Checkbox Style */
+.mantine-DatePicker-day[data-selected]{
+  background-color: #228be6 !important;
+}
+.r-card:hover {
+  scale: 1.025;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(136, 168, 255, 0.46) 217.91%
+  );
+  box-shadow: 0px 72px 49px -51px rgba(136, 160, 255, 0.21);
+}
+
+.profileInput{
+  /* background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0) 0%,
+    ); */
+   background:  rgb(235, 240, 247);
+   border-color: rgb(235, 240, 247);
+}
 
 .container {
   display: block;

@@ -4,6 +4,7 @@ import crypto from 'crypto';
 import paymentModel from '../model/PaymentModel.js';
 import CartModel from '../model/CartModel.js';
 import orderModel from '../model/OrderModel.js';
+import ProductModel from '../model/ProductModel.js';
 var razorpayInstance = new Razorpay({
     key_id: process.env.RAZORPAY_KEY_ID,
     key_secret: process.env.RAZORPAY_KEY_SECRET,
@@ -23,7 +24,7 @@ export const order = async (req, res) => {
                 console.log(error);
                 return res.status(500).json({ message: "Something Went Wrong!" });
             }
-            res.status(200).json( order );
+            res.status(200).json(order);
             console.log(order)
         });
     } catch (error) {
@@ -81,6 +82,7 @@ export const verify = async (req, res) => {
                 }, {
                     '$project': {
                         'size': 1,
+                        "productId": 1,
                         'quantity': 1,
                         'price': 1,
                         'productname': {
@@ -103,13 +105,22 @@ export const verify = async (req, res) => {
                 ],
                 shippingAddressId: addressId,
                 isDelivered: false,
-                paymentResultId:payment
+                paymentResultId: payment
             })
             await newOrder.save()
             if (newOrder) {
-               await CartModel.deleteOne({
-                    userId:userId
+                await CartModel.deleteOne({
+                    userId: userId
                 })
+                for (const updateData of cart) {
+                    console.log(updateData);
+                    const { productId, size, quantity } = updateData;
+
+                    await ProductModel.updateOne(
+                        { _id: productId, 'sizes.size': size },
+                        { $inc: { 'sizes.$.quantity': -quantity } }
+                    );
+                }
             }
 
 

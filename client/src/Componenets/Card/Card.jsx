@@ -8,11 +8,11 @@ const Card = ({data,homepageCard}) => {
 
 
   return (
-    <Link to={`/product/${data?._id}`} className={`card max-sm:w-48 ${homepageCard ? "w-72 max-lg:w-56":" w-64 bg-base-300"}   shadow-sm rounded-none`}>
+    <Link to={`/product/${data?._id}`} className={`card max-sm:w-48  ${homepageCard ? "w-72 max-lg:w-56 r-card duration-300 group":" w-64 bg-base-300"}   shadow-sm rounded-none`}>
     
       <figure className="w-full max-sm:h-60 h-80">
         <img
-          className=" w-full max-sm:p-0  rounded-md h-full"
+          className={`${homepageCard && "group-hover:scale-125 group-hover:-rotate-3 duration-300"} w-full max-sm:p-0  rounded-md h-full`}
           src={data?.images?.url}
           alt="Image"
         />

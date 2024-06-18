@@ -11,7 +11,7 @@ const CartItem = ({ data ,order}) => {
   const dispatch = useDispatch();
 
   const handleRemoveFromCart = () => {
-    dispatch(removeFromCart(userId, data?.productId, data?.size));
+    dispatch(removeFromCart(userId, data?.productId, data?.size,data.quantity));
   };
   const handleCount = (count) => {
     dispatch(cartQuantityUpdate(userId, data?.productId, data?.size, count));

@@ -22,6 +22,7 @@ export default {
       },
       colors:{
         "main-blue":"#1A97F5",
+         "profile-input":"rgb(235, 240, 247)"
       },
       animation: {
         "loop-scroll": "loop-scroll 30s linear infinite"

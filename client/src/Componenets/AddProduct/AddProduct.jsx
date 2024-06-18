@@ -17,8 +17,6 @@ import { uploadProduct } from "../../Action/uploadAction";
 const AddProduct = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const {uploading,error} = useSelector((state)=>state.productReducer)
-  console.log(uploading,error);
 
   const handleBack = () => {
     navigate(-1); // Navigate back by one step in the history stack
@@ -38,7 +36,6 @@ const AddProduct = () => {
 
   });
 
-  console.log(data);
   // handle data
   const handledata = (e) => {
     const { name, value } = e.target;
