@@ -11,3 +11,13 @@ import filterReducer from "./FilterReducer";
 
 
 export const reducers = combineReducers({ authReducer, sidebarReducer, productReducer, addressReducer, wishlistReducer, cartReducer, paymentReducer, orderReducer,filterReducer })
+
+export const rootReducer = (state, action) => {
+    if (action.type === "LOGOUT") {
+      state = undefined; // Reset the entire state
+    }
+    return reducers(state, action);
+  };
+
+
+// export  rootReducer;

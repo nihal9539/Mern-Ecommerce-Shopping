@@ -17,7 +17,6 @@ import Dashboard from "./pages/Dashboard/Dashboard";
 import DashboardProduct from "./Componenets/DashboardProduct/DashboardProduct";
 import AddProduct from "./Componenets/AddProduct/AddProduct";
 import Product from "./pages/Product/Product";
-
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "react-toastify/dist/ReactToastify.min.css";
@@ -25,6 +24,7 @@ import Checkout from "./pages/Checkout/Checkout";
 import Account from "./pages/Account/Account";
 import Profile from "./Componenets/Profile/Profile";
 import Order from "./Componenets/Order/Order";
+import '@mantine/core/styles.css';
 
 function App() {
   const user = useSelector((state) => state.authReducer.authData);
@@ -81,6 +81,7 @@ function App() {
           <Route path="ecommerce" element={<Dashboard />} />
           <Route path="products" element={<DashboardProduct />}></Route>
           <Route path="products/add-product" element={<AddProduct />} />
+          <Route path="products/:id" element={<Product />} />
 
           <Route path="orders" element={<DashboardOrders />} />
           <Route index path="employees" element={<DashboardEmployees />} />

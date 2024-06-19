@@ -34,7 +34,7 @@ export const removeFromCart = (userId, productId, size, quantity) => async (disp
     try {
         await CartApi.removeFromCart(userId, productId, size, quantity)
         dispatch({ type: "CART_REMOVE_SUCCESS", data: { userId, productId, size, quantity } })
-        toast.success('Item removed from cart successfully');
+        toast.success('Item removed from cart successfully',{position:"bottom-left"});
 
     } catch (error) {
         dispatch({ type: "CART_REMOVE_FAIL" })
@@ -49,7 +49,7 @@ export const cartQuantityUpdate = (userId, productId, size, quantity) => async (
     try {
         await CartApi.cartQuantityUpdate(userId, productId, size, quantity);
         dispatch({ type: "QUANTITY_UPDATE_SUCCESS", data: quantity })
-        toast.success('Quantity Update successfully');
+        toast.success('Quantity Update successfully',{position:"bottom-left"});
 
 
     } catch (error) {

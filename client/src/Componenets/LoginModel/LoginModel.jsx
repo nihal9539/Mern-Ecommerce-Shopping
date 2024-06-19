@@ -1,8 +1,6 @@
-import { CloudSnow } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { TfiClose } from "react-icons/tfi";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { login, signup } from "../../Action/AuthAction";
 const LoginModel = ({ modelOpen }) => {

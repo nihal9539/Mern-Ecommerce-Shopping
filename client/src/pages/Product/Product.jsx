@@ -83,7 +83,11 @@ const Product = () => {
       price: productData?.price,
       uuid: uuidv4(),
     };
-    dispatch(addToCart(user, data, navigate));
+    if (!user) {
+      document.getElementById("my_modal_1").showModal();
+    } else {
+      dispatch(addToCart(user, data, navigate));
+    }
   };
 
   if (!productData && !error) {

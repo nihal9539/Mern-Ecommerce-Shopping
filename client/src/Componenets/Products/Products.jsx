@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { products } from "../../assets/data";
 import Card from "../Card/Card";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllProduct } from "../../Action/ProductAction";
@@ -24,7 +23,7 @@ const Products = () => {
           gap-y-5   grid-cols-2 md:grid-cols-3 lg:grid-cols-4   `}
       >
         {products
-          .sort(() => Math.random() - 0.5)
+          ?.sort(() => Math.random() - 0.5)
           .slice(0, 8)
           .map((data, index) => (
             <Card
