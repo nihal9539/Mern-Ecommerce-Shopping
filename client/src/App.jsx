@@ -9,13 +9,13 @@ import WishList from "./pages/WishList/WishList";
 import Home from "./pages/Home/Home";
 import Login from "./pages/Login/Login";
 import NoMatch from "./Componenets/NoMatch/NoMatch";
-import DashboardLayout from "./Componenets/DashboardLayout/DashboardLayout";
-import DashboardOrders from "./Componenets/DashboardOrders/DashboardOrders";
-import DashboardEmployees from "./Componenets/DashboardEmployees/DashboardEmployees";
-import DashboardCustomers from "./Componenets/DashboardCustomers/DashboardCustomers";
+import DashboardLayout from "./Componenets/Dashboard/DashboardLayout/DashboardLayout";
+import DashboardOrders from "./Componenets/Dashboard/DashboardOrders/DashboardOrders";
+import DashboardEmployees from "./Componenets/Dashboard/DashboardEmployees/DashboardEmployees";
+import DashboardCustomers from "./Componenets/Dashboard/DashboardCustomers/DashboardCustomers";
 import Dashboard from "./pages/Dashboard/Dashboard";
-import DashboardProduct from "./Componenets/DashboardProduct/DashboardProduct";
-import AddProduct from "./Componenets/AddProduct/AddProduct";
+import DashboardProduct from "./Componenets/Dashboard/DashboardProduct/DashboardProduct";
+import AddProduct from "./Componenets/Dashboard/AddProduct/AddProduct";
 import Product from "./pages/Product/Product";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -25,6 +25,7 @@ import Account from "./pages/Account/Account";
 import Profile from "./Componenets/Profile/Profile";
 import Order from "./Componenets/Order/Order";
 import '@mantine/core/styles.css';
+import EditProduct from "./Componenets/Dashboard/EditProduct/EditProduct";
 
 function App() {
   const user = useSelector((state) => state.authReducer.authData);
@@ -81,6 +82,7 @@ function App() {
           <Route path="ecommerce" element={<Dashboard />} />
           <Route path="products" element={<DashboardProduct />}></Route>
           <Route path="products/add-product" element={<AddProduct />} />
+          <Route path="products/edit-product/:id" element={<EditProduct />} />
           <Route path="products/:id" element={<Product />} />
 
           <Route path="orders" element={<DashboardOrders />} />

@@ -10,18 +10,19 @@ const Cart = ({ forAccountPage }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { cartData, quantity } = useSelector((state) => state.cartReducer);
+  const { cartData } = useSelector((state) => state.cartReducer);
   const user = useSelector((state) => state.authReducer?.authData?.user?._id);
+  console.log(user);
   useEffect(() => {
     dispatch(getUserCart(user));
   }, []);
   var totalPrice = 0;
-  cartData.map((item) => {
+  cartData?.map((item) => {
     console.log(item.price * item.quantity);
     totalPrice = totalPrice + item.price * item.quantity;
   });
-  console.log(quantity);
-  if (cartData.length <= 0) {
+  console.log(cartData);
+  if (cartData?.length <= 0) {
     return (
       <div>
         <Navbar bgWhite={true} />
@@ -56,7 +57,7 @@ const Cart = ({ forAccountPage }) => {
               {cartData.length} <span className="">Items</span>
             </span>
           </div>
-          {cartData.map((data, i) => (
+          {cartData?.map((data, i) => (
             <CartItem key={i} data={data} />
           ))}
         </div>

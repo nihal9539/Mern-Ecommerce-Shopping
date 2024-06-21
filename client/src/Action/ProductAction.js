@@ -21,19 +21,49 @@ export const getAllProduct = () => async (dispatch) => {
     const data = await ProductApi.allProduct()
     dispatch({ type: "RETREIVING_SUCCESS", data: data.data })
   } catch (error) {
+    toast.error(error?.response?.data)
     dispatch({ type: "RETREIVING_FAIL" })
-    toast.error(error)
+
 
   }
 }
-export const getProduct = () => async (dispatch) => {
+export const getProductById = (id) => async (dispatch) => {
   dispatch({ type: "PRODUCT_FETCHING_START" })
   try {
-    const data = await ProductApi.allProduct()
+    const data = await ProductApi.getProductById(id)
     dispatch({ type: "PRODUCT_FETCHING_SUCCESS", data: data.data })
   } catch (error) {
+    toast.error(error?.response?.data)
     dispatch({ type: "PRODUCT_FETCHING_FAIL" })
-    toast.error(error)
+
+
+  }
+}
+export const deleteProduct = (productId) => async (dispatch) => {
+  dispatch({ type: "PRODUCT_DELETE_START" })
+  try {
+    await ProductApi.deleteProduct(productId)
+    toast.success("Product deleted successfully")
+    dispatch({ type: "PRODUCT_DELETE_SUCCESS", data: productId })
+  } catch (error) {
+
+    toast.error(error?.response?.data)
+    dispatch({ type: "PRODUCT_DELETE_FAIL" })
+
+  }
+}
+
+
+export const updateProduct = (id, formData, navigate) => async (dispatch) => {
+  try {
+    dispatch({ type: "PRODUCT_UPDATE_START" })
+    const data = await ProductApi.updateProduct(id, formData)
+    dispatch({ type: "PRODUCT_UPDATE_SUCCESS", data: data.data })
+    navigate('/products')
+
+  } catch (error) {
+    toast.error(error?.response?.data);
+    dispatch({ type: "PRODUCT_UPDATE_FAIL" });
 
   }
 }

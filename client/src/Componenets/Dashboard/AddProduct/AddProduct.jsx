@@ -11,8 +11,8 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { toast } from "react-toastify";
-import { useDispatch, useSelector } from "react-redux";
-import { uploadProduct } from "../../Action/uploadAction";
+import { useDispatch } from "react-redux";
+import { uploadProduct } from "../../../Action/uploadAction";
 
 const AddProduct = () => {
   const navigate = useNavigate();
@@ -22,10 +22,9 @@ const AddProduct = () => {
     navigate(-1); // Navigate back by one step in the history stack
   };
   const imgref = useRef();
-  const sizes = ["S", "M", "L", "XL"];
   const [image, setImage] = useState("");
   const [data, setData] = useState({
-    productname: "",
+    productname: "" ,
     description: "",
     subTitle: "",
     price: null,
@@ -45,6 +44,7 @@ const AddProduct = () => {
     }));
   };
 
+  // Image converter
   const handleconvertToBase64 = (e) => {
     setImage(URL.createObjectURL(event.target.files[0]));
     var reader = new FileReader();
@@ -78,26 +78,9 @@ const AddProduct = () => {
     if (!data.image) {
       toast.error("Please select an image.");
     } else {
-      try {
-        dispatch(uploadProduct(data));
-        setData({
-          productname: "",
-          description: "",
-          subTitle: "",
-          price: "",
-          image: "",
-          discountprice: 0,
-          gender: "",
-          sizes: [{ size: 'S', quantity: 0 }, { size: 'M', quantity: 0 }, { size: 'L', quantity: 0 }, { size: 'XL', quantity: 0 }],
-
-        });
-        setImage("");
-        toast.success("Product Added");
-        navigate("/products")
+        dispatch(uploadProduct(data,navigate,setData,setImage));
         
-      } catch (error) {
-        toast.error("Error in submitting");
-      }
+    
     }
   };
   const cancelImage = () => {
@@ -108,6 +91,7 @@ const AddProduct = () => {
     }));
   };
 
+  console.log(data);
   return (
     <div className="">
       <IoMdArrowRoundBack
@@ -185,14 +169,14 @@ const AddProduct = () => {
             <h1 className="font-semibold text-lg mb-5">Pricing and Size</h1>
           </div>
 
-          {sizes.map((size) => (
-            <div key={size} className="w-full flex mb-2 items-center">
-              <div className="w-28">{size} quantity :</div>
+          {data?.sizes?.map((size,i) => (
+            <div key={i} className="w-full flex mb-2 items-center">
+              <div className="w-28">{size.size} quantity :</div>
               <input
                 type="number"
                 min={"0"}
-                value={data[size]}
-                onChange={(e) => handleQuantityChange(size, e.target.value)}
+                value={size.quantity}
+                onChange={(e) => handleQuantityChange(size.size, e.target.value)}
                 className="p-1.5 rounded-lg border-2 outline-none"
               />
             </div>

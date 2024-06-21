@@ -60,7 +60,7 @@ const WishListItem = ({ data, setReload, forAccountPage }) => {
           className="h-56 max-sm:h-60 w-full flex justify-center items-center flex-col"
         >
           <img
-            src={data?.images?.url}
+            src={data?.image?.url}
             className={` "w-10/12 h-32 "
             `}
             alt="Image"

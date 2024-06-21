@@ -4,19 +4,24 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAllProduct } from "../../Action/ProductAction";
 
 const Products = () => {
-  let { products, loading } = useSelector((state) => state.productReducer);
+  let { products, loading,error } = useSelector((state) => state.productReducer);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getAllProduct());
   }, []);
- 
+
+  if (loading) {
+    <div>{error}{loading}</div>
+  }
+ console.log(products);
   return (
     <div className="lg:p-6 lg:px-20">
       <div className="flex justify-center p-4 text-xl  font-semibold tracking-wider">
         <span>FEATURED ITEMS</span>
       </div>
-
+      {error}{loading}
+      lll
       <div
         className={` grid place-items-center pt-8
        

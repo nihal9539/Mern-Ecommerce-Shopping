@@ -2,7 +2,7 @@ import React from 'react'
 import { FiAlignJustify } from "react-icons/fi";
 import { useDispatch, useSelector } from 'react-redux';
 import { AlignJustify } from 'lucide-react';
-import { setButtonFalse, setButtonTrue } from '../../Action/SidebarReducer';
+import { setButtonFalse, setButtonTrue } from '../../../Action/SidebarReducer';
 
 
 const DashboardNavbar = () => {

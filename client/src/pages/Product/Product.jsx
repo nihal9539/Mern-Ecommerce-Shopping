@@ -110,7 +110,7 @@ const Product = () => {
         <div className="w-full flex justify-center relative items-center flex-row max-lg:flex-col max-lg:gap-5">
           <div className="w-1/2 max-lg:w-full max-lg:px-4 relative top-0 left-0   flex justify-center  items-center ">
             <img
-              src={productData?.images?.url}
+              src={productData?.image?.url}
               className="h-[550px] w-[450px] max-lg:h-[400px] max-lg:w-[350px]"
               alt="Loading.."
             />

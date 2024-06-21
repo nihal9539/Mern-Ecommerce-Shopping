@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { cartQuantityUpdate, removeFromCart } from "../../Action/CartAction";
 
 const CartItem = ({ data ,order}) => {
+  console.log(data);
   const [quantity, setQuantity] = useState(data.quantity);
   const userId = useSelector((state) => state.authReducer.authData.user._id);
   const dispatch = useDispatch();
@@ -24,12 +25,12 @@ const CartItem = ({ data ,order}) => {
       <div className=" flex items-center gap-4">
         <img
           src={data?.imagrUrl}
-          className="w-20 h-24 rounded-md"
+          className="w-20 h-24 max-md:w-12 max-md:h-16 rounded-md"
           alt="Image"
         />
         <div className="flex  items-center justify-between max-lg:w-72 max-md:w-64 w-[30rem] ">
-          <div className="flex gap-4 j flex-col">
-            <h1 className="text-xl max-lg:text-base font-bold">
+          <div className="flex gap-4 j flex-col min-w-40 w-56 max-w-72">
+            <h1 className="text-xl max-lg:text-sm font-bold">
               {data?.productname}
               {order? (
                 <span className="font-medium">{" /" +data.size}</span>
@@ -40,20 +41,20 @@ const CartItem = ({ data ,order}) => {
           {order ? "":<div className="flex ">
             <button
               disabled={quantity === 1}
-              className="border p-1 flex justify-center items-center rounded-l-md w-10 max-lg:w-7 text-2xl  "
+              className="border p-1 flex justify-center items-center rounded-l-md w-10 max-lg:w-7 max-md:w-5 text-2xl  "
               onClick={() => handleCount(-1)}
             >
               <RiSubtractFill
-                className="max-md:w-8"
+                className="max-lg:w-8 "
                 fill={`${quantity == 1 ? "gray" : "black"}`}
               />
             </button>
-            <div className="border p-1 flex justify-center items-center  w-10 max-lg:w-7 text-xl max-lg:text-base ">
+            <div className="border p-1 flex justify-center items-center  w-10 max-lg:w-7 max-md:w-5 text-xl max-lg:text-sm ">
               {quantity}
             </div>
             <button
               disabled={quantity === 20}
-              className="border p-1 flex justify-center items-center rounded-r-md w-10 max-md:w-7 text-2xl  "
+              className="border p-1 flex justify-center items-center rounded-r-md w-10 max-lg:w-7 max-md:w-5 text-2xl  "
               onClick={() => handleCount(1)}
             >
               <IoMdAdd fill={`${quantity == 20 ? "gray" : "black"}`} />
