@@ -5,12 +5,12 @@ import { DataTable } from "mantine-datatable";
 import sortBy from "lodash/sortBy";
 import "@mantine/core/styles.layer.css";
 import "mantine-datatable/styles.layer.css";
-import { Edit,Trash2 } from "lucide-react";
+import { Edit, Trash2 } from "lucide-react";
 import { ActionIcon, Box, Group, TextInput } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
 const DataTableComponenet = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   let { products, loading } = useSelector((state) => state.productReducer);
   const PAGE_SIZES = [15, 20, 25];
   const [pageSize, setPageSize] = useState(PAGE_SIZES[0]);
@@ -67,19 +67,17 @@ const DataTableComponenet = () => {
   }, [sortStatus, searchQuery]);
 
   // delete model open
-  const handeleDeleteButton = (e) => {
-    console.log(e._id);
-    setDeleteButtonId(e?._id);
+  const handeleDeleteButton = (id) => {
+    console.log(id);
+    setDeleteButtonId(id);
     document.getElementById("my_modal_2").showModal();
   };
   // delete confirm button
   const handleDeleteOk = () => {
-    dispatch(deleteProduct(deleteButtonId)).then(()=>{
-
-        dispatch(getAllProduct());
-    })
+    dispatch(deleteProduct(deleteButtonId)).then(() => {
+      dispatch(getAllProduct());
+    });
     document.getElementById("my_modal_2").close();
-
   };
   return (
     <>
@@ -96,7 +94,6 @@ const DataTableComponenet = () => {
           onChange={(event) => setSearchQuery(event.currentTarget.value)}
         />
         <DataTable
-          
           columns={[
             {
               accessor: "_id",
@@ -137,7 +134,7 @@ const DataTableComponenet = () => {
               width: 100,
               render: (products) =>
                 products
-                  ? products.sizes.map((size) => size.size).join(", ")
+                  ? products.sizes.reduce((total,size) =>  total + size?.quantity, 0)
                   : null,
             },
 
@@ -146,7 +143,7 @@ const DataTableComponenet = () => {
 
               title: <Box mx={6}>Actions</Box>,
               textAlign: "right",
-              render: (company) => (
+              render: (product) => (
                 <Group gap={4} justify="right" wrap="nowrap">
                   <ActionIcon
                     size="md"
@@ -154,9 +151,9 @@ const DataTableComponenet = () => {
                     color="blue"
                     onClick={(e) => {
                       e.stopPropagation();
-                      // showModal({ company, action: 'edit' });
-                      console.log(company._id);
-                      navigate(`edit-product/${company._id}`)
+                      // showModal({ product, action: 'edit' });
+                      console.log(product._id);
+                      navigate(`edit-product/${product._id}`);
                     }}
                   >
                     <Edit size={16} />
@@ -165,7 +162,11 @@ const DataTableComponenet = () => {
                     size="md"
                     variant="subtle"
                     color="red"
-                    onClick={() => handeleDeleteButton(company)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+
+                      handeleDeleteButton(product._id);
+                    }}
                   >
                     <Trash2 size={16} />
                   </ActionIcon>
@@ -181,7 +182,7 @@ const DataTableComponenet = () => {
           withTableBorder
           records={records}
           // pinLastColumn
-          fetching={loading }
+          fetching={loading}
           // scrollAreaProps={{ type: 'never' }}
           totalRecords={products.length}
           recordsPerPage={pageSize}
@@ -190,8 +191,7 @@ const DataTableComponenet = () => {
           recordsPerPageOptions={PAGE_SIZES}
           onRecordsPerPageChange={setPageSize}
           paginationActiveBackgroundColor={"black"}
-          onRowClick={(data) => console.log(data.record)}
-       
+          onRowClick={(data) => navigate(`/products/${data.record._id}`)}
         />
       </div>
       <dialog id="my_modal_2" className="modal  w-screen h-screen ">

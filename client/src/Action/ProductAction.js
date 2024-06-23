@@ -43,8 +43,8 @@ export const deleteProduct = (productId) => async (dispatch) => {
   dispatch({ type: "PRODUCT_DELETE_START" })
   try {
     await ProductApi.deleteProduct(productId)
-    toast.success("Product deleted successfully")
     dispatch({ type: "PRODUCT_DELETE_SUCCESS", data: productId })
+    toast.success("Product deleted successfully")
   } catch (error) {
 
     toast.error(error?.response?.data)

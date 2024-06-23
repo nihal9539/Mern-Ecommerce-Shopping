@@ -5,17 +5,18 @@ import CartModel from "../model/CartModel.js";
 
 export const createProduct = async (req, res) => {
 
-    const { productname, subTitle, description, image, sizes, gender, price } = req.body;
+    const { productname, subTitle, description,discount, image, sizes, gender, price } = req.body;
 
+    console.log(typeof discount);
     const result = await clodunary.uploader.upload(image, {
         folder: 'products',
 
     })
-    console.log(result);
 
     const newProduct = await new ProductModel({
         productname,
         subTitle,
+        discount,
         description,
         sizes,
         gender,

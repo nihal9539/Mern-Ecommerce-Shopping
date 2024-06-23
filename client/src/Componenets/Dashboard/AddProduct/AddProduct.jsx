@@ -29,15 +29,16 @@ const AddProduct = () => {
     subTitle: "",
     price: null,
     image: null,
-    discountprice: 0,
+    discount: 0,
     gender: "",
-    sizes: [{ size: 'S', quantity: 0 }, { size: 'M', quantity: 0 }, { size: 'L', quantity: 0 }, { size: 'XL', quantity: 0 }],
+    sizes: [{ size: 'S', quantity: null}, { size: 'M', quantity: null}, { size: 'L', quantity: null}, { size: 'XL', quantity: null}],
 
   });
 
   // handle data
   const handledata = (e) => {
     const { name, value } = e.target;
+    console.log(name,":",typeof value);
     setData((prevData) => ({
       ...prevData,
       [name]: value,
@@ -78,7 +79,7 @@ const AddProduct = () => {
     if (!data.image) {
       toast.error("Please select an image.");
     } else {
-        dispatch(uploadProduct(data,navigate,setData,setImage));
+        dispatch(uploadProduct(data,navigate));
         
     
     }
@@ -207,8 +208,8 @@ const AddProduct = () => {
                 </div>
                 <input
                   type="number"
-                  name="discountprice"
-                  value={data.discountprice}
+                  name="discount"
+                  value={data.discount}
                   onChange={handledata}
                   max={100}
                   min={0}

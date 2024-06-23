@@ -117,7 +117,7 @@ const Product = () => {
           </div>
           <div className="w-1/2 h-[80vh] max-lg:h-full overflow-scroll max-lg:w-full max-lg:px-10 flex flex-col">
             <div className="">
-              <h2 className="text-4xl font-medium mb-4">{productData.Title}</h2>
+              <h2 className="text-4xl font-medium mb-4 capitalize">{productData?.productname}</h2>
               <h2 className="font-semibold">
                 Rs.{" "}
                 {currencyFormatter.format(productData.price, {
