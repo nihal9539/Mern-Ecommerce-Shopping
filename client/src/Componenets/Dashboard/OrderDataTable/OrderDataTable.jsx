@@ -1,22 +1,32 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteProduct, getAllProduct } from "../../../Action/ProductAction";
+import { deleteOrder, getAllOrder } from "../../../Action/OrderAction";
+import {
+  ActionIcon,
+  Box,
+  Checkbox,
+  Group,
+  MultiSelect,
+  Select,
+  TextInput,
+} from "@mantine/core";
 import { DataTable } from "mantine-datatable";
 import sortBy from "lodash/sortBy";
-import "@mantine/core/styles.layer.css";
-import "mantine-datatable/styles.layer.css";
-import { Edit, EyeIcon, Trash2 } from "lucide-react";
-import { ActionIcon, Box, Checkbox, Group, TextInput } from "@mantine/core";
-import { useNavigate } from "react-router-dom";
-const DataTableComponenet = () => {
+import { Edit, EyeIcon, Search, Trash2 } from "lucide-react";
+import { format } from "date-fns";
+const OrderDataTable = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-  let { products, loading } = useSelector((state) => state.productReducer);
+  const { allOrders, loading } = useSelector((state) => state.orderReducer);
+
+  console.log(allOrders);
+  useEffect(() => {
+    dispatch(getAllOrder());
+  }, []);
   const PAGE_SIZES = [15, 20, 25];
   const [pageSize, setPageSize] = useState(PAGE_SIZES[0]);
   const [deleteButtonId, setDeleteButtonId] = useState("");
   const [page, setPage] = useState(1);
-  const [records, setRecords] = useState(products.slice(0, pageSize));
+  const [orders, setOrders] = useState(allOrders.slice(0, pageSize));
   const [searchQuery, setSearchQuery] = useState("");
   const [sortStatus, setSortStatus] = useState({
     columnAccessor: "name",
@@ -24,9 +34,6 @@ const DataTableComponenet = () => {
   });
 
   // Fetching Product
-  useEffect(() => {
-    dispatch(getAllProduct());
-  }, [dispatch]);
 
   useEffect(() => {
     setPage(1);
@@ -35,7 +42,7 @@ const DataTableComponenet = () => {
   useEffect(() => {
     const from = (page - 1) * pageSize;
     const to = from + pageSize;
-    setRecords(products.slice(from, to));
+    setOrders(allOrders.slice(from, to));
   }, [page, pageSize]);
 
   // New
@@ -46,26 +53,44 @@ const DataTableComponenet = () => {
   };
 
   //
+  const [statusFilter, setStatusFilter] = useState("All");
 
-  // Sorting and serachng filter
+  // Sorting
   useEffect(() => {
     const from = (page - 1) * pageSize;
     const to = from + pageSize;
-    // new
-    var filteredCompanies = products.filter(
-      (company) =>
-        company.productname.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        company._id.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-    //
-    let currentPageRecords = filteredCompanies.slice(from, to);
+    let filteredOrders = allOrders;
+    switch (statusFilter) {
+      case "Pending":
+        filteredOrders = allOrders.filter(
+          (order) => order.orderStatus === "Pending"
+        );
+        break;
+      case "Processing":
+        filteredOrders = allOrders.filter(
+          (order) => order.orderStatus === "Processing"
+        );
+        break;
+      case "Shipped":
+        filteredOrders = allOrders.filter(
+          (order) => order.orderStatus === "Shipped"
+        );
+        break;
+      case "Delivered":
+        filteredOrders = allOrders.filter(
+          (order) => order.orderStatus === "Delivered"
+        );
+        break;
+      default:
+        break;
+    }
+    let currentPageRecords = filteredOrders.slice(from, to);
     currentPageRecords = sortBy(currentPageRecords, sortStatus.columnAccessor);
     if (sortStatus.direction === "desc") {
       currentPageRecords = currentPageRecords.reverse();
     }
-    setRecords(currentPageRecords);
-  }, [sortStatus, searchQuery]);
-
+    setOrders(currentPageRecords);
+  }, [page, pageSize, allOrders, sortStatus, statusFilter]);
   // delete model open
   const handeleDeleteButton = (id) => {
     console.log(id);
@@ -74,10 +99,18 @@ const DataTableComponenet = () => {
   };
   // delete confirm button
   const handleDeleteOk = () => {
-    dispatch(deleteProduct(deleteButtonId)).then(() => {
-      dispatch(getAllProduct());
+    dispatch(deleteOrder(deleteButtonId)).then(() => {
+      dispatch(getAllOrder());
     });
     document.getElementById("my_modal_2").close();
+  };
+
+  const [orderStatuses, setOrderStatuses] = useState("pending");
+  const handleStatusChange = (orderId, value) => {
+    setOrderStatuses((prevStatuses) => ({
+      ...prevStatuses,
+      [orderId]: value,
+    }));
   };
   const [selectedRows, setSelectedRows] = useState([]);
 
@@ -88,15 +121,16 @@ const DataTableComponenet = () => {
         : [...prevSelectedRows, id]
     );
   };
-  const handleSelectAllChange = () => {
-    if (selectedRows.length === products.length || selectedRows.length !== 0) {
+  const handleSelectAllChange = (e) => {
+    if (selectedRows.length === orders.length || selectedRows.length !== 0) {
       setSelectedRows([]);
     } else {
-      setSelectedRows(products.map((order) => order._id));
+      setSelectedRows(orders.map((order) => order._id));
     }
   };
 
-  const isSelectedAll = selectedRows.length === products.length;
+  const isSelectedAll = selectedRows.length === orders.length;
+
   return (
     <>
       <div
@@ -105,28 +139,38 @@ const DataTableComponenet = () => {
         }}
         className="border rounded-lg mt-2 p-10"
       >
-        <TextInput
-          placeholder="Search..."
-          className="w-72 mb-4"
-          value={searchQuery}
-          onChange={(event) => setSearchQuery(event.currentTarget.value)}
-        />
+        <div className="flex mb-4  justify-between">
+          <TextInput
+            placeholder="Search..."
+            className="w-72 "
+            value={searchQuery}
+            onChange={(event) => setSearchQuery(event.currentTarget.value)}
+          />
+          <Group position="apart">
+            <Select
+              data={["All", "Pending", "Processing", "Shipped", "Delivered"]}
+              value={statusFilter}
+              className="w-36"
+              onChange={(value) => setStatusFilter(value)}
+            />
+          </Group>
+        </div>
         <DataTable
           columns={[
             {
-              accessor: "select",
+              //   accessor: "select",
+              accessor: "actions",
+
               title: (
                 <Checkbox
                   checked={isSelectedAll || selectedRows.length !== 0}
                   onChange={handleSelectAllChange}
                   indeterminate={
-                    selectedRows.length < products.length &&
+                    selectedRows.length < orders.length &&
                     selectedRows.length !== 0
                   }
                 />
               ),
-              textAlign: "left",
-
               render: (order) => (
                 <Checkbox
                   checked={selectedRows.includes(order._id)}
@@ -140,72 +184,85 @@ const DataTableComponenet = () => {
             {
               accessor: "_id",
               ellipsis: true,
-
               width: "20%",
               sortable: true,
             },
+
             {
-              accessor: "Image",
+              accessor: "user",
               ellipsis: true,
-              width: "20%",
-              render: (products) => (
-                <img src={products?.image?.url} className="w-10 h-10" alt="" />
+              render: (order) => (
+                <div>
+                  <h1 className="font-semibold text-xs">
+                    {order.userId.username}
+                  </h1>
+                  <p className="text-gray-700 text-xs">{order.userId.email}</p>
+                </div>
+              ),
+              sortable: true,
+            },
+            {
+              accessor: "Order Time",
+              sortable: true,
+              ellipsis: true,
+              render: (order) => (
+                <div>
+                  <div className="font-semibold text-xs">
+                    {format(new Date(order.createdAt), "yyyy-MM-dd ")}
+                  </div>
+                  <div className="text-gray-700 text-xs">
+                    {format(new Date(order.createdAt), "hh:mm:ss a")}
+                  </div>
+                </div>
               ),
             },
             {
-              accessor: "productname",
-              ellipsis: true,
-              width: "20%",
-              sortable: true,
-            },
-            {
-              accessor: "subTitle",
+              accessor: "Total",
               sortable: true,
               ellipsis: true,
-              width: 200,
+              render: (order) =>
+                `₹ ${order?.orderItems?.reduce(
+                  (total, item) => total + parseInt(item.quantity) * item.price,
+                  0
+                )}`,
             },
             {
-              accessor: "description",
+              accessor: "quantity",
               sortable: true,
               ellipsis: true,
-              width: 300,
+              render: (order) =>
+                order.orderItems.reduce(
+                  (total, item) => total + parseInt(item.quantity),
+                  0
+                ),
             },
             {
-              accessor: "gender",
-              sortable: true,
-              ellipsis: true,
-            },
-            {
-              accessor: "price",
-              sortable: true,
-              ellipsis: true,
-            },
-            {
-              accessor: "Quantity",
-              ellipsis: true,
-              
-              render: (products) =>
-                products
-                  ? products.sizes.reduce(
-                      (total, size) => total + size?.quantity,
-                      0
-                    )
-                  : null,
+              accessor: "orderStatus",
+              render: (order) => (
+                <Select
+                  key={order._id}
+                  data={["Pending", "Processing", "Shipped", "Delivered"]}
+                  value={orderStatuses[order._id] || order.orderStatus}
+                  className="w-32 selection:bg-red-500"
+                  onChange={(value) => handleStatusChange(order._id, value)}
+                  placeholder="Select status"
+                />
+              ),
             },
 
             {
               accessor: "actions",
               title: <Box mx={6}>Actions</Box>,
-              textAlign: "center",
+              textAlign: "right",
+
               render: (product) => (
-                <Group gap={4} justify="right" wrap="nowrap">
+                <Group justify="center" wrap="nowrap">
                   <ActionIcon
                     size="md"
                     variant="subtle"
                     color="green"
                     onClick={(e) => {
                       e.stopPropagation();
-                      navigate(`/products/${product._id}`)
                     }}
                   >
                     <EyeIcon size={16} />
@@ -213,21 +270,9 @@ const DataTableComponenet = () => {
                   <ActionIcon
                     size="md"
                     variant="subtle"
-                    color="blue"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      navigate(`edit-product/${product._id}`);
-                    }}
-                  >
-                    <Edit size={16} />
-                  </ActionIcon>
-                  <ActionIcon
-                    size="md"
-                    variant="subtle"
                     color="red"
                     onClick={(e) => {
                       e.stopPropagation();
-
                       handeleDeleteButton(product._id);
                     }}
                   >
@@ -243,9 +288,9 @@ const DataTableComponenet = () => {
           maxHeight={600}
           minHeight={300}
           withTableBorder
-          records={records}
+          records={orders}
           fetching={loading}
-          totalRecords={products.length}
+          totalRecords={allOrders.length}
           recordsPerPage={pageSize}
           page={page}
           onPageChange={(p) => setPage(p)}
@@ -293,4 +338,4 @@ const DataTableComponenet = () => {
   );
 };
 
-export default DataTableComponenet;
+export default OrderDataTable;

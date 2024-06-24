@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 const orderSchema = new mongoose.Schema({
     userId: {
         type: String,
-        ref: 'User',
+        ref: 'users',
         required: true
     },
     orderItems: [],
@@ -17,6 +17,13 @@ const orderSchema = new mongoose.Schema({
         type: String,
         ref: 'Payment',
         required: true
+    },
+    
+    orderStatus: {
+        type: String,
+        required: true,
+        enum: ['Pending', 'Processing', 'Shipped', 'Delivered'],
+        default: 'Pending'
     },
     isDelivered: { type: Boolean, default: false },
     deliveredAt: { type: Date }

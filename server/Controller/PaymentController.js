@@ -100,14 +100,13 @@ export const verify = async (req, res) => {
             ]);
             const newOrder = new orderModel({
                 userId: userId,
-                orderItems: [
-                    cart
-                ],
+                orderItems: cart,
                 shippingAddressId: addressId,
                 isDelivered: false,
                 paymentResultId: payment
             })
             await newOrder.save()
+            console.log(newOrder);
             if (newOrder) {
                 await CartModel.deleteOne({
                     userId: userId
@@ -121,13 +120,15 @@ export const verify = async (req, res) => {
                         { $inc: { 'sizes.$.quantity': -quantity } }
                     );
                 }
+               return res.status(200).json({
+                    message: "Payement Successfully"
+                });
             }
+            return res.status(400).json({
+                 message: "Payement Incomplete"
+             });
 
 
-            // Send Message 
-            res.json({
-                message: "Payement Successfully"
-            });
 
         }
     } catch (error) {

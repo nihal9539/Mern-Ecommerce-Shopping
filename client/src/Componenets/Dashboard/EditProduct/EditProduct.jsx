@@ -274,7 +274,7 @@ const EditProduct = () => {
             type="submit"
             className="btn bg-main-blue text-white hover:bg-main-blue"
           >
-            Add Product
+            Update Product
           </button>
         </div>
       </form>
