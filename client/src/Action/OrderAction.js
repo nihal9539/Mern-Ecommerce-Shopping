@@ -20,6 +20,15 @@ export const getAllOrder = () => async (dispatch) => {
         dispatch({ type: "FETCHING_ALL_ORDER_FAIL" })
     }
 }
+export const getOderById = (id) => async (dispatch) => {
+    dispatch({ type: "FETCHING_ORDER_BY_ID_START" })
+    try {
+        const order = await OrderApi.getOderById(id)
+        dispatch({ type: "FETCHING_ORDER_BY_ID_SUCCESS", data: order.data })
+    } catch (error) {
+        dispatch({ type: "FETCHING_ORDER_BY_ID_FAIL" })
+    }
+}
 export const deleteOrder = (id) => async (dispatch) => {
     dispatch({ type: "ORDER_DELETE_START" })
     try {
@@ -30,5 +39,16 @@ export const deleteOrder = (id) => async (dispatch) => {
     } catch (error) {
         toast.error(error?.response?.data)
         dispatch({ type: "ORDER_DELETE_FAIL" })
+    }
+}
+export const changingOrderStatus = (id, status) => async (dispatch) => {
+    dispatch({ type: "ORDER_STATUS_CHANGE_START" })
+    try {
+        await OrderApi.changingOrderStatus(id, status)
+        dispatch({ type: "ORDER_STATUS_CHANGE_SUCCESS", })
+        toast.success("Order Status Update")
+    } catch (error) {
+        toast.error(error?.response?.data)
+        dispatch({ type: "ORDER_STATUS_CHANGE_FAIL" })
     }
 }

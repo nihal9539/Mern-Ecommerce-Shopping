@@ -90,9 +90,9 @@ export const verify = async (req, res) => {
                                 '$productData.productname', 0
                             ]
                         },
-                        'imagrUrl': {
+                        'imagUrl': {
                             '$arrayElemAt': [
-                                '$productData.images.url', 0
+                                '$productData.image.url', 0
                             ]
                         }
                     }

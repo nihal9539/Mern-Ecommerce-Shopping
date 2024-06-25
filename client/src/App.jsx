@@ -27,6 +27,7 @@ import Order from "./Componenets/Order/Order";
 import '@mantine/core/styles.css';
 import EditProduct from "./Componenets/Dashboard/EditProduct/EditProduct";
 import ViewProduct from "./Componenets/Dashboard/ViewProduct/ViewProduct";
+import ViewOrder from "./Componenets/Dashboard/ViewOrder/ViewOrder";
 
 function App() {
   const user = useSelector((state) => state.authReducer.authData);
@@ -87,6 +88,7 @@ function App() {
           <Route path="products/:id" element={<ViewProduct />} />
 
           <Route path="orders" element={<DashboardOrders />} />
+          <Route path="orders/:id" element={<ViewOrder />} />
           <Route index path="employees" element={<DashboardEmployees />} />
           <Route path="customers" element={<DashboardCustomers />} />
         </Route>

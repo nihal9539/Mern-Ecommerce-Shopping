@@ -1,21 +1,26 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteOrder, getAllOrder } from "../../../Action/OrderAction";
+import {
+  changingOrderStatus,
+  deleteOrder,
+  getAllOrder,
+} from "../../../Action/OrderAction";
 import {
   ActionIcon,
   Box,
   Checkbox,
   Group,
-  MultiSelect,
   Select,
   TextInput,
 } from "@mantine/core";
 import { DataTable } from "mantine-datatable";
 import sortBy from "lodash/sortBy";
-import { Edit, EyeIcon, Search, Trash2 } from "lucide-react";
+import { EyeIcon, Trash2 } from "lucide-react";
 import { format } from "date-fns";
+import { Navigate, useNavigate } from "react-router-dom";
 const OrderDataTable = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate()
   const { allOrders, loading } = useSelector((state) => state.orderReducer);
 
   console.log(allOrders);
@@ -46,7 +51,6 @@ const OrderDataTable = () => {
   }, [page, pageSize]);
 
   // New
-
   const handleSortStatusChange = (status) => {
     setPage(1);
     setSortStatus(status);
@@ -105,12 +109,15 @@ const OrderDataTable = () => {
     document.getElementById("my_modal_2").close();
   };
 
-  const [orderStatuses, setOrderStatuses] = useState("pending");
+  //
+  const [orderStatuses, setOrderStatuses] = useState([]);
   const handleStatusChange = (orderId, value) => {
     setOrderStatuses((prevStatuses) => ({
       ...prevStatuses,
       [orderId]: value,
     }));
+    // const status = { status: value };
+    dispatch(changingOrderStatus(orderId, { status: value }));
   };
   const [selectedRows, setSelectedRows] = useState([]);
 
@@ -255,7 +262,7 @@ const OrderDataTable = () => {
               title: <Box mx={6}>Actions</Box>,
               textAlign: "right",
 
-              render: (product) => (
+              render: (order) => (
                 <Group justify="center" wrap="nowrap">
                   <ActionIcon
                     size="md"
@@ -263,6 +270,7 @@ const OrderDataTable = () => {
                     color="green"
                     onClick={(e) => {
                       e.stopPropagation();
+                      navigate(`${order._id}`)
                     }}
                   >
                     <EyeIcon size={16} />
@@ -273,7 +281,7 @@ const OrderDataTable = () => {
                     color="red"
                     onClick={(e) => {
                       e.stopPropagation();
-                      handeleDeleteButton(product._id);
+                      handeleDeleteButton(order._id);
                     }}
                   >
                     <Trash2 size={16} />

@@ -55,17 +55,37 @@ export const deleteOrder = async (req, res) => {
 }
 export const getOderById = async (req, res) => {
     const { id } = req.params;
-    console.log(id);
     try {
 
 
         const orders = await orderModel.findById(id).populate(
             "shippingAddressId"
+        ).populate(
+            "userId"
         ).exec()
         if (!orders) {
             return res.status(404).json({ message: "Order not found" });
         }
 
+        return res.status(200).json(orders);
+
+    } catch (error) {
+        res.status(500).json(error.message)
+    }
+}
+export const changingOrderStatus = async (req, res) => {
+    const { id } = req.params;
+    const { status } = req.body;
+
+
+    try {
+        const orders = await orderModel.findByIdAndUpdate(id, {
+            orderStatus: status
+        }, { new: true });
+
+        if (!orders) {
+            return res.status(404).json({ message: "Order Status change" });
+        }
         return res.status(200).json(orders);
 
     } catch (error) {

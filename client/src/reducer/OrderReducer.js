@@ -1,5 +1,5 @@
 
-const OrderReducer = (state = { loading: false, allOrders: [], orders: [], error: false }, action) => {
+const OrderReducer = (state = { loading: false, orderById: [], allOrders: [], orders: [], error: false }, action) => {
     switch (action.type) {
         case "ORDER_FETCHING_START":
         case "FETCHING_ALL_ORDER_START":
@@ -18,6 +18,13 @@ const OrderReducer = (state = { loading: false, allOrders: [], orders: [], error
             return { ...state, allOrders: [], loading: false, error: true }
         case "ORDER_DELETE_FAIL":
             return { ...state, loading: false, error: true }
+        case "FETCHING_ORDER_BY_ID_START":
+            return { ...state, loading: false, error: true }
+        case "FETCHING_ORDER_BY_ID_SUCCESS":
+            return { ...state, orderById: action.data, loading: false, error: true }
+        case "FETCHING_ORDER_BY_ID_FAIL":
+            return { ...state, loading: false, error: true }
+
         default:
             return state;
     }
