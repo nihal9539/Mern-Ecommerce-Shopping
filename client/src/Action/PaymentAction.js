@@ -16,7 +16,7 @@ export const paymentOrder = (totalAmount,handlePaymentVerify) => async (dispatch
 export const paymentVerify = (formData) => async (dispatch) => {
     dispatch({ type: "PAYMENT_VERIFICATION_START" })
     try {
-        const data = await verifyRequest(formData)
+       await verifyRequest(formData)
         dispatch({ type: "PAYMENT_VERIFICATION_SUCCESS" })
     } catch (error) {
         dispatch({ type: "PAYMENT_VERIFICATION_FAIL" })

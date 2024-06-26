@@ -201,9 +201,9 @@ const OrderDataTable = () => {
               render: (order) => (
                 <div>
                   <h1 className="font-semibold text-xs">
-                    {order.userId.username}
+                    {order?.userId?.username}
                   </h1>
-                  <p className="text-gray-700 text-xs">{order.userId.email}</p>
+                  <p className="text-gray-700 text-xs">{order?.userId?.email}</p>
                 </div>
               ),
               sortable: true,

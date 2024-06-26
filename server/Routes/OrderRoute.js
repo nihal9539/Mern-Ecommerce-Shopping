@@ -1,5 +1,5 @@
 import express from "express"
-import { changingOrderStatus, deleteOrder, getAllOrder, getOderById, getUserOrder } from "../Controller/OrderController.js";
+import { changingOrderStatus, orderByMonth, deleteOrder, getAllOrder, getOderById, getUserOrder, revenueByMonth, getTopSellingProducts } from "../Controller/OrderController.js";
 
 const route = express.Router()
 
@@ -9,5 +9,8 @@ route.get('/order-details/:id',getOderById)
 route.get('/',getAllOrder)
 route.delete('/delete/:id',deleteOrder)
 route.put('/status-change/:id',changingOrderStatus)
+route.get('/monthly/revenue',revenueByMonth)
+route.get('/monthly/orders',orderByMonth)
+route.get('/top-selling/item',getTopSellingProducts)
 
 export default route;

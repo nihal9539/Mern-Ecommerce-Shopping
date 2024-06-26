@@ -132,3 +132,34 @@ export const AllUser = async (req, res) => {
 
 
 }
+
+export const MonthlyUserRegistraction = async (req, res) => {
+    console.log("ko");
+    try {
+        const userData = await UserModel.aggregate([
+            {
+                $group: {
+                    _id: {
+                        month: { $month: '$createdAt' },
+                        year: { $year: '$createdAt' }
+                    },
+                    totalUsers: { $sum: 1 }
+                }
+            },
+            {
+                $sort: { '_id.year': 1, '_id.month': 1 }
+            }
+        ]);
+        console.log(userData);
+        const formattedData = userData.map((data) => ({
+            month: data._id.month,
+            year: data._id.year,
+            totalUsers: data.totalUsers,
+        }));
+
+        res.json(formattedData);
+        // res.json(userData);
+    } catch (error) {
+        res.status(500).send('Server error');
+    }
+}

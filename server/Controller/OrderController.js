@@ -1,5 +1,5 @@
 import orderModel from "../model/OrderModel.js";
-
+import { startOfDay, endOfDay, subDays } from 'date-fns';
 export const getUserOrder = async (req, res) => {
     const { userId } = req.params;
 
@@ -92,3 +92,104 @@ export const changingOrderStatus = async (req, res) => {
         res.status(500).json(error.message)
     }
 }
+export const revenueByMonth = async (req, res) => {
+    try {
+        const revenueData = await orderModel.aggregate([
+            {
+                $unwind: '$orderItems'
+            },
+            {
+                $group: {
+                    _id: {
+                        month: { $month: '$createdAt' },
+                        year: { $year: '$createdAt' }
+                    },
+                    totalAmount: { $sum: { $multiply: ['$orderItems.quantity', '$orderItems.price'] } },
+                }
+            },
+            {
+                $sort: { '_id.year': 1, '_id.month': 1 }
+            }
+        ]);
+
+        const formattedData = revenueData.map((data) => ({
+            dateAndYear: data._id,
+            totalAmount: data.totalAmount,
+            totalOrders: data.totalOrders,
+        }));
+
+        res.json(formattedData);
+    } catch (error) {
+        res.status(500).send('Server error');
+    }
+}
+export const orderByMonth = async (req, res) => {
+    try {
+
+        const orderData = await orderModel.aggregate([
+
+            {
+                $group: {
+                    _id: {
+                        month: { $month: "$createdAt", },
+                        year: { $year: "$createdAt", }
+                    },
+                    totalOrders: { $sum: 1 }
+                }
+            },
+            {
+                $sort: { '_id.year': 1, '_id.month': 1 }
+            }
+        ]);
+
+        const formattedData = orderData.map((data) => ({
+            date: data._id,
+            totalOrders: data.totalOrders,
+        }));
+
+        res.json(formattedData);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Server error');
+    }
+}
+export const getTopSellingProducts = async (req, res) => {
+    try {
+        const data = await orderModel.aggregate([
+            { $unwind: "$orderItems" },
+            {
+                $group: {
+                    _id: "$orderItems.productId",
+                    totalSold: { $sum: "$orderItems.quantity" }
+                }
+            },
+            { $sort: { totalSold: -1 } },
+            { $limit: 5 },
+            {
+                $lookup: {
+                    from: "products", 
+                    localField: "_id",
+                    foreignField: "_id",
+                    as: "productDetails"
+                }
+            },
+
+            { $unwind: "$productDetails" },
+            {
+                $project: {
+                    _id: 1, 
+                    totalSold: 1,
+                    "productDetails._id": 1,
+                    "productDetails.price": 1,
+                    "productDetails.productname": 1,
+                    "productDetails.image.url": 1
+                }
+            }
+        ]);
+
+        res.json(data);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Server error');
+    }
+};

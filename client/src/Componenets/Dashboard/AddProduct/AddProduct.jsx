@@ -38,7 +38,6 @@ const AddProduct = () => {
   // handle data
   const handledata = (e) => {
     const { name, value } = e.target;
-    console.log(name,":",typeof value);
     setData((prevData) => ({
       ...prevData,
       [name]: value,
@@ -94,7 +93,8 @@ const AddProduct = () => {
 
   console.log(data);
   return (
-    <div className="">
+    <main className="container">
+      
       <IoMdArrowRoundBack
         size={35}
         className=" rounded-full max-sm:hidden cursor-pointer bg-main-blue flex justify-center items-center p-1.5 text-white"
@@ -249,7 +249,7 @@ const AddProduct = () => {
           </button>
         </div>
       </form>
-    </div>
+    </main>
   );
 };
 

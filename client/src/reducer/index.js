@@ -8,16 +8,17 @@ import addressReducer from "./AddressReducer";
 import paymentReducer from "./PaymentReducer";
 import orderReducer from "./OrderReducer";
 import filterReducer from "./FilterReducer";
+import dashboardReducer from "./DashboardReducer";
 
 
-export const reducers = combineReducers({ authReducer, sidebarReducer, productReducer, addressReducer, wishlistReducer, cartReducer, paymentReducer, orderReducer,filterReducer })
+export const reducers = combineReducers({ dashboardReducer, authReducer, sidebarReducer, productReducer, addressReducer, wishlistReducer, cartReducer, paymentReducer, orderReducer, filterReducer })
 
 export const rootReducer = (state, action) => {
-    if (action.type === "LOGOUT") {
-      state = undefined; // Reset the entire state
-    }
-    return reducers(state, action);
-  };
+  if (action.type === "LOGOUT") {
+    state = undefined; // Reset the entire state
+  }
+  return reducers(state, action);
+};
 
 
 // export  rootReducer;

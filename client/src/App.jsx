@@ -13,7 +13,7 @@ import DashboardLayout from "./Componenets/Dashboard/DashboardLayout/DashboardLa
 import DashboardOrders from "./Componenets/Dashboard/DashboardOrders/DashboardOrders";
 import DashboardEmployees from "./Componenets/Dashboard/DashboardEmployees/DashboardEmployees";
 import DashboardCustomers from "./Componenets/Dashboard/DashboardCustomers/DashboardCustomers";
-import Dashboard from "./pages/Dashboard/Dashboard";
+import Dashboard from "./Componenets/Dashboard/Dashboard/Dashboard";
 import DashboardProduct from "./Componenets/Dashboard/DashboardProduct/DashboardProduct";
 import AddProduct from "./Componenets/Dashboard/AddProduct/AddProduct";
 import Product from "./pages/Product/Product";

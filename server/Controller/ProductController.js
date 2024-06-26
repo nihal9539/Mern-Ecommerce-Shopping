@@ -5,7 +5,7 @@ import CartModel from "../model/CartModel.js";
 
 export const createProduct = async (req, res) => {
 
-    const { productname, subTitle, description,discount, image, sizes, gender, price } = req.body;
+    const { productname, subTitle, description, discount, image, sizes, gender, price } = req.body;
 
     console.log(typeof discount);
     const result = await clodunary.uploader.upload(image, {
@@ -40,7 +40,7 @@ export const createProduct = async (req, res) => {
 }
 export const updateProduct = async (req, res) => {
     const { id } = req.params;
-    const { productname, subTitle, description, image,sizes, gender, price } = req.body;
+    const { productname, subTitle, description, image, sizes, gender, price } = req.body;
     try {
         if (!mongoose.Types.ObjectId.isValid(id)) {
             return res.status(400).json({ message: 'Invalid product ID' });
@@ -55,7 +55,7 @@ export const updateProduct = async (req, res) => {
             })
 
             const updatedProduct = await ProductModel.findByIdAndUpdate(id, {
-                productname, subTitle, description,sizes, image: {
+                productname, subTitle, description, sizes, image: {
                     public_id: result.public_id,
                     url: result.secure_url,
 
@@ -63,7 +63,7 @@ export const updateProduct = async (req, res) => {
             }, { new: true })
             return res.status(200).json(updatedProduct)
         }
-        const updateData = { productname, subTitle, description, gender, price ,sizes};
+        const updateData = { productname, subTitle, description, gender, price, sizes };
         const updatedProduct = await ProductModel.findByIdAndUpdate(id, updateData, { new: true })
         return res.status(200).json(updatedProduct)
 
@@ -132,3 +132,11 @@ export const deleteProduct = async (req, res) => {
 
 
 }
+export const totalProductCount = async (req, res) => {
+    try {
+        const productCount = await ProductModel.countDocuments()
+        return res.status(200).json(productCount)
+    } catch (error) {
+        res.status(500).json(error.messsage)
+    }
+};
