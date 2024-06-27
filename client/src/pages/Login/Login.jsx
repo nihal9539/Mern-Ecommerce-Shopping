@@ -96,7 +96,6 @@ const Login = () => {
 
   return (
     <div>
-      <Navbar bgWhite={true} />
       <div className="  flex flex-row bg-[url(./login_bg_2.jpeg)]    justify-center items-center w-screen h-screen">
         <div
           className={` w-96  ${

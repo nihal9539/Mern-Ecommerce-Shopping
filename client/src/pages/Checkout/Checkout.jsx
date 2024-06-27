@@ -18,7 +18,6 @@ const Checkout = () => {
   if (!cartData) {
     return(
       <>
-       <Navbar bgWhite={true} />
         <div className="flex flex-col gap-5 justify-center items-center h-screen w-full">
           <h1 className="text-2xl font-semibold">
             <img width={200} src={checkout} alt="" />

@@ -25,7 +25,6 @@ const Cart = ({ forAccountPage }) => {
   if (cartData?.length <= 0) {
     return (
       <div>
-        <Navbar bgWhite={true} />
         <div
           className={`flex flex-col gap-5 justify-center items-center ${
             forAccountPage ? "h-96" : "h-screen"
@@ -47,7 +46,6 @@ const Cart = ({ forAccountPage }) => {
   }
   return (
     <div>
-      <Navbar bgWhite={true} />
       <div className="   grid relative grid-cols-7 items-center place-items-center w-full gap-2  ">
         {/* Left side */}
         <div className=" pt-24 max-md:px-2 p-8 max-md:h-[75vh] col-span-5 w-full max-md:col-span-7 space-y-1 overflow-scroll max-h-screen">

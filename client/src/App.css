@@ -354,3 +354,39 @@ html {
 * {
   box-sizing: inherit;
 }
+:root{
+  --primary-shadow-center:0 0px 15px rgba(243,140,59,1);
+
+}
+
+.navbar-toggler .icon-bar {
+  width: 32px;
+  height: 5px;
+  transition: all 0.4s;
+  background:black;
+  position: absolute;
+  border-radius: 5px;
+}
+
+.navbar-toggler.collapsed .top-bar{
+  transform: rotate(0deg) translateY(-10px);
+}
+
+.navbar-toggler.collapsed .middle-bar{
+  opacity: 1;
+}
+
+.navbar-toggler.collapsed .bottom-bar{
+  transform: rotate(0deg) translateY(10px);
+}
+
+.navbar-toggler .top-bar {
+  transform: rotate(45deg);
+}
+.navbar-toggler .middle-bar {
+  opacity: 0;
+}
+.navbar-toggler .bottom-bar {
+  transform: rotate(-45deg);
+}
+

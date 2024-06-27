@@ -9,7 +9,7 @@ const DashboardCard = ({ title, icon, value, percentage, color, bgColor }) => {
       : "text-red-600";
 
   return (
-    <article className="bg-white h-44 shadow-lg shadow-black/30 md:w-56 p-4 pt-9 rounded-2xl">
+    <article className="bg-white h-44 shadow-lg shadow-black/30 md:w-56 max-sm:w-36 p-4 pt-9 rounded-2xl">
       <button
         type="button"
         style={{ color: color, backgroundColor: bgColor }}

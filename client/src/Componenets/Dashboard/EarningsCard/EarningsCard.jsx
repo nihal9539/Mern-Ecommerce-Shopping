@@ -2,7 +2,7 @@ import React from "react";
 import { IndianRupee } from "lucide-react";
 
 const EarningsCard = ({ totalRevenue }) => (
-  <article className="bg-white shadow-lg shadow-black/30 h-44 rounded-xl w-full lg:w-80 p-8 pt-9 m-3 bg-hero-pattern bg-no-repeat bg-cover bg-center">
+  <article className="bg-white shadow-lg shadow-black/30 h-44 rounded-xl w-full lg:w-[17rem] p-8 pt-9 m-3 bg-hero-pattern bg-no-repeat bg-cover bg-center">
     <div className="flex justify-between items-center">
       <div>
         <h2 className="font-bold text-gray-400 mb-3">Earnings</h2>

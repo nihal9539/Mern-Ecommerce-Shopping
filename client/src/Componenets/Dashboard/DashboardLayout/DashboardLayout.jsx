@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import DashboardNavbar from "../DashboardNavbar/DashboardNavbar";
 // import { Sidebar } from "lucide-react";
 import Sidebar from "../../Sidebar/Sidebar";
+import { Helmet } from "react-helmet";
 
 const DashboardLayout = () => {
   const sidebarMenu = useSelector(
@@ -12,23 +13,31 @@ const DashboardLayout = () => {
 
   return (
     <div className="flex flex-row ">
+      <Helmet>
+        <title>Dashboard - Admin Panel</title>
+        <meta
+          name="description"
+          content="Admin dashboard layout with navigation and sidebar."
+        />
+      </Helmet>
       <div className="  bg-red-100">
-        {sidebarMenu ? (
-          <div className="w-72 sidebar relative max-md:fixed bg-white shadow-sm">
-            <Sidebar />
-          </div>
-        ) : (
-          <div className="w-0">
-            <Sidebar />
-          </div>
-        )}
+        <aside
+          className={`bg-white shadow-sm transition-width duration-300 ${
+            sidebarMenu ? "w-72" : "w-0"
+          } max-md:fixed`}
+        >
+          <Sidebar />
+        </aside>
       </div>
-        <div className="flex flex-col h-screen overflow-auto w-full bg-main-bg">
+      <div className="flex flex-col h-screen overflow-auto w-full bg-main-bg">
+        <header>
           <DashboardNavbar />
-          <div className="p-10 max-sm:px-2  pt-24">
+        </header>
+
+        <main className="p-10 max-sm:px-2 pt-24">
           <Outlet />
-          </div>
-        </div>
+        </main>
+      </div>
     </div>
   );
 };

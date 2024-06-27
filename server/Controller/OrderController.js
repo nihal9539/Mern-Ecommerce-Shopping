@@ -167,7 +167,7 @@ export const getTopSellingProducts = async (req, res) => {
             { $limit: 5 },
             {
                 $lookup: {
-                    from: "products", 
+                    from: "products",
                     localField: "_id",
                     foreignField: "_id",
                     as: "productDetails"
@@ -177,7 +177,7 @@ export const getTopSellingProducts = async (req, res) => {
             { $unwind: "$productDetails" },
             {
                 $project: {
-                    _id: 1, 
+                    _id: 1,
                     totalSold: 1,
                     "productDetails._id": 1,
                     "productDetails.price": 1,
@@ -191,5 +191,35 @@ export const getTopSellingProducts = async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).send('Server error');
+    }
+};
+export const getLastSevenDayOrder = async (req, res) => {
+    try {
+        const startDate = new Date();
+        startDate.setDate(startDate.getDate() - 7);
+
+        const orders = await orderModel.aggregate([
+            {
+              $match: {
+                createdAt: { $gte: startDate }
+              }
+            },
+            {
+              $group: {
+                _id: {
+                  $dateToString: { format: "%Y-%m-%d", date: "$createdAt" }
+                },
+                count: { $sum: 1 }
+              }
+            },
+            {
+              $sort: { _id: 1 }
+            }
+          ]);
+      
+
+        res.json(orders);   
+    } catch (error) {
+        res.status(500).json({ message: error.message });
     }
 };

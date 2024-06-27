@@ -13,6 +13,7 @@ import Select from "@mui/material/Select";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { uploadProduct } from "../../../Action/uploadAction";
+import { Helmet } from "react-helmet";
 
 const AddProduct = () => {
   const navigate = useNavigate();
@@ -24,15 +25,19 @@ const AddProduct = () => {
   const imgref = useRef();
   const [image, setImage] = useState("");
   const [data, setData] = useState({
-    productname: "" ,
+    productname: "",
     description: "",
     subTitle: "",
     price: null,
     image: null,
     discount: 0,
     gender: "",
-    sizes: [{ size: 'S', quantity: null}, { size: 'M', quantity: null}, { size: 'L', quantity: null}, { size: 'XL', quantity: null}],
-
+    sizes: [
+      { size: "S", quantity: null },
+      { size: "M", quantity: null },
+      { size: "L", quantity: null },
+      { size: "XL", quantity: null },
+    ],
   });
 
   // handle data
@@ -62,7 +67,7 @@ const AddProduct = () => {
 
   // handleing size quantity
   const handleQuantityChange = (size, quantity) => {
-    const updatedSizes = data.sizes.map(item => {
+    const updatedSizes = data.sizes.map((item) => {
       if (item.size === size) {
         return { ...item, quantity: Number(quantity) };
       }
@@ -78,9 +83,7 @@ const AddProduct = () => {
     if (!data.image) {
       toast.error("Please select an image.");
     } else {
-        dispatch(uploadProduct(data,navigate));
-        
-    
+      dispatch(uploadProduct(data, navigate));
     }
   };
   const cancelImage = () => {
@@ -93,15 +96,25 @@ const AddProduct = () => {
 
   console.log(data);
   return (
-    <main className="container">
-      
-      <IoMdArrowRoundBack
-        size={35}
-        className=" rounded-full max-sm:hidden cursor-pointer bg-main-blue flex justify-center items-center p-1.5 text-white"
-        onClick={handleBack}
-      />
+    <main className="">
+      <Helmet>
+        <title>Add Product - Admin Dashboard</title>
+        <meta
+          name="description"
+          content="Add a new product to the inventory with detailed information."
+        />
+      </Helmet>
+      <header className="flex justify-between items-center mb-4">
+        <button
+          onClick={handleBack}
+          aria-label="Go back"
+          className="flex items-center justify-center p-2 bg-main-blue text-white rounded-full hover:bg-blue-700 focus:outline-none"
+        >
+          <IoMdArrowRoundBack size={25} />
+        </button>
+      </header>
       <form className="p-2 pt-8 grid gap-8 grid-cols-6" onSubmit={handleSubmit}>
-        <div className="p-6 col-span-4 max-md:col-span-6 bg-white shadow-md rounded-2xl">
+        <section className="p-6 col-span-4 max-md:col-span-6 bg-white shadow-md rounded-2xl">
           <h1 className="mb-5 font-semibold text-lg"> Basic Information</h1>
           <div className="space-y-5">
             <input
@@ -134,16 +147,25 @@ const AddProduct = () => {
               className=" border-2 resize-none outline-none rounded-lg p-2 w-full"
             />
           </div>
-        </div>
-        <div className="p-6 h-[21.5rem] relative col-span-2 max-md:col-span-6 bg-white shadow-md rounded-2xl">
+        </section>
+        <section className="p-6 h-[21.5rem] relative col-span-2 max-md:col-span-6 bg-white shadow-md rounded-2xl">
+          <h1 className="mb-5 font-semibold text-lg">Product Image</h1>
           <div className="h-full">
-            <div className="mb-5 flex items-center justify-between text-lg font-semibold">
-              <span>Product Image</span>
-              {image && <IoMdClose fill="red" onClick={cancelImage} />}
-            </div>
             {image ? (
-              <div>
-                <img src={image} className="h-60 w-full" alt="Image" />
+              <div className="relative">
+                <img
+                  src={image}
+                  alt="Product"
+                  className="h-60 w-full object-cover rounded-lg"
+                />
+                <button
+                  type="button"
+                  onClick={cancelImage}
+                  aria-label="Remove image"
+                  className="absolute top-2 right-2 bg-red-600 text-white rounded-full p-1.5"
+                >
+                  <IoMdClose size={20} />
+                </button>
               </div>
             ) : (
               <div
@@ -158,26 +180,26 @@ const AddProduct = () => {
                   className="hidden"
                 />
                 <IoImageOutline size={25} />
-                <h1 className="font-semibold max-lg:text-xs text-center">
+                <span className="font-semibold max-lg:text-xs text-center">
                   Upload Your Product Image
-                </h1>
+                </span>
               </div>
             )}
           </div>
-        </div>
-        <div className=" p-6 col-span-4 max-md:col-span-6 bg-white shadow-md rounded-2xl">
-          <div className="w-full    gap-2 items-center">
-            <h1 className="font-semibold text-lg mb-5">Pricing and Size</h1>
-          </div>
+        </section>
+        <section className=" p-6 col-span-4 max-md:col-span-6 bg-white shadow-md rounded-2xl">
+          <h1 className="font-semibold text-lg mb-5">Pricing and Size</h1>
 
-          {data?.sizes?.map((size,i) => (
+          {data?.sizes?.map((size, i) => (
             <div key={i} className="w-full flex mb-2 items-center">
-              <div className="w-28">{size.size} quantity :</div>
+              <label className="w-28">{size.size} quantity :</label>
               <input
                 type="number"
                 min={"0"}
                 value={size.quantity}
-                onChange={(e) => handleQuantityChange(size.size, e.target.value)}
+                onChange={(e) =>
+                  handleQuantityChange(size.size, e.target.value)
+                }
                 className="p-1.5 rounded-lg border-2 outline-none"
               />
             </div>
@@ -185,44 +207,48 @@ const AddProduct = () => {
 
           <div className=" mt-4 grid grid-cols-2 max-md:grid-cols-1 gap-2">
             <div>
-              <h1 className="font-semibold mb-2">Price</h1>
-              <div className="flex flex-row border-2 h-10 rounded-lg">
-                <div className=" w-10 rounded-md rounded-r-none flex justify-center items-center bg-gray-300">
-                  ₹
+              <label className="block">
+                <span className="font-semibold">Price</span>
+                <div className="flex">
+                  <span className="inline-flex items-center px-3 bg-gray-300 border border-r-0 rounded-l-md">
+                    ₹
+                  </span>
+                  <input
+                    type="number"
+                    name="price"
+                    value={data.price}
+                    onChange={handledata}
+                    required
+                    className="border border-gray-300 rounded-r-md flex-1 p-2"
+                  />
                 </div>
-                <input
-                  type="number"
-                  name="price"
-                  onChange={handledata}
-                  value={data.price}
-                  required
-                  className="number-input h-full px-2 outline-none w-full"
-                />
-              </div>
+              </label>
             </div>
             <div>
-              <h1 className="font-semibold mb-2">Discount</h1>
-              <div className="flex flex-row border-2 h-10 rounded-lg">
-                <div className=" w-10 rounded-md rounded-r-none flex justify-center items-center bg-gray-300">
-                  <FaPercentage />
+              <label className="block">
+                <span className="font-semibold">Discount</span>
+                <div className="flex">
+                  <span className="inline-flex items-center px-3 bg-gray-300 border border-r-0 rounded-l-md">
+                    <FaPercentage />
+                  </span>
+                  <input
+                    type="number"
+                    name="discount"
+                    value={data.discount}
+                    onChange={handledata}
+                    max={100}
+                    min={0}
+                    className="border border-gray-300 rounded-r-md flex-1 p-2"
+                  />
                 </div>
-                <input
-                  type="number"
-                  name="discount"
-                  value={data.discount}
-                  onChange={handledata}
-                  max={100}
-                  min={0}
-                  className="  h-full px-2 outline-none w-full"
-                />
-              </div>
+              </label>
             </div>
           </div>
-        </div>
-        <div className="p-6 max-md:top-0 -top-12 relative col-span-2 max-md:col-span-6 bg-white shadow-md rounded-2xl">
+        </section>
+        <section className="p-6 max-md:top-0 -top-12 relative col-span-2 max-md:col-span-6 bg-white shadow-md rounded-2xl">
           <h1 className="mb-5 font-semibold text-lg">Gender</h1>
 
-          <FormControl sx={{}} className="w-full" required>
+          <FormControl fullWidth required>
             <InputLabel id="demo-simple-select-helper-label">Gender</InputLabel>
             <Select
               labelId="demo-simple-select-helper-label"
@@ -236,18 +262,22 @@ const AddProduct = () => {
               <MenuItem value={"female"}>Female</MenuItem>
             </Select>
           </FormControl>
-        </div>
-        <div className=" p-6 col-span-6 flex gap-2 justify-end  ">
-          <div className="btn bg-gray-400 hover:bg-gray-400 text-white">
+        </section>
+        <section className=" p-6 col-span-6 flex gap-2 justify-end  ">
+          <button
+            type="button"
+            className="btn bg-gray-400 hover:bg-gray-500 text-white"
+            onClick={() => navigate(-1)}
+          >
             Cancel
-          </div>
+          </button>
           <button
             type="submit"
-            className="btn bg-main-blue text-white hover:bg-main-blue"
+            className="btn bg-main-blue text-white hover:bg-blue-500"
           >
             Add Product
           </button>
-        </div>
+        </section>
       </form>
     </main>
   );

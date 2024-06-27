@@ -21,9 +21,9 @@ const Products = () => {
         <span>FEATURED ITEMS</span>
       </div>
       {error}{loading}
-      lll
+      {/* lll */}
       <div
-        className={` grid place-items-center pt-8
+        className={` grid place-items-center pt-8 max-md:px-2 max-md:gap-2
        
           gap-y-5   grid-cols-2 md:grid-cols-3 lg:grid-cols-4   `}
       >

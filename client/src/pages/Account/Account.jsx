@@ -51,7 +51,6 @@ const Account = () => {
     "flex items-center capitalize gap-5 max-md:gap-1  max-md:w-full  pl-4 py-3 rounded-lg text-md text-gray-700 hover:text-black hover:font-semibold hover:bg-light-gray m-2 max-md:m-1";
   return (
     <div >
-      <Navbar bgWhite={true} />
       <div className="h-screen w-full  flex flex-row max-md:flex-col gap-5 p-28 pb-10 px-48 max-lg:px-16 max-md:px-2">
 
         <div className="w-80 max-md:w-full   h-96 max-md:h-16 rounded-2xl relative top-0 max-md:pr-5 flex flex-col max-md:flex-row max-md:justify-between max-md:items-center    bg-white shadow-lg border-2 ">

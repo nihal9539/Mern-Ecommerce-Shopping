@@ -1,13 +1,29 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Footer from "../Footer/Footer";
-import { Outlet } from "react-router-dom";
+import { Outlet ,useLocation} from "react-router-dom";
 import Navbar from "../Navbar/Navbar";
 
+
 const Layout = () => {
+  const location = useLocation();
+  const [bgWhite, setBgWhite] = useState(false);
+  console.log('====================================');
+  console.log(location.pathname);
+  console.log('====================================');
+  useEffect(() => {
+    // Update bgWhite based on the current path
+    if (location.pathname == '/') {
+      setBgWhite(false);
+    } else {
+      setBgWhite(true);
+    }
+  }, [location]);
+  
+  // const isProductPage = location.pathname.includes('/product');
   return (
     
       <div>
-        <Navbar bgWhite={false} />
+        <Navbar bgWhite={bgWhite} />
         <Outlet />
       </div>
    

@@ -24,7 +24,7 @@ import Checkout from "./pages/Checkout/Checkout";
 import Account from "./pages/Account/Account";
 import Profile from "./Componenets/Profile/Profile";
 import Order from "./Componenets/Order/Order";
-import '@mantine/core/styles.css';
+import "@mantine/core/styles.css";
 import EditProduct from "./Componenets/Dashboard/EditProduct/EditProduct";
 import ViewProduct from "./Componenets/Dashboard/ViewProduct/ViewProduct";
 import ViewOrder from "./Componenets/Dashboard/ViewOrder/ViewOrder";
@@ -38,44 +38,47 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="*" element={<NoMatch />} />
-        </Route>
-        <Route path="/collection/all" element={<MenProducts />} />
-        <Route path="/product/:id" element={<Product />} />
-        <Route
-          path="/cart"
-          element={user ? <Cart /> : <Navigate to="/login" />}
-        />
-        <Route
-          path="/wishList"
-          element={user ? <WishList /> : <Navigate to="/login" />}
-        />
-        <Route path="/login" element={user ? <Navigate to="/" /> : <Login />} />
-        <Route
-          path="/checkout"
-          element={user ? <Checkout /> : <Navigate to="/login" />}
-        />
-        <Route
-          path="/account"
-          element={user ? <Account /> : <Navigate to="/login" />}
-        >
+          <Route path="collection/all" element={<MenProducts />} />
+          <Route path="/product/:id" element={<Product />} />
           <Route
-            path="profile"
-            element={user ? <Profile /> : <Navigate to="/login" />}
+            path="cart"
+            element={user ? <Cart /> : <Navigate to="/login" />}
           />
           <Route
             path="wishList"
-            element={
-              user ? (
-                <WishList forAccountPage={true} />
-              ) : (
-                <Navigate to="/login" />
-              )
-            }
+            element={user ? <WishList /> : <Navigate to="/login" />}
           />
           <Route
-            path="order"
-            element={user ? <Order /> : <Navigate to="/login" />}
+            path="login"
+            element={user ? <Navigate to="/" /> : <Login />}
           />
+          <Route
+            path="checkout"
+            element={user ? <Checkout /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="account"
+            element={user ? <Account /> : <Navigate to="/login" />}
+          >
+            <Route
+              path="profile"
+              element={user ? <Profile /> : <Navigate to="/login" />}
+            />
+            <Route
+              path="wishList"
+              element={
+                user ? (
+                  <WishList forAccountPage={true} />
+                ) : (
+                  <Navigate to="/login" />
+                )
+              }
+            />
+            <Route
+              path="order"
+              element={user ? <Order /> : <Navigate to="/login" />}
+            />
+          </Route>
         </Route>
 
         {/* Dash board routes */}

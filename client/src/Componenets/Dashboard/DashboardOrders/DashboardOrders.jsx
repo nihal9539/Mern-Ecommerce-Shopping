@@ -2,9 +2,9 @@ import OrderDataTable from "../OrderDataTable/OrderDataTable"
 
 const DashboardOrders = () => {
   return (
-    <div>
+    <main>
       <OrderDataTable/>
-    </div>
+    </main>
   )
 }
 
