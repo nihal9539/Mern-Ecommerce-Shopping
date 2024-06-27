@@ -12,7 +12,6 @@ import NoMatch from "./Componenets/NoMatch/NoMatch";
 import DashboardLayout from "./Componenets/Dashboard/DashboardLayout/DashboardLayout";
 import DashboardOrders from "./Componenets/Dashboard/DashboardOrders/DashboardOrders";
 import DashboardEmployees from "./Componenets/Dashboard/DashboardEmployees/DashboardEmployees";
-import DashboardCustomers from "./Componenets/Dashboard/DashboardCustomers/DashboardCustomers";
 import Dashboard from "./Componenets/Dashboard/Dashboard/Dashboard";
 import DashboardProduct from "./Componenets/Dashboard/DashboardProduct/DashboardProduct";
 import AddProduct from "./Componenets/Dashboard/AddProduct/AddProduct";
@@ -93,7 +92,6 @@ function App() {
           <Route path="orders" element={<DashboardOrders />} />
           <Route path="orders/:id" element={<ViewOrder />} />
           <Route index path="employees" element={<DashboardEmployees />} />
-          <Route path="customers" element={<DashboardCustomers />} />
         </Route>
       </Routes>
       <ToastContainer style={{ fontSize: "14px", zIndex: "999999" }} />

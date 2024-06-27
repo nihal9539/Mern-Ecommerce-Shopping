@@ -2,7 +2,6 @@ import React from "react";
 import { Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
 import DashboardNavbar from "../DashboardNavbar/DashboardNavbar";
-// import { Sidebar } from "lucide-react";
 import Sidebar from "../../Sidebar/Sidebar";
 import { Helmet } from "react-helmet";
 

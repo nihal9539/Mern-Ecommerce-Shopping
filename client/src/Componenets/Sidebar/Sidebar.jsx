@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { TiShoppingCart } from "react-icons/ti";
-import { BsPersonLinesFill } from "react-icons/bs";
 import { RiShoppingBag3Line } from "react-icons/ri";
 
-import { Container, Users } from "lucide-react";
+import { Container,} from "lucide-react";
 // import { Links } from "../../data/Links";
 import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -38,12 +37,6 @@ const Sidebar = () => {
           name: "orders",
           link: "orders",
           icon: <TiShoppingCart size={22} />,
-        },
-
-        {
-          name: "customers",
-          link: "customers",
-          icon: <BsPersonLinesFill size={22} />,
         },
       ],
     },
