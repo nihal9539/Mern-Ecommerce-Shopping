@@ -24,7 +24,6 @@ const OrderDataTable = () => {
   const navigate = useNavigate();
   const { allOrders, loading } = useSelector((state) => state.orderReducer);
 
-  console.log(allOrders);
   useEffect(() => {
     dispatch(getAllOrder());
   }, []);
@@ -49,7 +48,7 @@ const OrderDataTable = () => {
     const from = (page - 1) * pageSize;
     const to = from + pageSize;
     setOrders(allOrders.slice(from, to));
-  }, [page, pageSize]);
+  }, [page, pageSize, allOrders]);
 
   // New
   const handleSortStatusChange = (status) => {

@@ -64,7 +64,7 @@ const DataTableComponenet = () => {
       currentPageRecords = currentPageRecords.reverse();
     }
     setRecords(currentPageRecords);
-  }, [sortStatus, searchQuery]);
+  }, [sortStatus, searchQuery,products]);
 
   // delete model open
   const handeleDeleteButton = (id) => {
@@ -74,9 +74,8 @@ const DataTableComponenet = () => {
   };
   // delete confirm button
   const handleDeleteOk = () => {
-    dispatch(deleteProduct(deleteButtonId)).then(() => {
+    dispatch(deleteProduct(deleteButtonId))
       dispatch(getAllProduct());
-    });
     document.getElementById("my_modal_2").close();
   };
   const [selectedRows, setSelectedRows] = useState([]);

@@ -19,8 +19,6 @@ console.log(products);
   }, []);
 
 
-
- 
   if (loading) {
     <div className="flex justify-center items-center">
       <span>loading</span>
