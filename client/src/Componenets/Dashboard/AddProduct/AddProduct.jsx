@@ -148,7 +148,7 @@ const AddProduct = () => {
             />
           </div>
         </section>
-        <section className="p-6 h-[21.5rem] relative col-span-2 max-md:col-span-6 bg-white shadow-md rounded-2xl">
+        <section className="p-6  relative col-span-2 max-md:col-span-6 bg-white shadow-md rounded-2xl">
           <h1 className="mb-5 font-semibold text-lg">Product Image</h1>
           <div className="h-full">
             {image ? (
@@ -156,7 +156,7 @@ const AddProduct = () => {
                 <img
                   src={image}
                   alt="Product"
-                  className="h-60 w-full object-cover rounded-lg"
+                  className="h-80 w-full object-cover rounded-lg"
                 />
                 <button
                   type="button"
@@ -170,7 +170,7 @@ const AddProduct = () => {
             ) : (
               <div
                 onClick={() => imgref.current.click()}
-                className=" border-2 border-gray-500 border-dashed rounded-lg flex flex-col gap-2 justify-center items-center h-60"
+                className=" border-2 border-gray-500 border-dashed rounded-lg flex flex-col gap-2 justify-center items-center h-80"
               >
                 <input
                   type="file"
@@ -245,7 +245,7 @@ const AddProduct = () => {
             </div>
           </div>
         </section>
-        <section className="p-6 max-md:top-0 -top-12 relative col-span-2 max-md:col-span-6 bg-white shadow-md rounded-2xl">
+        <section className="p-6 max-md:top-0  relative col-span-2 max-md:col-span-6 bg-white shadow-md rounded-2xl">
           <h1 className="mb-5 font-semibold text-lg">Gender</h1>
 
           <FormControl fullWidth required>

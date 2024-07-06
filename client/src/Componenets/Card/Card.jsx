@@ -18,10 +18,10 @@ const Card = ({data,homepageCard}) => {
         />
       </figure>
       <div className="card-body p-2 py-1.5 gap-1.5 max-sm:px-2  " >
-        <span className="card-title  max-sm:text-start max-sm:text-base">
-          {data?.productname}
+      <span className="card-title overflow-hidden whitespace-nowrap text-ellipsis max-sm:text-start max-sm:text-base">
+      {data?.productname}
         </span>
-        <span className="text-xs text-gray-600">{data?.subTitle} </span>
+        <span className="text-xs overflow-hidden whitespace-nowrap text-ellipsis  text-gray-600">{data?.subTitle} </span>
         <div className="space-x-3">
           <span className="">Rs.{data?.price}</span>
         </div>

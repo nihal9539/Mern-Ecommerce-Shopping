@@ -2,9 +2,15 @@
 .mantine-DatePicker-day[data-selected]{
   background-color: #228be6 !important;
 }
-/* .m_326d024a:where([data-active]){
-  background-color: #228be6 !important;
-} */
+.ct-img{
+  /* background: url("/category/women.png"); */
+  /* height: 200; */
+  /* width: 200; */
+  border-image: fill 0 linear-gradient(#0001,#0007);
+  background-size: cover;
+  background-position: center;
+}
+
 .mantine-datatable-pagination-pages-control:where([data-active]){
   background-color: #228be6 !important;
 }

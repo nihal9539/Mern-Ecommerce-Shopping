@@ -2,22 +2,20 @@ import React, { useEffect, useState } from "react";
 ("react-accessible-accordion");
 import "react-accessible-accordion/dist/fancy-example.css";
 import Card from "../../Componenets/Card/Card";
-import Navbar from "../../Componenets/Navbar/Navbar";
 import ProductsAccordian from "../../Componenets/ProductsAccordian/ProductsAccordian";
 import { useDispatch, useSelector } from "react-redux";
-import { LuTally4 } from "react-icons/lu";
 import { Search, SearchIcon, X } from "lucide-react";
 import { getAllProduct } from "../../Action/ProductAction";
 import { resetFilter } from "../../Action/FilterAction";
 import { HiOutlineAdjustmentsHorizontal } from "react-icons/hi2";
+import { useLocation } from "react-router-dom";
 
 const MenProducts = () => {
   const { products } = useSelector((state) => state?.productReducer);
-  const genderFilter = useSelector((state) => state?.filterReducer?.gender);
-  const { maxPrice, minPrice } = useSelector((state) => state?.filterReducer);
-  console.log(minPrice, maxPrice);
-
+  const genderFilterData = useSelector((state) => state?.filterReducer?.gender);
+  const { maxPrice, minPrice } = useSelector((state) => state?.filterReducer);  
   const [filter, setFilter] = useState("");
+ 
   const handleChange = (event) => {
     setFilter(event.target.value);
   };
@@ -25,12 +23,11 @@ const MenProducts = () => {
 
   useEffect(() => {
     dispatch(getAllProduct());
+    
   }, []);
+ 
+  
 
-  useEffect(() => {
-    // Reset gender filter on page load
-    dispatch(resetFilter());
-  }, [dispatch]);
   const [isOpen, setOpen] = useState(false);
 
   return (
@@ -38,7 +35,7 @@ const MenProducts = () => {
       <div className="p-12 max-md:px-0 pt-32 relative  flex flex-row">
         <div className="w-[20%] h-[60vh] sticky top-20 max-md:hidden  p-1">
           <h1 className="text-2xl p-4 tracking-wider font-bold">FILTERS</h1>
-          <hr className="w-full h-1 my-2 bg-red-700" />
+          <hr className="w-full h-1 my-2 " />
           <ProductsAccordian />
         </div>
         <div className="w-full">
@@ -77,8 +74,8 @@ const MenProducts = () => {
                   item.productname
                     .toLowerCase()
                     .includes(filter.toLowerCase()) &&
-                  (genderFilter?.length === 0 ||
-                    genderFilter?.includes(item.gender)) &&
+                  (genderFilterData?.length === 0 ||
+                    genderFilterData?.includes(item.gender)) &&
                   (minPrice?.length === 0 || item.price >= minPrice[0]) &&
                   (maxPrice?.length === 0 || item.price <= maxPrice[0])
               )
@@ -105,7 +102,7 @@ const MenProducts = () => {
                 }}
               />
             </div>
-            <div className="w-3/4 bg-white relative h-screen float-right right-0 p-5">
+            <div className="w-3/4 pl-10 bg-white relative h-screen float-right right-0 p-5">
               <ProductsAccordian />
               <button
                 onClick={() => {

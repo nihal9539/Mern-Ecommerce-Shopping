@@ -4,6 +4,8 @@ import HomeGridImages from '../../Componenets/HomeGridImages/HomeGridImages'
 import Products from '../../Componenets/Products/Products'
 import Slider from '../../Componenets/Slider/Slider'
 import Footer from '../../Componenets/Footer/Footer'
+import ChooseCategory from '../../Componenets/ChooseCategory/ChooseCategory'
+import Services from '../../Componenets/Services/Services'
 
 const Home = () => {
    
@@ -17,8 +19,10 @@ const Home = () => {
                 </Link>
             </div>
             <Products />
-            <HomeGridImages/>
+            <ChooseCategory/>
             <Slider/>
+            <HomeGridImages/>
+            <Services/>
             <Footer />
 
         </div>

@@ -2,7 +2,8 @@ import React from 'react'
 
 const Slider = () => {
   return (
-    <div className="flex overflow-hidden space-x-10 bg-white group">
+    <div className='py-10 px-28'>
+      <div className="flex overflow-hidden space-x-10  bg-white group">
         <div className=" flex animate-loop-scroll w-full group-hover:paused">
           <div className="logo-slider flex space-x-16">
             <img
@@ -130,6 +131,7 @@ const Slider = () => {
           </div>
         </div>
       </div>
+    </div>
   )
 }
 

@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
 
 import Accordion from "../Acoordion/Accordion";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector,  } from "react-redux";
 import { genderFilter, priceFilter } from "../../Action/FilterAction";
 
 const ProductsAccordian = () => {
   const dispatch = useDispatch();
+  const genderState = useSelector((state) => state.filterReducer.gender); // Get gender filter state from the Redux store
+
   const [checkboxState, setCheckboxState] = useState({
-    male: false,
-    female: false,
+    male: genderState.includes("male"),
+    female: genderState.includes("female"),
   });
   const [selectedRanges, setSelectedRanges] = useState([]);
 
@@ -18,6 +20,18 @@ const ProductsAccordian = () => {
     { id: 3, min: 3000, max: 4999 },
   ];
 
+  useEffect(() => {
+    // Check the URL for a category filter
+    const urlParams = new URLSearchParams(window.location.search);
+    const gender = urlParams.get("gender");
+    if (gender) {
+      dispatch(genderFilter(gender));
+      setCheckboxState((prevState) => ({
+        ...prevState,
+        [gender]: true,
+      }));
+    }
+  }, [dispatch]);
   const handlePriceChange = (id, min, max) => {
     setSelectedRanges((prevSelected) =>
       prevSelected?.includes(id)
@@ -30,13 +44,7 @@ const ProductsAccordian = () => {
     };
     dispatch(priceFilter(priceRange));
   };
-  // const handlePriceChange = (id) => {
-  //   setSelectedRanges((prevSelected) =>
-  //     prevSelected.includes(id)
-  //       ? prevSelected.filter((rangeId) => rangeId !== id)
-  //       : [...prevSelected, id]
-  //   );
-  // };
+
   const handleCheckboxChange = (checkboxNumber) => {
     dispatch(genderFilter(checkboxNumber));
     setCheckboxState((prevState) => ({
