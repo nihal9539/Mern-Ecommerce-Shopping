@@ -8,20 +8,22 @@ import {
   createWishlist,
   fetchWishlist,
   removeFromWishlist,
+  resetWishlist,
 } from "../../Action/WishlistAction";
 import LoginModel from "../../Componenets/LoginModel/LoginModel";
 import { IoMdAdd } from "react-icons/io";
 import { RiSubtractLine } from "react-icons/ri";
 import { addToCart } from "../../Action/CartAction";
 import { v4 as uuidv4 } from "uuid";
+import { getProductById } from "../../Action/ProductAction";
 
 const Product = () => {
   const { id } = useParams();
-  const [productData, setProductData] = useState(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [error, setError] = useState(null);
-  const { products } = useSelector((state) => state.productReducer);
+  const { product, loading } = useSelector(
+    (state) => state.productReducer
+  );
   const { wishlist } = useSelector((state) => state.wishlistReducer);
   const [selectSize, setSelectSize] = useState("S");
   const [wishlistbtn, setWishlist] = useState();
@@ -30,21 +32,19 @@ const Product = () => {
   // userId from redux store
   const user = useSelector((state) => state.authReducer?.authData?.user?._id);
 
+
+  useEffect(() => {
+    dispatch(getProductById(id));
+  }, [id, dispatch]);
+
   // wishlist fetching
   useEffect(() => {
-    dispatch(fetchWishlist(user));
-  }, []);
-
-  // checking product is available or not
-  useEffect(() => {
-    const product = products?.find((product) => product._id === id);
-    if (product) {
-      setProductData(product);
+    if (user) {
+      dispatch(fetchWishlist(user));
     } else {
-      setProductData(null);
-      setError("This product is not available.");
+      dispatch(resetWishlist());
     }
-  }, [id, products]);
+  }, [user, dispatch]);
 
   // handling the size of the product
   const handleSize = (buttonId) => {
@@ -72,15 +72,15 @@ const Product = () => {
     wishlist.find((data) => data._id == id)
       ? setWishlist(true)
       : setWishlist(false);
-  }, [products, id]);
+  }, [user]);
 
   // handle add to cART
   const handleAddToCart = () => {
     const data = {
       quantity,
-      productId: productData?._id,
+      productId: product?._id,
       size: selectSize,
-      price: productData?.price,
+      price: product?.price,
       uuid: uuidv4(),
     };
     if (!user) {
@@ -89,37 +89,47 @@ const Product = () => {
       dispatch(addToCart(user, data, navigate));
     }
   };
+  const [imageId, setImageId] = useState(0);
 
-  if (!productData && !error) {
+  if (loading) {
     return (
       <div className="flex justify-center items-center h-screen">
         <div className="loader"></div>
       </div>
     );
   }
-  if (!productData && error) {
+  if (product.length == 0) {
     return (
-      <div className="flex justify-center items-center h-screen">{error}</div>
+      <div className="flex justify-center items-center h-screen">Product Not found</div>
     );
   }
-
   return (
     <div>
       <div className="p-12 pt-24 h-[100vh] max-lg:h-full max-lg:px-0   flex flex-row">
         <div className="w-full flex justify-center relative items-center flex-row max-lg:flex-col max-lg:gap-5">
-          <div className="w-1/2 max-lg:w-full max-lg:px-4 relative top-0 left-0   flex justify-center  items-center ">
+          <div className="w-1/2 max-lg:w-full max-lg:px-4 relative top-0 left-0   flex justify-center flex-col  items-center ">
             <img
-              src={productData?.image?.url}
-              className="h-[550px] w-[450px] max-lg:h-[400px] max-lg:w-[350px]"
+              src={product?.image[imageId]?.url}
+              className="h-[420px] w-[380px] max-lg:h-[400px] max-lg:w-[350px]"
               alt="Loading.."
             />
+            <div className="mt-5 flex gap-5 overflow-auto mx-10">
+              {
+                product?.image?.map((data,i)=>(
+                  <img className="w-20 h-20 rounded-md cursor-pointer" key={i} src={data.url} alt="" onMouseEnter={() => setImageId(i)} />
+                ))
+              }
+          
+            </div>
           </div>
           <div className="w-1/2 h-[80vh] max-lg:h-full overflow-scroll max-lg:w-full max-lg:px-10 flex flex-col">
             <div className="">
-              <h2 className="text-4xl font-medium mb-4 capitalize">{productData?.productname}</h2>
+              <h2 className="text-4xl font-medium mb-4 capitalize">
+                {product?.productname}
+              </h2>
               <h2 className="font-semibold">
                 Rs.{" "}
-                {currencyFormatter.format(productData.price, {
+                {currencyFormatter.format(product?.price, {
                   code: "IND",
                 })}
               </h2>
@@ -129,7 +139,7 @@ const Product = () => {
             <div className=" mt-6">
               <span className=" tracking-wider">SELECT A SIZE</span>
               <div className="flex flex-row gap-2 py-4">
-                {productData?.sizes.map((size) =>
+                {product?.sizes.map((size) =>
                   size.quantity !== 0 ? (
                     <button
                       onClick={() => handleSize(size.size)}
@@ -182,7 +192,7 @@ const Product = () => {
 
             <div className="my-4">
               <h1 className="font-semibold tracking-widest">PRODUCT DETAILS</h1>
-              <p className="pr-12">{productData?.description}</p>
+              <p className="pr-12">{product?.description}</p>
             </div>
 
             <div className="flex flex-col gap-4 mt-5">

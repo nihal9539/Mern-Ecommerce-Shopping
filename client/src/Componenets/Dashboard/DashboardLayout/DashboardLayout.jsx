@@ -2,7 +2,7 @@ import React from "react";
 import { Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
 import DashboardNavbar from "../DashboardNavbar/DashboardNavbar";
-import Sidebar from "../../Sidebar/Sidebar";
+import Sidebar from "../Sidebar/Sidebar";
 import { Helmet } from "react-helmet";
 
 const DashboardLayout = () => {
@@ -21,7 +21,7 @@ const DashboardLayout = () => {
       </Helmet>
       <div className="  bg-red-100">
         <aside
-          className={`bg-white shadow-sm transition-width duration-300 ${
+          className={`bg-white z-[9999] shadow-sm transition-width duration-300 ${
             sidebarMenu ? "w-72" : "w-0"
           } max-md:fixed`}
         >

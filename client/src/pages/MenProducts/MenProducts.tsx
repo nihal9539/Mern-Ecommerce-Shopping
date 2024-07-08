@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 ("react-accessible-accordion");
 import "react-accessible-accordion/dist/fancy-example.css";
 import Card from "../../Componenets/Card/Card";
-import ProductsAccordian from "../../Componenets/ProductsAccordian/ProductsAccordian";
+import ProductsAccordian from "../../Componenets/ProductFilter/ProductFilter";
 import { useDispatch, useSelector } from "react-redux";
 import { Search, SearchIcon, X } from "lucide-react";
 import { getAllProduct } from "../../Action/ProductAction";

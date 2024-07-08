@@ -1,18 +1,26 @@
 import mongoose from "mongoose";
 import ProductModel from "../model/ProductModel.js"
-import clodunary from "../utilities/cloudinary.js"
+import cloudinary from "../utilities/cloudinary.js"
 import CartModel from "../model/CartModel.js";
 
 export const createProduct = async (req, res) => {
 
-    const { productname, subTitle, description, discount, image, sizes, gender, price } = req.body;
+    const { productname, subTitle, description,category, discount, images, sizes, gender, price } = req.body;
 
     console.log(typeof discount);
-    const result = await clodunary.uploader.upload(image, {
-        folder: 'products',
 
-    })
-
+    const uploadedImages = await Promise.all(
+        images.map(async (image) => {
+            const result = await cloudinary.uploader.upload(image, {
+                folder: "products",
+            });
+            return {
+                public_id: result.public_id,
+                url: result.secure_url,
+            };
+        })
+    );
+    console.log(uploadedImages);
     const newProduct = await new ProductModel({
         productname,
         subTitle,
@@ -21,11 +29,8 @@ export const createProduct = async (req, res) => {
         sizes,
         gender,
         price,
-        image: {
-            public_id: result.public_id,
-            url: result.secure_url,
-
-        }
+        image: uploadedImages,
+        category
     })
     try {
 
@@ -50,7 +55,7 @@ export const updateProduct = async (req, res) => {
             return res.status(404).json({ message: 'Product not found' });
         }
         if (image && image !== "") {
-            const result = await clodunary.uploader.upload(image, {
+            const result = await cloudinary.uploader.upload(image, {
                 folder: 'products',
             })
 

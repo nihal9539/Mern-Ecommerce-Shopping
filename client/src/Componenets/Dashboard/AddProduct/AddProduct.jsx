@@ -1,11 +1,8 @@
 import React, { useRef, useState } from "react";
-
-import { IoMdArrowRoundBack } from "react-icons/io";
-import { IoImageOutline } from "react-icons/io5";
-
+import { IoMdArrowRoundBack, IoMdClose } from "react-icons/io";
+import { IoAdd, IoImageOutline } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import { FaPercentage } from "react-icons/fa";
-import { IoMdClose } from "react-icons/io";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
@@ -14,22 +11,18 @@ import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { uploadProduct } from "../../../Action/uploadAction";
 import { Helmet } from "react-helmet";
+import { CategoryItems } from "../../../assets/data";
 
 const AddProduct = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  const handleBack = () => {
-    navigate(-1); // Navigate back by one step in the history stack
-  };
   const imgref = useRef();
-  const [image, setImage] = useState("");
+  const [images, setImages] = useState([]);
   const [data, setData] = useState({
     productname: "",
     description: "",
     subTitle: "",
     price: null,
-    image: null,
     discount: 0,
     gender: "",
     sizes: [
@@ -38,9 +31,13 @@ const AddProduct = () => {
       { size: "L", quantity: null },
       { size: "XL", quantity: null },
     ],
+    category: [],
   });
 
-  // handle data
+  const handleBack = () => {
+    navigate(-1); // Navigate back by one step in the history stack
+  };
+
   const handledata = (e) => {
     const { name, value } = e.target;
     setData((prevData) => ({
@@ -49,23 +46,31 @@ const AddProduct = () => {
     }));
   };
 
-  // Image converter
   const handleconvertToBase64 = (e) => {
-    setImage(URL.createObjectURL(event.target.files[0]));
-    var reader = new FileReader();
-    reader.readAsDataURL(e.target.files[0]);
-    reader.onload = () => {
-      setData((prevData) => ({
-        ...prevData,
-        image: reader.result,
-      }));
-    };
-    reader.onerror = (err) => {
-      console.log("error", err);
-    };
+    const files = Array.from(e.target.files);
+    if (images.length + files.length > 5) {
+      alert("You can only upload a maximum of 5 images");
+      return;
+    } else {
+      files.forEach((file) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+          setImages((prevImages) => [
+            ...prevImages,
+            { file, base64: reader.result },
+          ]);
+        };
+        reader.onerror = (err) => {
+          console.log("error", err);
+        };
+      });
+    }
+  };
+  const removeImage = (index) => {
+    setImages(images.filter((_, i) => i !== index));
   };
 
-  // handleing size quantity
   const handleQuantityChange = (size, quantity) => {
     const updatedSizes = data.sizes.map((item) => {
       if (item.size === size) {
@@ -77,26 +82,53 @@ const AddProduct = () => {
     setData({ ...data, sizes: updatedSizes });
   };
 
-  // submiting form
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!data.image) {
-      toast.error("Please select an image.");
+    if (images.length === 0) {
+      toast.error("Please select at least one image.");
     } else {
-      dispatch(uploadProduct(data, navigate));
+      const imageData = images.map((img) => img.base64);
+      const productData = { ...data, images: imageData };
+      dispatch(uploadProduct(productData, navigate));
     }
   };
-  const cancelImage = () => {
-    setImage("");
-    setData((prev) => ({
-      ...prev,
-      image: null,
-    }));
+
+  const handleCancel = () => {
+    setData({
+      productname: "",
+      description: "",
+      subTitle: "",
+      price: null,
+      discount: 0,
+      gender: "",
+      sizes: [
+        { size: "S", quantity: null },
+        { size: "M", quantity: null },
+        { size: "L", quantity: null },
+        { size: "XL", quantity: null },
+      ],
+      category: [],
+    });
+    navigate(-1);
   };
 
-  console.log(data);
+  const handleCategory = (check) => {
+    setData((prevData) => {
+      if (prevData.category.includes(check)) {
+        return {
+          ...prevData,
+          category: prevData.category.filter((item) => item !== check),
+        };
+      } else {
+        return {
+          ...prevData,
+          category: [...prevData.category, check],
+        };
+      }
+    });
+  };
   return (
-    <main className="">
+    <main>
       <Helmet>
         <title>Add Product - Admin Dashboard</title>
         <meta
@@ -124,7 +156,7 @@ const AddProduct = () => {
               value={data.productname}
               required
               onChange={handledata}
-              className=" border-2 outline-none rounded-lg p-2 w-full"
+              className="border-2 outline-none rounded-lg p-2 w-full"
             />
             <input
               type="text"
@@ -133,7 +165,7 @@ const AddProduct = () => {
               required
               name="subTitle"
               onChange={handledata}
-              className=" border-2 outline-none rounded-lg p-2 w-full"
+              className="border-2 outline-none rounded-lg p-2 w-full"
             />
             <textarea
               type="text"
@@ -144,53 +176,73 @@ const AddProduct = () => {
               value={data.description}
               name="description"
               onChange={handledata}
-              className=" border-2 resize-none outline-none rounded-lg p-2 w-full"
+              className="border-2 resize-none outline-none rounded-lg p-2 w-full"
             />
           </div>
         </section>
-        <section className="p-6  relative col-span-2 max-md:col-span-6 bg-white shadow-md rounded-2xl">
-          <h1 className="mb-5 font-semibold text-lg">Product Image</h1>
-          <div className="h-full">
-            {image ? (
-              <div className="relative">
-                <img
-                  src={image}
-                  alt="Product"
-                  className="h-80 w-full object-cover rounded-lg"
-                />
-                <button
-                  type="button"
-                  onClick={cancelImage}
-                  aria-label="Remove image"
-                  className="absolute top-2 right-2 bg-red-600 text-white rounded-full p-1.5"
-                >
-                  <IoMdClose size={20} />
-                </button>
+        <section className="p-6 col-span-2 max-md:col-span-6 bg-white  shadow-md rounded-2xl">
+          <h1 className="mb-5 font-semibold text-lg">Product Images</h1>
+          <div className="h-72 overflow-auto">
+            {images.length > 0 ? (
+              <div className="grid grid-cols-3 gap-4">
+                {images.map((img, index) => (
+                  <div key={index} className="relative">
+                    <img
+                      src={img.base64}
+                      alt={`Product ${index + 1}`}
+                      className="h-40 w-full object-cover rounded-lg"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => removeImage(index)}
+                      aria-label="Remove image"
+                      className="absolute top-2 right-2 bg-red-600 text-white rounded-full p-1.5"
+                    >
+                      <IoMdClose size={20} />
+                    </button>
+                  </div>
+                ))}
+                {images.length < 5 && (
+                  <div
+                    onClick={() => imgref.current.click()}
+                    className="border-2 border-gray-500 border-dashed rounded-lg flex flex-col gap-2 justify-center items-center h-40 cursor-pointer"
+                  >
+                    <input
+                      type="file"
+                      accept=".png,.jpg,.jpeg"
+                      multiple
+                      ref={imgref}
+                      onChange={handleconvertToBase64}
+                      className="hidden"
+                    />
+                   <IoAdd size={40} />
+                  </div>
+                )}
               </div>
             ) : (
               <div
                 onClick={() => imgref.current.click()}
-                className=" border-2 border-gray-500 border-dashed rounded-lg flex flex-col gap-2 justify-center items-center h-80"
+                className="border-2 border-gray-500 border-dashed rounded-lg flex flex-col gap-2 justify-center items-center h-40"
               >
                 <input
                   type="file"
                   accept=".png,.jpg,.jpeg"
+                  multiple
                   ref={imgref}
                   onChange={handleconvertToBase64}
                   className="hidden"
                 />
                 <IoImageOutline size={25} />
                 <span className="font-semibold max-lg:text-xs text-center">
-                  Upload Your Product Image
+                  Upload Your Product Images
                 </span>
               </div>
             )}
           </div>
         </section>
-        <section className=" p-6 col-span-4 max-md:col-span-6 bg-white shadow-md rounded-2xl">
+        <section className="p-6 col-span-4 max-md:col-span-6 bg-white shadow-md rounded-2xl">
           <h1 className="font-semibold text-lg mb-5">Pricing and Size</h1>
-
-          {data?.sizes?.map((size, i) => (
+          {data.sizes.map((size, i) => (
             <div key={i} className="w-full flex mb-2 items-center">
               <label className="w-28">{size.size} quantity :</label>
               <input
@@ -204,8 +256,7 @@ const AddProduct = () => {
               />
             </div>
           ))}
-
-          <div className=" mt-4 grid grid-cols-2 max-md:grid-cols-1 gap-2">
+          <div className="mt-4 grid grid-cols-2 max-md:grid-cols-1 gap-2">
             <div>
               <label className="block">
                 <span className="font-semibold">Price</span>
@@ -245,14 +296,13 @@ const AddProduct = () => {
             </div>
           </div>
         </section>
-        <section className="p-6 max-md:top-0  relative col-span-2 max-md:col-span-6 bg-white shadow-md rounded-2xl">
-          <h1 className="mb-5 font-semibold text-lg">Gender</h1>
-
+        <section className="p-6 col-span-2 max-md:col-span-6 bg-white shadow-md rounded-2xl">
+          <h1 className="mb-3 font-semibold text-lg">Gender</h1>
           <FormControl fullWidth required>
-            <InputLabel id="demo-simple-select-helper-label">Gender</InputLabel>
+            <InputLabel id="gender-select-label">Gender</InputLabel>
             <Select
-              labelId="demo-simple-select-helper-label"
-              id="demo-simple-select-helper"
+              labelId="gender-select-label"
+              id="gender-select"
               value={data.gender}
               label="Gender"
               name="gender"
@@ -261,13 +311,33 @@ const AddProduct = () => {
               <MenuItem value={"male"}>Male</MenuItem>
               <MenuItem value={"female"}>Female</MenuItem>
             </Select>
+
+            <div className="mt-10 ">
+              <h1 className="mb-3 font-semibold text-lg">Category</h1>
+
+              <div className="space-y-2 h-40 overflow-auto">
+                {CategoryItems.map((checkitem) => (
+                  <label key={checkitem} className="container">
+                    {checkitem}
+                    <input
+                      type="checkbox"
+                      name="category"
+                      value={checkitem}
+                      checked={data.category.includes(checkitem)}
+                      onChange={() => handleCategory(checkitem)}
+                    />
+                    <span className="checkmark"></span>
+                  </label>
+                ))}
+              </div>
+            </div>
           </FormControl>
         </section>
         <section className=" p-6 col-span-6 flex gap-2 justify-end  ">
           <button
             type="button"
             className="btn bg-gray-400 hover:bg-gray-500 text-white"
-            onClick={() => navigate(-1)}
+            onClick={handleCancel}
           >
             Cancel
           </button>

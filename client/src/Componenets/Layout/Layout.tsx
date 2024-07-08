@@ -7,9 +7,6 @@ import Navbar from "../Navbar/Navbar";
 const Layout = () => {
   const location = useLocation();
   const [bgWhite, setBgWhite] = useState(false);
-  console.log('====================================');
-  console.log(location.pathname);
-  console.log('====================================');
   useEffect(() => {
     // Update bgWhite based on the current path
     if (location.pathname == '/') {

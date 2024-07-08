@@ -45,9 +45,11 @@ const reducer = (state = {
     case "PRODUCT_DELETE_FAIL":
       return { ...state, loading: false, error: true };
     case "RETREIVING_FAIL":
-    case "PRODUCT_FETCHING_FAIL":
     case "PRODUCT_UPDATE_FAIL":
       return { ...state, loading: false, error: true };
+    case "PRODUCT_FETCHING_FAIL":
+      return { ...state, loading: false, error: true, product: [] };
+
     default:
       return state;
   }

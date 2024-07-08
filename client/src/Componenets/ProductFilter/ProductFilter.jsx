@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 
 import Accordion from "../Acoordion/Accordion";
-import { useDispatch, useSelector,  } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { genderFilter, priceFilter } from "../../Action/FilterAction";
 
-const ProductsAccordian = () => {
+const ProductFilter = () => {
   const dispatch = useDispatch();
-  const genderState = useSelector((state) => state.filterReducer.gender); // Get gender filter state from the Redux store
+  const genderState = useSelector((state) => state.filterReducer.gender);
 
   const [checkboxState, setCheckboxState] = useState({
     male: genderState.includes("male"),
@@ -94,6 +94,75 @@ const ProductsAccordian = () => {
       ))}
     </div>
   );
+  const categoryComponent = (
+    <div>
+      <div>
+        <label className="container">
+          T-Shirts
+          <input
+            type="checkbox"
+            // checked={checkboxState.female}
+            // onChange={() => handleCheckboxChange("female")}
+          />
+          <span className="checkmark"></span>
+        </label>
+        <label className="container">
+          Shirts
+          <input
+            type="checkbox"
+            // checked={checkboxState.female}
+            // onChange={() => handleCheckboxChange("female")}
+          />
+          <span className="checkmark"></span>
+        </label>
+        <label className="container">
+          Hoodies
+          <input
+            type="checkbox"
+            // checked={checkboxState.female}
+            // onChange={() => handleCheckboxChange("female")}
+          />
+          <span className="checkmark"></span>
+        </label>
+        <label className="container">
+          Sweatshirts
+          <input
+            type="checkbox"
+            // checked={checkboxState.female}
+            // onChange={() => handleCheckboxChange("female")}
+          />
+          <span className="checkmark"></span>
+        </label>
+        <label className="container">
+          Jeans
+          <input
+            type="checkbox"
+            // checked={checkboxState.female}
+            // onChange={() => handleCheckboxChange("female")}
+          />
+          <span className="checkmark"></span>
+        </label>
+        <label className="container">
+          Shorts
+          <input
+            type="checkbox"
+            // checked={checkboxState.female}
+            // onChange={() => handleCheckboxChange("female")}
+          />
+          <span className="checkmark"></span>
+        </label>
+        <label className="container">
+          Leggings
+          <input
+            type="checkbox"
+            // checked={checkboxState.female}
+            // onChange={() => handleCheckboxChange("female")}
+          />
+          <span className="checkmark"></span>
+        </label>
+      </div>
+    </div>
+  );
   const AcoordianData = [
     {
       component: Gender,
@@ -102,6 +171,10 @@ const ProductsAccordian = () => {
     {
       component: PriceRange,
       heading: "Price Range (INR)",
+    },
+    {
+      component: categoryComponent,
+      heading: "Category",
     },
   ];
   return (
@@ -113,4 +186,4 @@ const ProductsAccordian = () => {
   );
 };
 
-export default ProductsAccordian;
+export default ProductFilter;

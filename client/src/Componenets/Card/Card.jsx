@@ -13,7 +13,7 @@ const Card = ({data,homepageCard}) => {
       <figure className="w-full max-sm:h-60 h-80">
         <img
           className={`${homepageCard && "group-hover:scale-125 group-hover:-rotate-3 duration-300"} w-full max-sm:p-0  rounded-md h-full`}
-          src={data?.image?.url}
+          src={data?.image[0]?.url}
           alt="Image"
         />
       </figure>

@@ -18,6 +18,9 @@ const reducer = (state = { wishlist: [], loading: false, error: false }, action)
         case "WISHLIST_FETCH_FAIL":
             return { ...state, error: true, loading: false,wishlist:[] }
 
+        case "WISHLIST_RESET":
+            return { ...state, error: false, loading: false, wishlist: [] }
+
         default:
             return state;
     }

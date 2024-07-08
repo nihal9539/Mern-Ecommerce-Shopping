@@ -14,16 +14,18 @@ const productScehema = new mongoose.Schema({
         required: true
     },
 
-    image: {
-        public_id: {
-            type: String,
-            required: true
-        },
-        url: {
-            type: String,
-            required: true
+    image: [
+        {
+            public_id: {
+                type: String,
+                required: true
+            },
+            url: {
+                type: String,
+                required: true
+            }
         }
-    },
+    ],
     sizes: [{
         size: String,
         quantity: Number
@@ -36,7 +38,12 @@ const productScehema = new mongoose.Schema({
     },
     discount: {
         type: Number
-    }
+    },
+    category: [
+        {
+            type: String,
+        }
+    ]
 
 })
 

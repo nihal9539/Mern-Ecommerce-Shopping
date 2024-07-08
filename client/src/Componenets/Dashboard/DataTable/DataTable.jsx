@@ -148,7 +148,7 @@ const DataTableComponenet = () => {
               ellipsis: true,
               width: "20%",
               render: (products) => (
-                <img src={products?.image?.url} className="w-10 h-10" alt="" />
+                <img src={products?.image[0]?.url} className="w-10 h-10" alt="" />
               ),
             },
             {
@@ -240,7 +240,8 @@ const DataTableComponenet = () => {
           sortStatus={sortStatus}
           onSortStatusChange={handleSortStatusChange}
           maxHeight={600}
-          minHeight={300}
+          minHeight={400}
+          
           withTableBorder
           records={records}
           fetching={loading}
