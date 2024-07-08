@@ -4,18 +4,19 @@ import "react-accessible-accordion/dist/fancy-example.css";
 import Card from "../../Componenets/Card/Card";
 import ProductsAccordian from "../../Componenets/ProductFilter/ProductFilter";
 import { useDispatch, useSelector } from "react-redux";
-import { Search, SearchIcon, X } from "lucide-react";
+import {  SearchIcon, X } from "lucide-react";
 import { getAllProduct } from "../../Action/ProductAction";
-import { resetFilter } from "../../Action/FilterAction";
 import { HiOutlineAdjustmentsHorizontal } from "react-icons/hi2";
-import { useLocation } from "react-router-dom";
 
-const MenProducts = () => {
+const AllProduct = () => {
   const { products } = useSelector((state) => state?.productReducer);
+  const [isOpen, setOpen] = useState(false);
   const genderFilterData = useSelector((state) => state?.filterReducer?.gender);
-  const { maxPrice, minPrice } = useSelector((state) => state?.filterReducer);  
+  const { maxPrice, minPrice, categoryFilter } = useSelector(
+    (state) => state?.filterReducer
+  );
   const [filter, setFilter] = useState("");
- 
+
   const handleChange = (event) => {
     setFilter(event.target.value);
   };
@@ -23,13 +24,23 @@ const MenProducts = () => {
 
   useEffect(() => {
     dispatch(getAllProduct());
-    
   }, []);
- 
-  
 
-  const [isOpen, setOpen] = useState(false);
+  const filteredProducts = products.filter((item) => {
+    const matchesCategory =
+      categoryFilter.length === 0 ||
+      item.category.some((cat) => categoryFilter.includes(cat));
+    const matchesGender =
+      genderFilterData.length === 0 || genderFilterData.includes(item.gender);
+    const matchesPrice =
+      (minPrice.length === 0 || item.price >= minPrice[0]) &&
+      (maxPrice.length === 0 || item.price <= maxPrice[0]);
+    const matchesSearch = item.productname
+      .toLowerCase()
+      .includes(filter.toLowerCase());
 
+    return matchesCategory && matchesGender && matchesPrice && matchesSearch;
+  });
   return (
     <div>
       <div className="p-12 max-md:px-0 pt-32 relative  flex flex-row">
@@ -68,22 +79,9 @@ const MenProducts = () => {
           </div>
 
           <div className="w-full gap-4 grid xl:grid-cols-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 max-sm:grid-cols-2 p-2">
-            {products
-              .filter(
-                (item) =>
-                  item.productname
-                    .toLowerCase()
-                    .includes(filter.toLowerCase()) &&
-                  (genderFilterData?.length === 0 ||
-                    genderFilterData?.includes(item.gender)) &&
-                  (minPrice?.length === 0 || item.price >= minPrice[0]) &&
-                  (maxPrice?.length === 0 || item.price <= maxPrice[0])
-              )
-              .map((data, index) => (
-                <Card homepageCard={false} key={index} data={data} />
-              ))}
-     
-       
+            {filteredProducts.map((data, index) => (
+              <Card homepageCard={false} key={index} data={data} />
+            ))}
           </div>
           {/* Right side bar */}
           <div
@@ -114,11 +112,10 @@ const MenProducts = () => {
               </button>
             </div>
           </div>
-          {/* Right side bar */}
         </div>
       </div>
     </div>
   );
 };
 
-export default MenProducts;
+export default AllProduct;

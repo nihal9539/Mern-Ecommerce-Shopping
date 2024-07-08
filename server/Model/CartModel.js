@@ -8,7 +8,6 @@ const CartSchema = mongoose.Schema({
             quantity: { type: Number, required: true },
             size: { type: String, required: true },
             price: { type: Number, required: true },
-            uuid: { type: String, required: true }
         },
     ]
 

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import currencyFormatter from "currency-formatter";
 import { useNavigate, useParams } from "react-router-dom";
 import { Heart } from "lucide-react";
-import Navbar from "../../Componenets/Navbar/Navbar";
 import { useDispatch, useSelector } from "react-redux";
 import {
   createWishlist,
@@ -14,16 +13,14 @@ import LoginModel from "../../Componenets/LoginModel/LoginModel";
 import { IoMdAdd } from "react-icons/io";
 import { RiSubtractLine } from "react-icons/ri";
 import { addToCart } from "../../Action/CartAction";
-import { v4 as uuidv4 } from "uuid";
 import { getProductById } from "../../Action/ProductAction";
+import { EasyZoomOnHover} from "easy-magnify";
 
 const Product = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { product, loading } = useSelector(
-    (state) => state.productReducer
-  );
+  const { product, loading } = useSelector((state) => state.productReducer);
   const { wishlist } = useSelector((state) => state.wishlistReducer);
   const [selectSize, setSelectSize] = useState("S");
   const [wishlistbtn, setWishlist] = useState();
@@ -31,7 +28,6 @@ const Product = () => {
 
   // userId from redux store
   const user = useSelector((state) => state.authReducer?.authData?.user?._id);
-
 
   useEffect(() => {
     dispatch(getProductById(id));
@@ -81,7 +77,6 @@ const Product = () => {
       productId: product?._id,
       size: selectSize,
       price: product?.price,
-      uuid: uuidv4(),
     };
     if (!user) {
       document.getElementById("my_modal_1").showModal();
@@ -100,30 +95,46 @@ const Product = () => {
   }
   if (product.length == 0) {
     return (
-      <div className="flex justify-center items-center h-screen">Product Not found</div>
+      <div className="flex justify-center items-center h-screen">
+        Product Not found
+      </div>
     );
   }
+
   return (
     <div>
       <div className="p-12 pt-24 h-[100vh] max-lg:h-full max-lg:px-0   flex flex-row">
         <div className="w-full flex justify-center relative items-center flex-row max-lg:flex-col max-lg:gap-5">
           <div className="w-1/2 max-lg:w-full max-lg:px-4 relative top-0 left-0   flex justify-center flex-col  items-center ">
-            <img
-              src={product?.image[imageId]?.url}
-              className="h-[420px] w-[380px] max-lg:h-[400px] max-lg:w-[350px]"
-              alt="Loading.."
+            <EasyZoomOnHover
+              mainImage={{
+                src: product?.image[imageId]?.url,
+                alt: "My Product",
+                height: 420,
+                width: 380,
+              }}
+              zoomImage={{
+                src: product?.image[imageId]?.url,
+                alt: "My Product Zoom",
+              }}
+              zoomContainerHeight={500}
+              zoomContainerWidth={600}
+              delayTimer={0}
             />
             <div className="mt-5 flex gap-5 overflow-auto mx-10">
-              {
-                product?.image?.map((data,i)=>(
-                  <img className="w-20 h-20 rounded-md cursor-pointer" key={i} src={data.url} alt="" onMouseEnter={() => setImageId(i)} />
-                ))
-              }
-          
+              {product?.image?.map((data, i) => (
+                <img
+                  className="w-20 h-20 rounded-md cursor-pointer"
+                  key={i}
+                  src={data.url}
+                  alt=""
+                  onMouseEnter={() => setImageId(i)}
+                />
+              ))}
             </div>
           </div>
           <div className="w-1/2 h-[80vh] max-lg:h-full overflow-scroll max-lg:w-full max-lg:px-10 flex flex-col">
-            <div className="">
+            <div className=" ">
               <h2 className="text-4xl font-medium mb-4 capitalize">
                 {product?.productname}
               </h2>
@@ -190,9 +201,12 @@ const Product = () => {
               </div>
             </div>
 
-            <div className="my-4">
+            <div className="my-4 w-full">
               <h1 className="font-semibold tracking-widest">PRODUCT DETAILS</h1>
-              <p className="pr-12">{product?.description}</p>
+              <p className="pr-12 w-full break-words">
+                {product?.description}
+           
+              </p>
             </div>
 
             <div className="flex flex-col gap-4 mt-5">

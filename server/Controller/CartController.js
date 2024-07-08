@@ -5,7 +5,7 @@ import { ObjectId } from "mongodb"
 
 export const addToCart = async (req, res) => {
     const { userId } = req.params;
-    const { productId, uuid, quantity, size, price } = req.body;
+    const { productId,  quantity, size, price } = req.body;
     const product = new ObjectId(productId)
     try {
         const cart = await CartModel.findOne({ userId })
@@ -18,7 +18,6 @@ export const addToCart = async (req, res) => {
                         quantity,
                         size,
                         price,
-                        uuid
                     }
                 ]
             })
@@ -38,7 +37,6 @@ export const addToCart = async (req, res) => {
                 quantity,
                 size,
                 price,
-                uuid
             }
             const cart = await CartModel.findOneAndUpdate(
                 { userId: userId },
@@ -96,7 +94,6 @@ export const getUserCart = async (req, res) => {
                     'size': '$products.size',
                     'price': '$products.price',
                     'productId': '$products.productId',
-                    'uuid': '$products.uuid'
                 }
             }, {
                 '$lookup': {
@@ -111,7 +108,6 @@ export const getUserCart = async (req, res) => {
                     'quantity': 1,
                     'price': 1,
                     'productId': 1,
-                    'uuid': 1,
                     'productname': {
                         '$arrayElemAt': [
                             '$productData.productname', 0

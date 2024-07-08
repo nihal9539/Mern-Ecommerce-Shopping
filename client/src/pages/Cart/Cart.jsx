@@ -56,7 +56,7 @@ const Cart = ({ forAccountPage }) => {
             </span>
           </div>
           {cartData?.map((data, i) => (
-            <CartItem key={i} data={data} />
+            <CartItem key={i} data={data}  />
           ))}
         </div>
         {/* Right Side */}

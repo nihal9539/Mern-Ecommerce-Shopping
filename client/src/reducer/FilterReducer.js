@@ -1,6 +1,8 @@
 const FilterReducer = (state = {
-    gender: [], minPrice: [],
-    maxPrice: []
+    categoryFilter: [],
+    gender: [],
+    minPrice: [],
+    maxPrice: [],
 }, action) => {
 
     switch (action.type) {
@@ -12,7 +14,8 @@ const FilterReducer = (state = {
                 return { ...state, gender: [...state.gender, action.data] }
             }
         case "FILTER_RESET":
-            return { state, gender: [], minPrice: [], maxPrice: [] }
+            return { state, gender: [], minPrice: [], maxPrice: [] ,        categoryFilter: [],
+            }
 
         case "PRICE_FILTER":
             const newMinPrice = state.minPrice?.includes(action.data.minPrice)
@@ -22,6 +25,17 @@ const FilterReducer = (state = {
                 ? state.maxPrice.filter(price => price !== action.data.maxPrice)
                 : [...state.maxPrice, action.data.maxPrice].sort((a, b) => b - a);
             return { ...state, minPrice: newMinPrice, maxPrice: newMaxPrice }
+        case "CATEGORY_FILTER":
+            if (state.categoryFilter.includes(action.data)) {
+                return { ...state, categoryFilter: state.categoryFilter.filter(g => g !== action.data) }
+            } else {
+                return { ...state, categoryFilter: [...state.categoryFilter, action.data] }
+            }
+
+
+            case "GET_FILTER":
+                return { ...state}
+
 
         default:
             return state;

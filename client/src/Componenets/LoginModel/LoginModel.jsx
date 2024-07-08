@@ -182,7 +182,7 @@ const LoginModel = ({ modelOpen }) => {
                       <div className="p-3.5 bg-black rounded-md ">
                         <input
                           type="submit"
-                          className=" border-none w-full outline-none text-white font-semibold"
+                          className="cursor-pointer border-none w-full outline-none text-white font-semibold"
                         />
                       </div>
                     </div>
@@ -235,7 +235,7 @@ const LoginModel = ({ modelOpen }) => {
                       <div className="p-3.5 bg-black rounded-md ">
                         <input
                           type="submit"
-                          className=" border-none w-full outline-none text-white font-semibold"
+                          className="cursor-pointer border-none w-full outline-none text-white font-semibold"
                         />
                       </div>
                     </div>

@@ -2,11 +2,21 @@ import React, { useEffect, useState } from "react";
 
 import Accordion from "../Acoordion/Accordion";
 import { useDispatch, useSelector } from "react-redux";
-import { genderFilter, priceFilter } from "../../Action/FilterAction";
+import {
+  categoryFilterAction,
+  genderFilter,
+  getFilter,
+  priceFilter,
+} from "../../Action/FilterAction";
+import { CategoryItems } from "../../assets/data";
 
 const ProductFilter = () => {
   const dispatch = useDispatch();
   const genderState = useSelector((state) => state.filterReducer.gender);
+  const [category, setCategory] = useState([]);
+  const { maxPrice, minPrice, categoryFilter } = useSelector(
+    (state) => state?.filterReducer
+  );
 
   const [checkboxState, setCheckboxState] = useState({
     male: genderState.includes("male"),
@@ -44,6 +54,20 @@ const ProductFilter = () => {
     };
     dispatch(priceFilter(priceRange));
   };
+  useEffect(() => {
+    dispatch(getFilter())
+    let initialSelectedRanges = [];
+    priceRanges.forEach((range) => {
+      if (
+        minPrice.includes(range.min) &&
+        maxPrice.includes(range.max)
+      ) {
+        initialSelectedRanges.push(range.id);
+      }
+    });
+    setSelectedRanges(initialSelectedRanges);
+    setCategory(categoryFilter);
+  }, [categoryFilter]);
 
   const handleCheckboxChange = (checkboxNumber) => {
     dispatch(genderFilter(checkboxNumber));
@@ -53,6 +77,15 @@ const ProductFilter = () => {
     }));
   };
 
+
+  const handleCategory = (item) => {
+    dispatch(categoryFilterAction(item))
+    setCategory((prevCategory) =>
+      prevCategory.includes(item)
+    ? prevCategory.filter((cat) => cat !== item)
+    : [...prevCategory, item]
+  );
+  };
   const Gender = (
     <div>
       <div className="">
@@ -97,69 +130,17 @@ const ProductFilter = () => {
   const categoryComponent = (
     <div>
       <div>
-        <label className="container">
-          T-Shirts
-          <input
-            type="checkbox"
-            // checked={checkboxState.female}
-            // onChange={() => handleCheckboxChange("female")}
-          />
-          <span className="checkmark"></span>
-        </label>
-        <label className="container">
-          Shirts
-          <input
-            type="checkbox"
-            // checked={checkboxState.female}
-            // onChange={() => handleCheckboxChange("female")}
-          />
-          <span className="checkmark"></span>
-        </label>
-        <label className="container">
-          Hoodies
-          <input
-            type="checkbox"
-            // checked={checkboxState.female}
-            // onChange={() => handleCheckboxChange("female")}
-          />
-          <span className="checkmark"></span>
-        </label>
-        <label className="container">
-          Sweatshirts
-          <input
-            type="checkbox"
-            // checked={checkboxState.female}
-            // onChange={() => handleCheckboxChange("female")}
-          />
-          <span className="checkmark"></span>
-        </label>
-        <label className="container">
-          Jeans
-          <input
-            type="checkbox"
-            // checked={checkboxState.female}
-            // onChange={() => handleCheckboxChange("female")}
-          />
-          <span className="checkmark"></span>
-        </label>
-        <label className="container">
-          Shorts
-          <input
-            type="checkbox"
-            // checked={checkboxState.female}
-            // onChange={() => handleCheckboxChange("female")}
-          />
-          <span className="checkmark"></span>
-        </label>
-        <label className="container">
-          Leggings
-          <input
-            type="checkbox"
-            // checked={checkboxState.female}
-            // onChange={() => handleCheckboxChange("female")}
-          />
-          <span className="checkmark"></span>
-        </label>
+        {CategoryItems.map((item) => (
+          <label key={item} className="container">
+            {item}
+            <input
+              type="checkbox"
+              checked={category?.includes(item) }
+              onChange={() => handleCategory(item)}
+            />
+            <span className="checkmark"></span>
+          </label>
+        ))}
       </div>
     </div>
   );

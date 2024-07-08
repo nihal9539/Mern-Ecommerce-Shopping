@@ -26,6 +26,7 @@
     "currency-formatter": "^1.5.9",
     "date-fns": "^3.6.0",
     "dayjs": "^1.11.11",
+    "easy-magnify": "^1.1.4",
     "gsap": "^3.12.5",
     "lodash": "^4.17.21",
     "lucide-react": "^0.356.0",

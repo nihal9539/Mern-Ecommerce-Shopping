@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { removeFromWishlist } from "../../Action/WishlistAction";
 import { Link, useNavigate } from "react-router-dom";
-import { v4 as uuidv4 } from "uuid";
 import { addToCart } from "../../Action/CartAction";
 import { IoMdAdd } from "react-icons/io";
 import { RiSubtractLine } from "react-icons/ri";
@@ -33,7 +32,6 @@ const WishListItem = ({ data, setReload, forAccountPage }) => {
       productId: data?._id,
       size: size,
       price: data?.price,
-      uuid: uuidv4(),
     };
     console.log(formData);
     dispatch(addToCart(user, formData, navigate));
@@ -60,7 +58,7 @@ const WishListItem = ({ data, setReload, forAccountPage }) => {
           className="h-56 max-sm:h-60 w-full flex justify-center items-center flex-col"
         >
           <img
-            src={data?.image?.url}
+            src={data?.image[0]?.url}
             className={` "w-10/12 h-32 "
             `}
             alt="Image"

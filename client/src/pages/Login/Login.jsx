@@ -215,7 +215,7 @@ const Login = () => {
                   <div className="p-3.5 bg-black rounded-md ">
                     <input
                       type="submit"
-                      className=" border-none w-full outline-none text-white font-semibold"
+                      className="cursor-pointer border-none w-full outline-none text-white font-semibold"
                     />
                   </div>
                 </div>
@@ -229,54 +229,3 @@ const Login = () => {
 };
 
 export default Login;
-// import React, { useState, useEffect } from 'react';
-
-// function Login() {
-//   const [email, setEmail] = useState('');
-//   const [password, setPassword] = useState('');
-//   const [errors, setErrors] = useState({
-//     email:'',
-//     password:''
-//   });
-
-//   const validateEmail = (value) => {
-//     if (!value.trim()) {
-//       return 'Email is required';
-//     }
-//     return null;
-//   };
-
-//   const validatePassword = (value) => {
-//     if (!value.trim()) {
-//       return 'Password is required';
-//     }
-//     return null;
-//   };
-
-//   const handleSubmit = (event) => {
-//     event.preventDefault();
-//     const emailError = validateEmail(email);
-//     const passwordError = validatePassword(password);
-//     setErrors({ email: emailError, password: passwordError });
-//     if (!emailError && !passwordError) {
-//     }
-//   };
-
-//   return (
-//     <form onSubmit={handleSubmit}>
-//       <div>
-//         <label htmlFor="email">Email:</label>
-//         <input type="email" id="email" name="email" value={email}  />
-//         {errors.email && <p className="error">{errors.email}</p>}
-//       </div>
-//       <div>
-//         <label htmlFor="password">Password:</label>
-//         <input type="password" id="password" name="password" value={password}  />
-//         {errors.password && <p className="error">{errors.password}</p>}
-//       </div>
-//       <button type="submit">Submit</button>
-//     </form>
-//   );
-// }
-
-// export default Login;

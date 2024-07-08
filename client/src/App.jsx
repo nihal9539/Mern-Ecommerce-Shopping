@@ -1,9 +1,10 @@
 import "./App.css";
-import MenProducts from "./pages/MenProducts/MenProducts";
 import Layout from "./Componenets/Layout/Layout";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { ToastContainer } from "react-toastify";
 
+// componenets
 import Cart from "./pages/Cart/Cart";
 import WishList from "./pages/WishList/WishList";
 import Home from "./pages/Home/Home";
@@ -16,17 +17,18 @@ import Dashboard from "./Componenets/Dashboard/Dashboard/Dashboard";
 import DashboardProduct from "./Componenets/Dashboard/DashboardProduct/DashboardProduct";
 import AddProduct from "./Componenets/Dashboard/AddProduct/AddProduct";
 import Product from "./pages/Product/Product";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import "react-toastify/dist/ReactToastify.min.css";
 import Checkout from "./pages/Checkout/Checkout";
 import Account from "./pages/Account/Account";
 import Profile from "./Componenets/Profile/Profile";
 import Order from "./Componenets/Order/Order";
-import "@mantine/core/styles.css";
 import EditProduct from "./Componenets/Dashboard/EditProduct/EditProduct";
 import ViewProduct from "./Componenets/Dashboard/ViewProduct/ViewProduct";
 import ViewOrder from "./Componenets/Dashboard/ViewOrder/ViewOrder";
+import AllProduct from "./pages/AllProduct/MenProducts";
+
+import "@mantine/core/styles.css";
+import "react-toastify/dist/ReactToastify.css";
+import "react-toastify/dist/ReactToastify.min.css";
 
 function App() {
   const user = useSelector((state) => state.authReducer.authData);
@@ -37,7 +39,7 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="*" element={<NoMatch />} />
-          <Route path="collection/all" element={<MenProducts />} />
+          <Route path="collection/all" element={<AllProduct />} />
           <Route path="/product/:id" element={<Product />} />
           <Route
             path="cart"
