@@ -5,42 +5,34 @@ import { ObjectId } from "mongodb"
 
 // Register New User
 export const registerUser = async (req, res) => {
-    const { email } = req.body;
-    const oldUser = await UserModel.findOne({
-
-        email: email
-
-    })
-    if (oldUser) {
-        res.status(400).json("User Already registered")
-    }
-    else {
-
-
+    const { email, username, password } = req.body;
+    try {
+        const oldUser = await UserModel.findOne({ email })
+        if (oldUser) {
+            return res.status(400).json("User Already registered")
+        }
         const salt = await bcypt.genSalt(10)
-        const hashPassword = await bcypt.hash(req.body.password, salt)
-        req.body.password = hashPassword
+        const hashPassword = await bcypt.hash(password, salt)
         const userData = {
-            username: req.body.username,
-            email: req.body.email,
-            password: req.body.password,
+            username,
+            email,
+            password: hashPassword,
             phone: null,
             birthday: "",
             gender: ""
         }
         const newUser = new UserModel(userData)
-        try {
-            const user = await newUser.save()
-            const token = jwt.sign({
-                username: user.username,
-                id: user._id
 
-            }, process.env.JWT_SECRET, { expiresIn: '10h' })
-            res.status(200).json({ user, token })
+        const user = await newUser.save()
+        const token = jwt.sign({
+            username: user.username,
+            id: user._id
 
-        } catch (error) {
-            res.status(500).json({ message: error.message })
-        }
+        }, process.env.JWT_SECRET, { expiresIn: '10h' })
+        res.status(200).json({ user, token })
+    }
+    catch (error) {
+        res.status(500).json({ message: error.message })
     }
 
 }
@@ -134,7 +126,6 @@ export const AllUser = async (req, res) => {
 }
 
 export const MonthlyUserRegistraction = async (req, res) => {
-    console.log("ko");
     try {
         const userData = await UserModel.aggregate([
             {

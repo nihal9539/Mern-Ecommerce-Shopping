@@ -6,8 +6,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { cartQuantityUpdate, removeFromCart } from "../../Action/CartAction";
 
 const CartItem = ({ data ,order}) => {
-  console.log(data);
   const [quantity, setQuantity] = useState(data.quantity);
+  const [imageSrc, setImageSrc] = useState(""); // State for the image source
+
   const userId = useSelector((state) => state.authReducer.authData.user._id);
   const dispatch = useDispatch();
 
@@ -16,15 +17,20 @@ const CartItem = ({ data ,order}) => {
   };
   const handleCount = (count) => {
     dispatch(cartQuantityUpdate(userId, data?.productId, data?.size, count));
-    setQuantity((prev) => prev + count);
   };
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setImageSrc(data?.imagrUrl[0]); // Update the image source after 1 second
+    }, 1000);
 
+    return () => clearTimeout(timer); // Cleanup the timer on unmount
+  }, [data?.imagrUrl]);
 
   return (
     <div className=" border border-gray-400 rounded-md p-2 flex flex-row items-center justify-between  gap-4">
       <div className=" flex items-center gap-4">
         <img
-          src={data?.imagrUrl}
+          src={imageSrc}
           className="w-20 h-24 max-md:w-12 max-md:h-16 rounded-md"
           alt="Image"
         />

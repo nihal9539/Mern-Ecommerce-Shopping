@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import Navbar from "../../Componenets/Navbar/Navbar";
 import CartItem from "../../Componenets/CartItem/CartItem";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserCart } from "../../Action/CartAction";
@@ -12,16 +11,13 @@ const Cart = ({ forAccountPage }) => {
 
   const { cartData } = useSelector((state) => state.cartReducer);
   const user = useSelector((state) => state.authReducer?.authData?.user?._id);
-  console.log(user);
   useEffect(() => {
     dispatch(getUserCart(user));
   }, []);
   var totalPrice = 0;
   cartData?.map((item) => {
-    console.log(item.price * item.quantity);
     totalPrice = totalPrice + item.price * item.quantity;
   });
-  console.log(cartData);
   if (cartData?.length <= 0) {
     return (
       <div>

@@ -38,7 +38,7 @@ const Checkout = () => {
         <div className="">
           {" "}
           <Stepper
-            className=" p-10"
+            className=" p-10 pt-14"
             active={active}
             onStepClick={setActive}
             allowNextStepsSelect={false}

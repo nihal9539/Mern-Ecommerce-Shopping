@@ -83,27 +83,27 @@ export const getUserCart = async (req, res) => {
     try {
         const cartDetails = await CartModel.aggregate([
             {
-                '$match': {
+                $match: {
                     'userId': userId
                 }
             }, {
-                '$unwind': '$products'
+                $unwind: '$products'
             }, {
-                '$project': {
+                $project: {
                     'quantity': '$products.quantity',
                     'size': '$products.size',
                     'price': '$products.price',
                     'productId': '$products.productId',
                 }
             }, {
-                '$lookup': {
+                $lookup: {
                     'from': 'products',
                     'localField': 'productId',
                     'foreignField': '_id',
                     'as': 'productData'
                 }
             }, {
-                '$project': {
+                $project: {
                     'size': 1,
                     'quantity': 1,
                     'price': 1,
@@ -122,26 +122,6 @@ export const getUserCart = async (req, res) => {
             }
         ]);
         return res.status(200).json(cartDetails);
-        // const availableProducts = cartDetails.filter(item => item.productname && item.imageUrl);
-        // const missingProducts = cartDetails.filter(item => !item.productname || !item.imageUrl);
-
-        // // If there are missing products, remove them from the cart in the database
-        // if (missingProducts.length > 0) {
-        //     await CartModel.updateOne(
-        //         { userId: userId },
-        //         { $pull: { products: { productId: { $in: missingProducts.map(item => item.productId) } } } }
-        //     );
-        // }
-
-        // console.log(availableProducts,
-        //      missingProducts.map(item => item.productId));
-        // return res.status(200).json({
-        //     availableProducts,
-        //     missingProducts: missingProducts.map(item => item.productId)
-        // });
-
-
-
     } catch (error) {
         res.status(500).json(error.message)
     }

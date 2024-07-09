@@ -5,8 +5,12 @@ import CartItem from "../CartItem/CartItem";
 import { ShoppingCart } from "lucide-react";
 import currencyFormatter from "currency-formatter";
 import { paymentOrder, paymentVerify } from "../../Action/PaymentAction";
+import axios from "axios";
+import useToken from "../../hooks/useToken";
 
 const OrderSummery = ({nextStep}) => {
+  const {headers} = useToken()
+
   const { cartData } = useSelector((state) => state.cartReducer);
   const addressId = useSelector(
     (state) => state.addressReducer.addressData._id
@@ -44,36 +48,23 @@ const OrderSummery = ({nextStep}) => {
       description: "Test Mode",
       order_id: orderDetails?.id,
       handler: async (response) => {
-        const orderData = {
-          razorpay_order_id: response.razorpay_order_id,
-          razorpay_payment_id: response.razorpay_payment_id,
-          razorpay_signature: response.razorpay_signature,
-          addressId: addressId,
-          userId: userId,
-        };
         try {
-            const res = await fetch(`http://localhost:5000/payment/verify`, {
-                method: 'POST',
-                headers: {
-                    'content-type': 'application/json'
-                },
-                body: JSON.stringify({
+            const verifyData = await axios.post(`http://localhost:5000/payment/verify`, {
+              
                     razorpay_order_id: response.razorpay_order_id,
                     razorpay_payment_id: response.razorpay_payment_id,
                     razorpay_signature: response.razorpay_signature,
                     addressId:addressId,
                     userId:userId
-                })
-            })
+            },{ headers })
 
-            const verifyData = await res.json();
-
-            if (verifyData.message) {
-                toast.success(verifyData.message)
+                    console.log(verifyData);
+            if (verifyData.data.message) {
+                toast.success(verifyData.data.message)
                 nextStep()
             }
         } catch (error) {
-            console.log(error);
+            console.log(error.response.message);
         }
       },
       theme: {

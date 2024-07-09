@@ -1,6 +1,6 @@
 import { orderRequest, verifyRequest } from "../api/PaymentRequest"
 
-export const paymentOrder = (totalAmount,handlePaymentVerify) => async (dispatch) => {
+export const paymentOrder = (totalAmount) => async (dispatch) => {
 
     dispatch({ type: "PAYMENT_ORDER_START" })
 

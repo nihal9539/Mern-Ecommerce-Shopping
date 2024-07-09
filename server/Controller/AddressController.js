@@ -1,6 +1,4 @@
 import { AddressModel } from "../model/AddressModel.js";
-import UserModel from "../model/UserModel.js";
-
 export const addNewAddress =async(req,res)=>{
     const {userId} = req.params;
     const {firstName,lastName,address,city,phone,pincode,state} = req.body;

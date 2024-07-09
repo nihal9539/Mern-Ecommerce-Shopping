@@ -3,9 +3,10 @@ import { changingOrderStatus, orderByMonth, deleteOrder, getAllOrder, getOderByI
 
 const route = express.Router()
 
-
+// user
 route.get('/:userId',getUserOrder)
 route.get('/order-details/:id',getOderById)
+// DAshboard
 route.get('/',getAllOrder)
 route.delete('/delete/:id',deleteOrder)
 route.put('/status-change/:id',changingOrderStatus)

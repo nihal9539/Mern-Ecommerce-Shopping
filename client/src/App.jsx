@@ -24,7 +24,7 @@ import Order from "./Componenets/Order/Order";
 import EditProduct from "./Componenets/Dashboard/EditProduct/EditProduct";
 import ViewProduct from "./Componenets/Dashboard/ViewProduct/ViewProduct";
 import ViewOrder from "./Componenets/Dashboard/ViewOrder/ViewOrder";
-import AllProduct from "./pages/AllProduct/MenProducts";
+import AllProduct from "./pages/AllProduct/AllProduct";
 
 import "@mantine/core/styles.css";
 import "react-toastify/dist/ReactToastify.css";

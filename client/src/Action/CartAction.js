@@ -1,10 +1,10 @@
 import * as CartApi from "../api/CartRequest"
 import { toast } from "react-toastify"
+
 export const addToCart = (userId, formData, navigate) => async (dispatch) => {
     dispatch({ type: "CART_UPLOAD_START" })
-
     try {
-        const cart = await CartApi.addToCart(userId, formData)
+        const cart = await CartApi.addToCart(userId, formData,)
 
         dispatch({ type: "CART_UPLOAD_SUCCESS", data: cart.data.products })
         navigate('/cart');
@@ -32,7 +32,7 @@ export const removeFromCart = (userId, productId, size, quantity) => async (disp
     dispatch({ type: "CART_REMOVE_START" })
 
     try {
-        await CartApi.removeFromCart(userId, productId, size, quantity)
+        await CartApi.removeFromCart(userId, productId, size, quantity,)
         dispatch({ type: "CART_REMOVE_SUCCESS", data: { userId, productId, size, quantity } })
         toast.success('Item removed from cart successfully',{position:"bottom-left"});
 
@@ -47,14 +47,14 @@ export const cartQuantityUpdate = (userId, productId, size, quantity) => async (
 
     dispatch({ type: "QUANTITY_UPDATE_START" })
     try {
-        await CartApi.cartQuantityUpdate(userId, productId, size, quantity);
+        await CartApi.cartQuantityUpdate(userId, productId, size, quantity,);
         dispatch({ type: "QUANTITY_UPDATE_SUCCESS", data: quantity })
         toast.success('Quantity Update successfully',{position:"bottom-left"});
 
 
     } catch (error) {
         dispatch({ type: "QUANTITY_UPDATE_FAIL" })
-        toast.success('Quantity Update fail');
+        toast.error('Quantity Update fail');
 
     }
 
