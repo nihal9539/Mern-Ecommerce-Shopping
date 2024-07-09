@@ -6,9 +6,6 @@ import CartModel from "../model/CartModel.js";
 export const createProduct = async (req, res) => {
 
     const { productname, subTitle, description,category, discount, images, sizes, gender, price } = req.body;
-
-    console.log(typeof discount);
-
     const uploadedImages = await Promise.all(
         images.map(async (image) => {
             const result = await cloudinary.uploader.upload(image, {
@@ -20,7 +17,6 @@ export const createProduct = async (req, res) => {
             };
         })
     );
-    console.log(uploadedImages);
     const newProduct = await new ProductModel({
         productname,
         subTitle,
@@ -40,7 +36,6 @@ export const createProduct = async (req, res) => {
     } catch (error) {
 
         res.status(500).json(error.message)
-
     }
 }
 export const updateProduct = async (req, res) => {
@@ -123,7 +118,6 @@ export const deleteProduct = async (req, res) => {
         const product = await ProductModel.findByIdAndDelete(productId)
         if (!product) {
             res.status(400).json("Product Not found")
-            console.log("not");
         } else {
 
             await CartModel.updateMany({}, { $pull: { items: { product: productId } } });

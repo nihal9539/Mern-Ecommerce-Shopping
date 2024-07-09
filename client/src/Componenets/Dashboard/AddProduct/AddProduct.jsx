@@ -62,6 +62,7 @@ const AddProduct = () => {
           ]);
         };
         reader.onerror = (err) => {
+          toast.error(err)
           console.log("error", err);
         };
       });

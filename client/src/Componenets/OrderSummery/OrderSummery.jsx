@@ -58,13 +58,12 @@ const OrderSummery = ({nextStep}) => {
                     userId:userId
             },{ headers })
 
-                    console.log(verifyData);
             if (verifyData.data.message) {
                 toast.success(verifyData.data.message)
                 nextStep()
             }
         } catch (error) {
-            console.log(error.response.message);
+            toast.error(error.response.message);
         }
       },
       theme: {

@@ -35,7 +35,6 @@ export const removeFromWishlist = (id, data) => async (dispatch) => {
             "Product removed from wishlist successfully"
         )
     } catch (error) {
-        console.log(error);
         toast.error(error.response.data);
         dispatch({ type: "WISHLIST_REMOVE_FAIL" })
     }

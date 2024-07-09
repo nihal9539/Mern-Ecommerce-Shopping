@@ -31,7 +31,6 @@ export const getProductById = (id) => async (dispatch) => {
   dispatch({ type: "PRODUCT_FETCHING_START" })
   try {
     const data = await ProductApi.getProductById(id)
-    console.log(data.data);
     dispatch({ type: "PRODUCT_FETCHING_SUCCESS", data: data.data })
   } catch (error) {
     toast.error(error?.response?.data)

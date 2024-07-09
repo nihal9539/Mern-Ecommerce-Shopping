@@ -141,7 +141,6 @@ export const MonthlyUserRegistraction = async (req, res) => {
                 $sort: { '_id.year': 1, '_id.month': 1 }
             }
         ]);
-        console.log(userData);
         const formattedData = userData.map((data) => ({
             month: data._id.month,
             year: data._id.year,

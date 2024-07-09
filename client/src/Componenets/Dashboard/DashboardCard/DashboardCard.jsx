@@ -26,9 +26,9 @@ const DashboardCard = ({ title, icon, value, percentage, color, bgColor }) => {
                 <span className="text-red-600">{percentage}</span>
               ) : (
                 <span
-                  className={percentage > 0 ? "text-green-600" : "text-red-600"}
+                  className={`${percentage > 0 ? "text-green-600 " : "text-red-600"}`}
                 >
-                  {percentage > 0 ? `+${percentage}%` : `${percentage}%`}
+                  {percentage > 0 ? `+${percentage?.toFixed(3)}%` : `${percentage?.toFixed(3)}%`}
                 </span>
               )}
             </span>

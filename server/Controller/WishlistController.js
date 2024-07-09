@@ -3,7 +3,6 @@ import WishlistModel from "../model/WishlistModel.js"
 
 
 export const createWishlist = async (req, res) => {
-    console.log(req.body);
     try {
         const userId = req.params.id
         const { product } = req.body;

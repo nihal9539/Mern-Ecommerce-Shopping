@@ -81,7 +81,7 @@ const LoginModel = ({ modelOpen }) => {
           : document.getElementById("my_modal_1").close();
       }
     } else {
-      console.log("error");
+      toast.error("Error");
     }
   };
   useEffect(() => {

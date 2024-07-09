@@ -84,6 +84,7 @@ const EditProduct = () => {
       imgRef.current.value = "";
     };
     reader.onerror = (err) => {
+      toast.error(err)
       console.log("error", err);
     };
   };

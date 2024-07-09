@@ -13,8 +13,6 @@ const ViewProduct = () => {
     dispatch(getProductById(id));
   }, []);
 
-  console.log(product);
-
   return (
     <div>
       <div className="w-full flex justify-center relative items-center flex-row max-lg:flex-col max-lg:gap-5">

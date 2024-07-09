@@ -21,15 +21,13 @@ export const order = async (req, res) => {
 
         razorpayInstance.orders.create(options, (error, order) => {
             if (error) {
-                console.log(error);
+                
                 return res.status(500).json({ message: "Something Went Wrong!" });
             }
             res.status(200).json(order);
-            console.log(order)
         });
     } catch (error) {
         res.status(500).json({ message: "Internal Server Error!" });
-        console.log(error);
     }
 }
 export const verify = async (req, res) => {
@@ -43,7 +41,6 @@ export const verify = async (req, res) => {
             .update(sign.toString())
             .digest("hex");
 
-        // console.log(razorpay_signature === expectedSign);
 
         // Create isAuthentic
         const isAuthentic = expectedSign === razorpay_signature;
@@ -106,13 +103,13 @@ export const verify = async (req, res) => {
                 paymentResultId: payment
             })
             await newOrder.save()
-            console.log(newOrder);
+            
             if (newOrder) {
                 await CartModel.deleteOne({
                     userId: userId
                 })
                 for (const updateData of cart) {
-                    console.log(updateData);
+                    
                     const { productId, size, quantity } = updateData;
 
                     await ProductModel.updateOne(
@@ -133,7 +130,6 @@ export const verify = async (req, res) => {
         }
     } catch (error) {
         res.status(500).json({ message: "Internal Server Error!" });
-        console.log(error);
     }
 }
 

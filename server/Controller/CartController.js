@@ -22,7 +22,6 @@ export const addToCart = async (req, res) => {
                 ]
             })
             await cart.save()
-            console.log(cart);
             return res.status(200).json(cart);
         }
         const itemIndex = cart.products.findIndex(item => item.productId.toString() === productId && item.size === size);

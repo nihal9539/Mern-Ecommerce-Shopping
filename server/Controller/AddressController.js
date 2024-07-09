@@ -19,7 +19,6 @@ export const addNewAddress =async(req,res)=>{
 
             })
             await newAddress.save()
-            console.log(newAddress);
             res.status(200).json(newAddress)
         
 

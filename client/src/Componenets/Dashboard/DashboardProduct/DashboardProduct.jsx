@@ -13,7 +13,6 @@ const DashboardProduct = () => {
   let { products, loading } = useSelector((state) => state.productReducer);
 
 
-console.log(products);
   useEffect(() => {
     dispatch(getAllProduct());
   }, []);

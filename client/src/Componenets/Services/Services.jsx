@@ -24,7 +24,7 @@ const Services = () => {
     },
   ];
   return (
-    <div className=" p-10 px-16 w-full text-gray-800 flex-wrap max-lg:gap-10 flex justify-evenly items-center  bg-gray-400/20 my-5 mt-10">
+    <section className=" p-10 px-16 w-full text-gray-800 flex-wrap max-lg:gap-10 flex justify-evenly items-center  bg-gray-400/20 my-5 mt-10">
       {service.map((item) => (
         <div key={item.id} className="flex items-start gap-5 w-[20rem]">
           {item.icon}
@@ -37,7 +37,7 @@ const Services = () => {
         </div>
       ))}
       
-    </div>
+    </section>
   );
 };
 

@@ -11,14 +11,14 @@ import { format, getMonth } from "date-fns";
 
 const ViewOrder = () => {
   const { orderById } = useSelector((state) => state.orderReducer);
-  console.log(orderById);
+  console.log(orderById.length);
   const dispatch = useDispatch();
   const { id } = useParams();
   useEffect(() => {
     dispatch(getOderById(id));
-  }, []);
+  }, [id]);
   var totalAmount = 0;
-  orderById.orderItems.map((data) => {
+  orderById?.orderItems?.map((data) => {
     totalAmount += data.price * data.quantity;
   });
 
@@ -37,6 +37,10 @@ const ViewOrder = () => {
       setActive(currentStatusIndex + 1);
     }
   }, [orderById, id]);
+  if (orderById.length == 0) {
+    return <div>loading...</div>;
+    
+  }
   return (
     <div>
       <div></div>
