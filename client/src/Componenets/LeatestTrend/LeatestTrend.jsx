@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom'
 
 const LeatestTrend = () => {
   return (
-    <div className="w-full flex max-lg:flex-col justify-center max-lg:p-4 px-28 p-6    ">
-        <div className="flex w-7/12 max-lg:w-full  h-96 max-md:h-72 max-l  overflow-hidden gap-5">
+    <div className="w-full flex max-lg:flex-col justify-center max-lg:p-4 px-24 p-6    ">
+        <div className="flex w-7/12 max-lg:w-full  h-[26rem] max-md:h-72 max-l  overflow-hidden gap-5">
           <img
             src={"./new-collection-1.jpeg"}
             className="w-1/2 h-full"

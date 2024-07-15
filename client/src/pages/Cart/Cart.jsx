@@ -18,6 +18,7 @@ const Cart = ({ forAccountPage }) => {
   cartData?.map((item) => {
     totalPrice = totalPrice + item.price * item.quantity;
   });
+  
   if (cartData?.length <= 0) {
     return (
       <div>

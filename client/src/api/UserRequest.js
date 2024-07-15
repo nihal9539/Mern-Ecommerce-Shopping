@@ -12,6 +12,6 @@ API.interceptors.request.use(
     return Promise.reject(error);
   }
 );
-
+const token = localStorage.getItem('token')
 export const allUser = ( )=> API.post('/alluser')
 export const updateUserProfile = (userId,formData)=> API.put(`/update/${userId}`,formData)

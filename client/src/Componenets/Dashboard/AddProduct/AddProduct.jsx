@@ -23,13 +23,12 @@ const AddProduct = () => {
     description: "",
     subTitle: "",
     price: null,
-    discount: 0,
     gender: "",
     sizes: [
-      { size: "S", quantity: null },
-      { size: "M", quantity: null },
-      { size: "L", quantity: null },
-      { size: "XL", quantity: null },
+      { size: "S", quantity: 0 },
+      { size: "M", quantity: 0 },
+      { size: "L", quantity: 0 },
+      { size: "XL", quantity: 0 },
     ],
     category: [],
   });
@@ -62,7 +61,7 @@ const AddProduct = () => {
           ]);
         };
         reader.onerror = (err) => {
-          toast.error(err)
+          toast.error(err);
           console.log("error", err);
         };
       });
@@ -100,13 +99,12 @@ const AddProduct = () => {
       description: "",
       subTitle: "",
       price: null,
-      discount: 0,
       gender: "",
       sizes: [
-        { size: "S", quantity: null },
-        { size: "M", quantity: null },
-        { size: "L", quantity: null },
-        { size: "XL", quantity: null },
+        { size: "S", quantity: 0 },
+        { size: "M", quantity: 0 },
+        { size: "L", quantity: 0 },
+        { size: "XL", quantity: 0 },
       ],
       category: [],
     });
@@ -193,6 +191,7 @@ const AddProduct = () => {
                       alt={`Product ${index + 1}`}
                       className="h-40 w-full object-cover rounded-lg"
                     />
+                    
                     <button
                       type="button"
                       onClick={() => removeImage(index)}
@@ -216,14 +215,14 @@ const AddProduct = () => {
                       onChange={handleconvertToBase64}
                       className="hidden"
                     />
-                   <IoAdd size={40} />
+                    <IoAdd size={40} />
                   </div>
                 )}
               </div>
             ) : (
               <div
                 onClick={() => imgref.current.click()}
-                className="border-2 border-gray-500 border-dashed rounded-lg flex flex-col gap-2 justify-center items-center h-40"
+                className="border-2 border-gray-500 border-dashed rounded-lg flex flex-col gap-2 justify-center items-center h-72"
               >
                 <input
                   type="file"
@@ -276,25 +275,7 @@ const AddProduct = () => {
                 </div>
               </label>
             </div>
-            <div>
-              <label className="block">
-                <span className="font-semibold">Discount</span>
-                <div className="flex">
-                  <span className="inline-flex items-center px-3 bg-gray-300 border border-r-0 rounded-l-md">
-                    <FaPercentage />
-                  </span>
-                  <input
-                    type="number"
-                    name="discount"
-                    value={data.discount}
-                    onChange={handledata}
-                    max={100}
-                    min={0}
-                    className="border border-gray-300 rounded-r-md flex-1 p-2"
-                  />
-                </div>
-              </label>
-            </div>
+
           </div>
         </section>
         <section className="p-6 col-span-2 max-md:col-span-6 bg-white shadow-md rounded-2xl">

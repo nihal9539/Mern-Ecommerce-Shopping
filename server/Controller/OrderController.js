@@ -5,7 +5,7 @@ export const getUserOrder = async (req, res) => {
 
     try {
 
-        const orders = await orderModel.findById({
+        const orders = await orderModel.find({
             userId
         })
 

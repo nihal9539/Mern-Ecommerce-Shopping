@@ -31,7 +31,7 @@ export const order = async (req, res) => {
     }
 }
 export const verify = async (req, res) => {
-    const { razorpay_order_id, razorpay_payment_id, razorpay_signature, userId, addressId } = req.body;
+    const { razorpay_order_id, razorpay_payment_id, razorpay_signature, cartData,userId, addressId } = req.body;
     try {
         // Create Sign
         const sign = razorpay_order_id + "|" + razorpay_payment_id;
@@ -55,60 +55,68 @@ export const verify = async (req, res) => {
 
             // Save Payment 
             await payment.save();
-            const cart = await CartModel.aggregate([
-                {
-                    '$match': {
-                        'userId': userId
-                    }
-                }, {
-                    '$unwind': '$products'
-                }, {
-                    '$project': {
-                        'quantity': '$products.quantity',
-                        'size': '$products.size',
-                        'price': '$products.price',
-                        'productId': '$products.productId',
-                    }
-                }, {
-                    '$lookup': {
-                        'from': 'products',
-                        'localField': 'productId',
-                        'foreignField': '_id',
-                        'as': 'productData'
-                    }
-                }, {
-                    '$project': {
-                        'size': 1,
-                        "productId": 1,
-                        'quantity': 1,
-                        'price': 1,
-                        'productname': {
-                            '$arrayElemAt': [
-                                '$productData.productname', 0
-                            ]
-                        },
-                        'imagUrl': {
-                            '$arrayElemAt': [
-                                '$productData.image.url', 0
-                            ]
-                        }
-                    }
-                }
-            ]);
+            // const cart = await CartModel.aggregate([
+            //     {
+            //         '$match': {
+            //             'userId': userId
+            //         }
+            //     }, {
+            //         '$unwind': '$products'
+            //     }, {
+            //         '$project': {
+            //             'quantity': '$products.quantity',
+            //             'size': '$products.size',
+            //             'price': '$products.price',
+            //             'productId': '$products.productId',
+            //         }
+            //     }, {
+            //         '$lookup': {
+            //             'from': 'products',
+            //             'localField': 'productId',
+            //             'foreignField': '_id',
+            //             'as': 'productData'
+            //         }
+            //     }, {
+            //         '$project': {
+            //             'size': 1,
+            //             "productId": 1,
+            //             'quantity': 1,
+            //             'price': 1,
+            //             'productname': {
+            //                 '$arrayElemAt': [
+            //                     '$productData.productname', 0
+            //                 ]
+            //             },
+            //             'imagUrl': {
+            //                 '$arrayElemAt': [
+            //                     '$productData.image.url', 0
+            //                 ]
+            //             }
+            //         }
+            //     }
+            // ]);
+            const orderItems = cartData.map(item => ({
+                productname: item.productname,
+                imageUrl: item.image,
+                quantity: item.quantity,
+                size: item.size,
+                price: item.price
+            }));
             const newOrder = new orderModel({
                 userId: userId,
-                orderItems: cart,
+                orderItems,
                 shippingAddressId: addressId,
                 isDelivered: false,
                 paymentResultId: payment
             })
+            console.log(newOrder);
             await newOrder.save()
             
             if (newOrder) {
                 await CartModel.deleteOne({
                     userId: userId
                 })
-                for (const updateData of cart) {
+                for (const updateData of orderItems) {
                     
                     const { productId, size, quantity } = updateData;
 

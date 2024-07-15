@@ -5,7 +5,7 @@ import CartModel from "../model/CartModel.js";
 
 export const createProduct = async (req, res) => {
 
-    const { productname, subTitle, description,category, discount, images, sizes, gender, price } = req.body;
+    const { productname, subTitle, description, category, images, sizes, gender, price } = req.body;
     const uploadedImages = await Promise.all(
         images.map(async (image) => {
             const result = await cloudinary.uploader.upload(image, {
@@ -20,7 +20,6 @@ export const createProduct = async (req, res) => {
     const newProduct = await new ProductModel({
         productname,
         subTitle,
-        discount,
         description,
         sizes,
         gender,
@@ -41,30 +40,52 @@ export const createProduct = async (req, res) => {
 export const updateProduct = async (req, res) => {
     const { id } = req.params;
     const { productname, subTitle, description, image, sizes, gender, price } = req.body;
+    console.log(image);
     try {
         if (!mongoose.Types.ObjectId.isValid(id)) {
             return res.status(400).json({ message: 'Invalid product ID' });
         }
+
         const existingProduct = await ProductModel.findById(id);
         if (!existingProduct) {
             return res.status(404).json({ message: 'Product not found' });
         }
-        if (image && image !== "") {
-            const result = await cloudinary.uploader.upload(image, {
-                folder: 'products',
-            })
 
-            const updatedProduct = await ProductModel.findByIdAndUpdate(id, {
-                productname, subTitle, description, sizes, image: {
-                    public_id: result.public_id,
-                    url: result.secure_url,
+        // Determine which images to keep and which to add
+        const existingImages = existingProduct.image.map(img => img.public_id);
+        let updatedImages = image.filter((img) => existingImages.includes(img.public_id)); // Keep existing images with public_id
+        const newImages = image.filter((img) => !img.public_id); // New images to be uploaded
 
-                }, gender, price
-            }, { new: true })
-            return res.status(200).json(updatedProduct)
+        // Upload new images to Cloudinary
+        for (const img of newImages) {
+            const result = await cloudinary.uploader.upload(img.base64, { folder: 'products' });
+            updatedImages.push({
+                public_id: result.public_id,
+                url: result.secure_url,
+            });
         }
-        const updateData = { productname, subTitle, description, gender, price, sizes };
-        const updatedProduct = await ProductModel.findByIdAndUpdate(id, updateData, { new: true })
+
+        // Delete images from Cloudinary and database if they are not in the request
+        const imagesToDelete = existingProduct.image.filter((img) => {
+            return !image.some((reqImg) => reqImg.public_id === img.public_id);
+        });
+
+        for (const img of imagesToDelete) {
+            await cloudinary.uploader.destroy(img.public_id);
+        }
+
+        const updateData = {
+            productname,
+            subTitle,
+            description,
+            sizes,
+            image: updatedImages,
+            gender,
+            price
+        };
+
+        const updatedProduct = await ProductModel.findByIdAndUpdate(id, updateData, { new: true });
+
         return res.status(200).json(updatedProduct)
 
 

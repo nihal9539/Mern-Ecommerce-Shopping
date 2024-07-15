@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 
-import { IoMdArrowRoundBack } from "react-icons/io";
+import { IoMdArrowRoundBack, IoMdClose } from "react-icons/io";
 import { useNavigate, useParams } from "react-router-dom";
 import { FaPercentage } from "react-icons/fa";
 import InputLabel from "@mui/material/InputLabel";
@@ -14,6 +14,7 @@ import {
   getProductById,
   updateProduct,
 } from "../../../Action/ProductAction";
+import { IoAdd, IoImageOutline } from "react-icons/io5";
 
 const EditProduct = () => {
   const navigate = useNavigate();
@@ -25,26 +26,29 @@ const EditProduct = () => {
     description: "",
     subTitle: "",
     price: "",
-    discountprice: "",
     gender: "",
-    image: "",
     sizes: [],
   });
   const { id } = useParams();
   useEffect(() => {
     dispatch(getProductById(id));
-    setData({
-      productname: product?.productname,
-      description: product?.description,
-      subTitle: product?.subTitle,
-      price: product.price,
-      discountprice: product.description,
-      gender: product?.gender,
-      sizes: product?.sizes.map((item) => {
-        return { size: item.size, quantity: item.quantity };
-      }),
-    });
-  }, []);
+  }, [id, dispatch]);
+  useEffect(() => {
+    if (product) {
+      setData({
+        productname: product.productname,
+        description: product.description,
+        subTitle: product.subTitle,
+        price: product.price,
+        gender: product.gender,
+        sizes: product.sizes.map((item) => ({
+          size: item.size,
+          quantity: item.quantity,
+        })),
+      });
+      setImages(product.image || []);
+    }
+  }, [product]);
 
   const handleBack = () => {
     navigate(-1); // Navigate back by one step in the history stack
@@ -53,14 +57,11 @@ const EditProduct = () => {
       description: "",
       subTitle: "",
       price: "",
-      discountprice: "",
       gender: "",
-      image: "",
       sizes: [],
     });
   };
   const imgRef = useRef();
-  const [image, setImage] = useState(product?.image?.url);
 
   // handle data
   const handledata = (e) => {
@@ -71,22 +72,30 @@ const EditProduct = () => {
     }));
   };
 
+  const [images, setImages] = useState(product?.image);
+
   // Image converter
   const handleconvertToBase64 = (e) => {
-    setImage(URL.createObjectURL(event.target.files[0]));
-    var reader = new FileReader();
-    reader.readAsDataURL(e.target.files[0]);
-    reader.onload = () => {
-      setData((prevData) => ({
-        ...prevData,
-        image: reader.result,
-      }));
-      imgRef.current.value = "";
-    };
-    reader.onerror = (err) => {
-      toast.error(err)
-      console.log("error", err);
-    };
+    const files = Array.from(e.target.files);
+    if (images.length + files.length > 5) {
+      alert("You can only upload a maximum of 5 images");
+      return;
+    } else {
+      files.forEach((file) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+          setImages((prevImages) => [
+            ...prevImages,
+            { file, base64: reader.result },
+          ]);
+        };
+        reader.onerror = (err) => {
+          toast.error(err);
+          console.log("error", err);
+        };
+      });
+    }
   };
 
   // handleing size quantity
@@ -104,24 +113,25 @@ const EditProduct = () => {
   // submiting form
   const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(updateProduct(id, data, navigate));
+    const requestData = { ...data, image: images };
+    dispatch(updateProduct(id, requestData, navigate));
     dispatch(getAllProduct());
     setData({
       productname: "",
       description: "",
       subTitle: "",
       price: "",
-      discountprice: "",
       gender: "",
       image: "",
       sizes: [],
     });
   };
 
-  const handleImageClick = () => {
-    imgRef.current.click();
-  };
+  console.log(images);
 
+  const removeImage = (index) => {
+    setImages(images.filter((_, i) => i !== index));
+  };
   return (
     <div className="">
       <IoMdArrowRoundBack
@@ -165,31 +175,72 @@ const EditProduct = () => {
           </div>
         </div>
         <div className="p-6 h-[23rem] relative col-span-2 max-md:col-span-6 bg-white shadow-md rounded-2xl">
-          <div className="h-full">
-            <div className="mb-5 flex items-center justify-between text-lg font-semibold">
+          <div className="flex flex-col justify-center items-cente">
+            <div className=" flex items-center justify-between text-lg font-semibold">
               <span>Product Image</span>
             </div>
+            {/* <img
+            src={product?.image[imageId]?.url}
+            className="h-44 w-64 max-lg:h-[400px] max-lg:w-[350px] rounded-lg"
+            alt="Loading.."
+          /> */}
+            <div className="h-72 overflow-auto">
+              {images.length > 0 ? (
+                <div className="grid grid-cols-3 gap-4">
+                  {images.map((img, index) => (
+                    <div key={index} className="relative">
+                      <img
+                        src={img.url || img.base64}
+                        alt={`Product ${index + 1}`}
+                        className="h-40 w-full object-cover rounded-lg"
+                      />
 
-            <div>
-              <img src={image} className="h-56 w-full" alt="Image" />
-            </div>
-
-            <input
-              type="file"
-              accept=".png,.jpg,.jpeg"
-              ref={imgRef}
-              onChange={handleconvertToBase64}
-              className="hidden"
-            />
-            {/* <IoImageOutline size={25} onClick={()=>imgRef.current.click()} /> */}
-            <div className="flex justify-center">
-              <button
-                type="button"
-                onClick={handleImageClick}
-                className="font-semibold max-lg:text-xs text-center bg-black text-white mt-5 rounded-md p-2"
-              >
-                Change Your Product Image
-              </button>
+                      <button
+                        type="button"
+                        onClick={() => removeImage(index)}
+                        aria-label="Remove image"
+                        className="absolute top-2 right-2 bg-red-600 text-white rounded-full p-1.5"
+                      >
+                        <IoMdClose size={20} />
+                      </button>
+                    </div>
+                  ))}
+                  {images.length < 5 && (
+                    <div
+                      onClick={() => imgRef.current.click()}
+                      className="border-2 border-gray-500 border-dashed rounded-lg flex flex-col gap-2 justify-center items-center h-40 cursor-pointer"
+                    >
+                      <input
+                        type="file"
+                        accept=".png,.jpg,.jpeg"
+                        multiple
+                        ref={imgRef}
+                        onChange={handleconvertToBase64}
+                        className="hidden"
+                      />
+                      <IoAdd size={40} />
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <div
+                  onClick={() => imgRef.current.click()}
+                  className="border-2 border-gray-500 border-dashed rounded-lg flex flex-col gap-2 justify-center items-center h-72"
+                >
+                  <input
+                    type="file"
+                    accept=".png,.jpg,.jpeg"
+                    multiple
+                    ref={imgRef}
+                    onChange={handleconvertToBase64}
+                    className="hidden"
+                  />
+                  <IoImageOutline size={25} />
+                  <span className="font-semibold max-lg:text-xs text-center">
+                    Upload Your Product Images
+                  </span>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -227,23 +278,6 @@ const EditProduct = () => {
                   value={data.price}
                   required
                   className="number-input h-full px-2 outline-none w-full"
-                />
-              </div>
-            </div>
-            <div>
-              <h1 className="font-semibold mb-2">Discount</h1>
-              <div className="flex flex-row border-2 h-10 rounded-lg">
-                <div className=" w-10 rounded-md rounded-r-none flex justify-center items-center bg-gray-300">
-                  <FaPercentage />
-                </div>
-                <input
-                  type="number"
-                  name="discountprice"
-                  value={data.discountprice}
-                  onChange={handledata}
-                  max={100}
-                  min={0}
-                  className="  h-full px-2 outline-none w-full"
                 />
               </div>
             </div>

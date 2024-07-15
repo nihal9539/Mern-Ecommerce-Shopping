@@ -4,9 +4,10 @@ import "react-accessible-accordion/dist/fancy-example.css";
 import Card from "../../Componenets/Card/Card";
 import ProductsAccordian from "../../Componenets/ProductFilter/ProductFilter";
 import { useDispatch, useSelector } from "react-redux";
-import {  SearchIcon, X } from "lucide-react";
+import { SearchIcon, X } from "lucide-react";
 import { getAllProduct } from "../../Action/ProductAction";
 import { HiOutlineAdjustmentsHorizontal } from "react-icons/hi2";
+import useIntersectionObserver from "../../hooks/useIntersectionObserver";
 
 const AllProduct = () => {
   const { products } = useSelector((state) => state?.productReducer);
@@ -27,6 +28,7 @@ const AllProduct = () => {
   }, []);
 
   const filteredProducts = products.filter((item) => {
+
     const matchesCategory =
       categoryFilter.length === 0 ||
       item.category.some((cat) => categoryFilter.includes(cat));
@@ -35,16 +37,16 @@ const AllProduct = () => {
     const matchesPrice =
       (minPrice.length === 0 || item.price >= minPrice[0]) &&
       (maxPrice.length === 0 || item.price <= maxPrice[0]);
-    const matchesSearch = item.productname
-      .toLowerCase()
-      .includes(filter.toLowerCase());
+    const matchesSearch =
+      item.productname &&
+      item.subTitle.toLowerCase().includes(filter.toLowerCase());
 
     return matchesCategory && matchesGender && matchesPrice && matchesSearch;
   });
   return (
     <div>
       <div className="p-12 max-md:px-0 pt-32 relative  flex flex-row">
-        <div className="w-[20%] h-[60vh] sticky top-20 max-md:hidden  p-1">
+        <div className="w-[20%] h-[100vh] pb-10 overflow-auto sticky top-20 max-md:hidden  p-1">
           <h1 className="text-2xl p-4 tracking-wider font-bold">FILTERS</h1>
           <hr className="w-full h-1 my-2 " />
           <ProductsAccordian />
@@ -74,15 +76,21 @@ const AllProduct = () => {
               onClick={() => {
                 setOpen(!isOpen);
               }}
-              className="hidden max-md:block max-md:mr-2"
+              className="hidden max-md:block max-md:mr-2 cursor-pointer"
             />
           </div>
 
-          <div className="w-full gap-4 grid xl:grid-cols-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 max-sm:grid-cols-2 p-2">
+          <div className="w-full gap-4 grid xl:grid-cols-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 max-sm:grid-cols-2 p-2 max-md:px-5">
             {filteredProducts.map((data, index) => (
-              <Card homepageCard={false} key={index} data={data} />
+              <ProductObserver key={index} data={data} />
             ))}
+           
           </div>
+          {filteredProducts.length === 0 && (
+              <div className=" flex flex-col items-center h-screen  justify-center gap-2 p-2">
+                No products found
+              </div>
+            )}
           {/* Right side bar */}
           <div
             className={`${
@@ -91,7 +99,7 @@ const AllProduct = () => {
                 : "right-[-100%] duration-300  opacity-0"
             } border border-gray-300 duration-300 fixed rounded-md top-0  z-[99999] h-screen bg-black/20 w-full flex justify-end`}
           >
-            <div className="bg-black/80  h-8 w-8 grid place-items-center">
+            <div className="bg-black/80 cursor-pointer  h-8 w-8 grid place-items-center">
               <X
                 color="white"
                 size={30}
@@ -114,6 +122,17 @@ const AllProduct = () => {
           </div>
         </div>
       </div>
+    </div>
+  );
+};
+const ProductObserver = ({ data }) => {
+  const [ref, isIntersecting] = useIntersectionObserver({
+    threshold: 0.1, // Adjust the threshold as needed
+  });
+
+  return (
+    <div ref={ref}>
+      {isIntersecting ? <Card data={data} /> : <div style={{ height: '300px', width: '100%' }} />} {/* Adjust placeholder height and width as needed */}
     </div>
   );
 };

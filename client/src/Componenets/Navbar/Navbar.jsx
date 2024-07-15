@@ -82,7 +82,7 @@ const Navbar = ({ bgWhite }) => {
         </Link>
         <Link to={"/wishlist"}>Wishlist</Link>
         {user ? (
-          <User onClick={() => navigate("/account")} />
+          <User className="cursor-pointer" onClick={() => {navigate("/account");setOpen(false)}} />
         ) : (
           <Link
             to={"/login"}
@@ -130,7 +130,7 @@ const Navbar = ({ bgWhite }) => {
           Wishlist
         </Link>
         {user ? (
-          <User onClick={() => navigate("/account/profile")} />
+          <User className="cursor-pointer"  onClick={() => {navigate("/account/profile");setOpen(false)}} />
         ) : (
           <Link
             to={"/login"}

@@ -87,7 +87,7 @@ const ProductFilter = () => {
   );
   };
   const Gender = (
-    <div>
+    <div className="overflow-scroll">
       <div className="">
         <label className="container">
           Male
@@ -161,7 +161,7 @@ const ProductFilter = () => {
   return (
     <div>
       {AcoordianData.map((item) => (
-        <Accordion componenet={item.component} title={item.heading} />
+        <Accordion key={item.heading} componenet={item.component} title={item.heading} />
       ))}
     </div>
   );

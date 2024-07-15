@@ -23,15 +23,17 @@ import Profile from "./Componenets/Profile/Profile";
 import Order from "./Componenets/Order/Order";
 import EditProduct from "./Componenets/Dashboard/EditProduct/EditProduct";
 import ViewProduct from "./Componenets/Dashboard/ViewProduct/ViewProduct";
-import ViewOrder from "./Componenets/Dashboard/ViewOrder/ViewOrder";
 import AllProduct from "./pages/AllProduct/AllProduct";
 
 import "@mantine/core/styles.css";
 import "react-toastify/dist/ReactToastify.css";
 import "react-toastify/dist/ReactToastify.min.css";
+import OrderById from "./pages/OrderById/OrderById";
+import AdminLogin from "./pages/AdminLogin/AdminLogin";
 
 function App() {
   const user = useSelector((state) => state.authReducer.authData);
+  const admin = useSelector((state) => state.authReducer.admin);
 
   return (
     <BrowserRouter>
@@ -79,21 +81,74 @@ function App() {
               path="order"
               element={user ? <Order /> : <Navigate to="/login" />}
             />
+            <Route
+              path="order/:id"
+              element={user ? <OrderById /> : <Navigate to="/login" />}
+            />
           </Route>
         </Route>
-
+        {/* admin login */}
+        <Route
+          path="admin-login"
+          element={admin ? <Navigate to={"/dashboard"} /> : <AdminLogin />}
+        />
         {/* Dash board routes */}
-        <Route path="/" element={<DashboardLayout />}>
-          <Route path="dashboard" element={<Dashboard />} />
-          <Route path="ecommerce" element={<Dashboard />} />
-          <Route path="products" element={<DashboardProduct />}></Route>
-          <Route path="products/add-product" element={<AddProduct />} />
-          <Route path="products/edit-product/:id" element={<EditProduct />} />
-          <Route path="products/:id" element={<ViewProduct />} />
+        <Route
+          path="/"
+          element={
+            admin ? <DashboardLayout /> : <Navigate to={"/admin-login"} />
+          }
+        >
+          <Route
+            path="dashboard"
+            element={admin ? <Dashboard /> : <Navigate to={"/admin-login"} />}
+          />
+          <Route
+            path="ecommerce"
+            element={admin ? <Dashboard /> : <Navigate to={"/admin-login"} />}
+          />
+          <Route
+            path="products"
+            element={
+              admin ? <DashboardProduct /> : <Navigate to={"/admin-login"} />
+            }
+          ></Route>
+          <Route
+            path="products/add-product"
+            element={admin ? <AddProduct /> : <Navigate to={"/admin-login"} />}
+          />
+          <Route
+            path="products/edit-product/:id"
+            element={admin ? <EditProduct /> : <Navigate to={"/admin-login"} />}
+          />
+          <Route
+            path="products/:id"
+            element={admin ? <ViewProduct /> : <Navigate to={"/admin-login"} />}
+          />
 
-          <Route path="orders" element={<DashboardOrders />} />
-          <Route path="orders/:id" element={<ViewOrder />} />
-          <Route index path="employees" element={<DashboardEmployees />} />
+          <Route
+            path="orders"
+            element={
+              admin ? <DashboardOrders /> : <Navigate to={"/admin-login"} />
+            }
+          />
+          <Route
+            path="orders/:id"
+            element={
+              admin ? (
+                <OrderById dashboard={true} />
+              ) : (
+                <Navigate to={"/admin-login"} />
+              )
+            }
+          />
+          <Route
+            index
+            path="employees"
+            element={
+              admin ? <DashboardEmployees /> : <Navigate to={"/admin-login"} />
+            }
+          />
         </Route>
       </Routes>
       <ToastContainer style={{ fontSize: "14px", zIndex: "999999" }} />

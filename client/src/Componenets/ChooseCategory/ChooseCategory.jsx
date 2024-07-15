@@ -17,8 +17,7 @@ const ChooseCategory = () => {
     navigate(`/collection/all?${"gender=male"}`); // Navigate to products page with gender query param
   };
   return (
-    <section className=" px-28 max-md:p-4">
-      <h1 className="text-3xl  font-bold mb-10">CHOOSE YOUR CATEGORY</h1>
+    <section className=" px-24  max-md:p-4">
       <div className="grid grid-cols-2 max-md:grid-cols-1  gap-1">
         <div className="relative">
           <div className="absolute bottom-10 right-10 text-white flex flex-col  items-start gap-2.5">

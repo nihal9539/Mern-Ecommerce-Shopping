@@ -16,9 +16,10 @@ const Order = () => {
   }, []);
   const [selection, setSelection] = useState("all");
   const buttons = [
-    { option: "all", value: "All" },
-    { option: "onshipping", value: "On Shipping" },
-    { option: "arrived", value: "Arrived" },
+    { option: "all",  },
+    { option: "onshipping", },
+    { option: "arrived", },
+    { option: "cancelled", },
   ];
   const isActive =
     "text-white bg-black/90  font-semibold  w-full flex justify-center  items-center rounded-lg h-full";
@@ -38,12 +39,12 @@ const Order = () => {
         {buttons.map((item) => (
           <button
             disabled={selection == item.option}
-            className={`${selection == item.option ? isActive : isNotActive}`}
+            className={`${selection == item.option ? isActive : isNotActive} capitalize`}
             key={item.option}
             onClick={() => setSelection(item.option)}
-            aria-label={`Filter orders by ${item.value}`}
+            aria-label={`Filter orders by ${item.option}`}
           >
-            {item.value}
+            {item.option}
           </button>
         ))}
       </div>
@@ -54,11 +55,15 @@ const Order = () => {
 
         {selection == "onshipping" &&
           orders
-            .filter((item) => item.isDelivered == false)
+            .filter((item) => item.isDelivered == false && item.orderStatus !== "Cancelled")
             .map((item, i) => <OrderItems data={item} key={i} />)}
         {selection == "arrived" &&
           orders
-            .filter((item) => item.isDelivered == true)
+            .filter((item) => item.isDelivered == true && item.orderStatus !== "Cancelled")
+            .map((item, i) => <OrderItems data={item} key={i} />)}
+        {selection == "cancelled" &&
+          orders
+            .filter((item) => item.orderStatus == "Cancelled")
             .map((item, i) => <OrderItems data={item} key={i} />)}
       </div>
 

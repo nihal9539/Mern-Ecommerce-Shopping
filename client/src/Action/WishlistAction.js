@@ -20,6 +20,7 @@ export const fetchWishlist = (id) => async (dispatch) => {
     dispatch({ type: "WISHLIST_FETCH_START" });
     try {
         const wishlist = await WishlistApi.getWishlist(id);
+        
         dispatch({ type: "WISHLIST_FETCH_SUCCESS", data: wishlist?.data?.products });
     } catch (error) {
         toast.error(error.response.data);

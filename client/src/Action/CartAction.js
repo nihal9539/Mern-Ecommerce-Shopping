@@ -21,7 +21,7 @@ export const getUserCart = (userId) => async (dispatch) => {
 
     try {
         const cart = await CartApi.getUserCart(userId)
-        dispatch({ type: "CART_FETCH_SUCCESS", data: cart.data })
+        dispatch({ type: "CART_FETCH_SUCCESS", data: cart.data.products })
 
     } catch (error) {
         dispatch({ type: "CART_FETCH_FAIL" })

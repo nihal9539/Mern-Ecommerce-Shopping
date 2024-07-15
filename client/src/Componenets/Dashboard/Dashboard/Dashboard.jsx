@@ -1,5 +1,5 @@
 import React from "react";
-import { BarChart, Cuboid, IndianRupee, Users } from "lucide-react";
+import { BarChart,  IndianRupee, Users } from "lucide-react";
 import { BsBoxSeam } from "react-icons/bs";
 import { useFetchUsers } from "../../../hooks/useFetchUsers";
 import { useFetchOrders } from "../../../hooks/useFetchOrders";

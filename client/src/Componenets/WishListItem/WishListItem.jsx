@@ -33,7 +33,6 @@ const WishListItem = ({ data, setReload, forAccountPage }) => {
       size: size,
       price: data?.price,
     };
-    console.log(formData);
     dispatch(addToCart(user, formData, navigate));
   };
   return (

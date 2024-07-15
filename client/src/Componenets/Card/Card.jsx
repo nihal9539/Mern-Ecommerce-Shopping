@@ -2,17 +2,17 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 
-const Card = ({data,homepageCard}) => {
+const Card = ({data}) => {
 
 
 
 
   return (
-    <Link to={`/product/${data?._id}`} className={`card max-md:w-auto  ${homepageCard ? "w-72 max-lg:w-56 r-card duration-300 group rounded-b-lg":" w-64 bg-base-300"}   shadow-sm rounded-none`}>
+    <Link to={`/product/${data?._id}`} className={`card max-md:w-auto   w-72 bg-base-300  shadow-sm rounded-none`}>
     
-      <figure className="w-full max-sm:h-60 h-80">
+      <figure className="w-full max-sm:h-56 h-72">
         <img
-          className={`${homepageCard && "group-hover:scale-125 group-hover:-rotate-3 duration-300"} w-full max-sm:p-0  rounded-md h-full`}
+          className={`w-full max-sm:p-0   bg-gray-500/10 rounded-md h-full`}
           src={data?.image[0]?.url}
           alt="Image"
         />

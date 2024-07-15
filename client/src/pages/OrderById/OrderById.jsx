@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getOderById } from "../../../Action/OrderAction";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Stepper } from "@mantine/core";
-import { Container, Home, Truck, User2 } from "lucide-react";
+import { Ban, Container, Home, Truck, User2 } from "lucide-react";
 import { FaShippingFast } from "react-icons/fa";
 import { PiShoppingCartSimple } from "react-icons/pi";
 import { DataTable } from "mantine-datatable";
-import { format, getMonth } from "date-fns";
+import { format } from "date-fns";
+import { getOderById } from "../../Action/OrderAction";
 
-const ViewOrder = () => {
+const OrderById = ({ dashboard }) => {
   const { orderById } = useSelector((state) => state.orderReducer);
-  console.log(orderById.length);
+  console.log(orderById);
   const dispatch = useDispatch();
   const { id } = useParams();
   useEffect(() => {
@@ -28,19 +28,28 @@ const ViewOrder = () => {
     Processing: <Container />,
     Shipped: <PiShoppingCartSimple />,
     Delivered: <FaShippingFast />,
+    Cancelled: <Ban />,
   };
 
-  const statusSteps = ["Pending", "Processing", "Shipped", "Delivered"];
+  let statusSteps = ["Pending", "Processing", "Shipped", "Delivered"];
+  if (orderById.orderStatus === "Cancelled") {
+    statusSteps = ["Pending", "Cancelled"];
+  }
   useEffect(() => {
     if (orderById && orderById.orderStatus) {
+      const statusSteps =
+        orderById.orderStatus === "Cancelled"
+          ? ["Pending", "Cancelled"]
+          : ["Pending", "Processing", "Shipped", "Delivered", "Cancelled"];
+
       const currentStatusIndex = statusSteps.indexOf(orderById.orderStatus);
       setActive(currentStatusIndex + 1);
     }
   }, [orderById, id]);
   if (orderById.length == 0) {
     return <div>loading...</div>;
-    
   }
+
   return (
     <div>
       <div></div>
@@ -58,7 +67,7 @@ const ViewOrder = () => {
           </div>
           <div className="mb-10 my-4">
             <Stepper
-              className="px-10"
+              className="px-1"
               styles={{
                 stepBody: {
                   position: "relative",
@@ -69,7 +78,6 @@ const ViewOrder = () => {
                 stepLabel: { position: "absolute", bottom: -42, left: -62 }, // Adjust margin as needed
               }}
               active={active}
-              onStepClick={setActive}
               allowNextStepsSelect={false}
             >
               {statusSteps.map((status, index) => (
@@ -82,7 +90,7 @@ const ViewOrder = () => {
             </Stepper>
           </div>
         </div>
-        <div className="p-6  overflow-auto row-span-4 relative col-span-2 max-md:col-span-6 bg-white shadow-md rounded-2xl">
+        <div className="p-6 order-1 max-md:order-2 overflow-auto row-span-4 relative col-span-2 max-md:col-span-6 bg-white shadow-md rounded-2xl">
           <div className="h-full">
             <div className="mb-5 ">
               <h1 className="font-semibold text-lg"> Customer</h1>
@@ -123,67 +131,98 @@ const ViewOrder = () => {
             </div>
           </div>
         </div>
-        <div className="p-4 col-span-4 overflow-auto row-span-3 max-md:col-span-6 bg-white shadow-md rounded-lg">
+        <div className="p-4 col-span-4 order-2 max-md:order-1 overflow-auto row-span-3 max-md:col-span-6 bg-white shadow-md rounded-lg">
           <div className="mb-2 ">
             <h1 className="font-semibold text-lg"> Product</h1>
-            <p className="text-xs text-gray-700">Your Shipment</p>
           </div>
-          <div className="mb-10 my-4">
-            <DataTable
-              columns={[
-                {
-                  accessor: "id",
-                  textAlign: "center",
+          <div className="mb-10  my-4">
+            {dashboard ? (
+              <DataTable
+                columns={[
+                  {
+                    accessor: "id",
+                    textAlign: "center",
 
-                  render: (data) => (
-                    <span className="text-gray-700">{data._id}</span>
-                  ),
-                },
-                {
-                  accessor: "Item",
-                  textAlign: "center",
-                  width: 200,
-                  render: (data) => (
-                    <div className="flex items-center gap-4 flex-row">
-                      <img src={data.imagUrl} className="w-12 h-12" alt="" />
-                      <div>
-                        <h1>{data.productname}</h1>
+                    render: (data) => (
+                      <span className="text-gray-700">{data._id}</span>
+                    ),
+                  },
+                  {
+                    accessor: "Item",
+                    textAlign: "center",
+                    width: 200,
+                    render: (data) => (
+                      <div className="flex items-center gap-4 flex-row">
+                        <img
+                          src={data.imageUrl}
+                          className="w-12 h-12"
+                          alt=""
+                        />
+                        <div>
+                          <h1>{data.productname}</h1>
+                        </div>
                       </div>
-                    </div>
-                  ),
-                },
-                {
-                  accessor: "size",
-                  textAlign: "center",
-                },
-                {
-                  accessor: "price",
-                  textAlign: "center",
+                    ),
+                  },
+                  {
+                    accessor: "size",
+                    textAlign: "center",
+                  },
+                  {
+                    accessor: "price",
+                    textAlign: "center",
 
-                  render: (data) => (
-                    <span className="font-bold">₹{data.price}</span>
-                  ),
-                },
-                {
-                  accessor: "quantity",
-                  textAlign: "center",
-                  render: (data) => (
-                    <span className="font-bold">x {data.quantity}</span>
-                  ),
-                },
-                {
-                  accessor: "Amount",
-                  textAlign: "center",
-                  render: (data) => (
-                    <span className="font-bold">
-                      ₹{data.price * data.quantity}
-                    </span>
-                  ),
-                },
-              ]}
-              records={orderById.orderItems}
-              totalRecords={orderById.orderItems.length}
-            />
+                    render: (data) => (
+                      <span className="font-bold">₹{data.price}</span>
+                    ),
+                  },
+                  {
+                    accessor: "quantity",
+                    textAlign: "center",
+                    render: (data) => (
+                      <span className="font-bold">x {data.quantity}</span>
+                    ),
+                  },
+                  {
+                    accessor: "Amount",
+                    textAlign: "center",
+                    render: (data) => (
+                      <span className="font-bold">
+                        ₹{data.price * data.quantity}
+                      </span>
+                    ),
+                  },
+                ]}
+                records={orderById.orderItems}
+                totalRecords={orderById.orderItems.length}
+              />
+            ) : (
+              orderById.orderItems.map((items, i) => (
+                <Link
+                  to={`/product/${items?.productId}`}
+                  key={i}
+                  className="mb-2 flex border items-center rounded-lg"
+                >
+                  <img
+                    src={items?.imageUrl}
+                    className="rounded-l-md w-24 h-24 overflow-hidden border-r-2"
+                    alt=""
+                  />
+                  <div className="p-2 text-sm space-y-1 tracking-tighter font-bold">
+                    <h1 className="font-semibold capitalize">
+                      {items?.productname}
+                    </h1>
+                    <h1>
+                      MRP : {items?.price}{" "}
+                      <span className="text-gray-600 text-xs">
+                        x{items?.quantity}
+                      </span>
+                    </h1>
+                    <h1>{items?.size}</h1>
+                  </div>
+                </Link>
+              ))
+            )}
           </div>
           <div className="flex justify-between px-4 py-2 rounded bg-gray-100">
             <span className="font-bold">Total</span>
@@ -195,4 +234,4 @@ const ViewOrder = () => {
   );
 };
 
-export default ViewOrder;
+export default OrderById;

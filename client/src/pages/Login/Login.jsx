@@ -10,7 +10,6 @@ const Login = () => {
   const [isSignup, setSignup] = useState(false);
   const {errorMessage } = useSelector((state) => state.authReducer)
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const [errors, setErrors] = useState({
     email: "",
     password: "",

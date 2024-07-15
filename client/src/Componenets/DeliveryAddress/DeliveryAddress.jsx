@@ -34,7 +34,7 @@ const DeliveryAddress = ({nextStep}) => {
       address: (value) =>
         value.length < 10 ? "Address must have at least 5 letters" : null,
       city: (value) =>
-        value.length < 10 ? "City is Required" : null,
+        value.length < 5 ? "City is Required" : null,
       state: (value) =>
         allStates.includes(value) ? null : "Select a valid state",
     },

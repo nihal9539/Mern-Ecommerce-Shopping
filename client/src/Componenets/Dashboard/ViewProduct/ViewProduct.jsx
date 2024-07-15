@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getProductById } from "../../../Action/ProductAction";
@@ -7,6 +7,8 @@ import currencyFormatter from "currency-formatter";
 const ViewProduct = () => {
   const { product } = useSelector((state) => state.productReducer);
   const { id } = useParams();
+  const [imageId, setImageId] = useState(0);
+
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -16,12 +18,23 @@ const ViewProduct = () => {
   return (
     <div>
       <div className="w-full flex justify-center relative items-center flex-row max-lg:flex-col max-lg:gap-5">
-        <div className="w-1/2 max-lg:w-full max-lg:px-4 relative top-0 left-0   flex justify-center  items-center ">
+        <div className="w-1/2 flex-col max-lg:w-full max-lg:px-4 relative top-0 left-0   flex justify-center  items-center ">
           <img
-            src={product?.image?.url}
-            className="h-[550px] w-[450px] max-lg:h-[400px] max-lg:w-[350px] rounded-lg"
+            src={product?.image[imageId]?.url}
+            className="h-[420px] w-[380px] max-lg:h-[400px] max-lg:w-[350px] rounded-lg"
             alt="Loading.."
           />
+          <div className="mt-5 flex gap-5 overflow-auto mx-10">
+              {product?.image?.map((data, i) => (
+                <img
+                  className="w-20 h-20 rounded-md cursor-pointer"
+                  key={i}
+                  src={data.url}
+                  alt=""
+                  onMouseEnter={() => setImageId(i)}
+                />
+              ))}
+            </div>
         </div>
         <div className="w-1/2 h-[80vh] max-lg:h-full overflow-scroll max-lg:w-full max-lg:px-10 flex flex-col">
           <div className="">
@@ -50,7 +63,7 @@ const ViewProduct = () => {
                 <label className="font-semibold w-28 ">
                   {size.size} Quantity{" "}
                 </label>
-                <span>: {size.quantity}</span>
+                <span>: {size.quantity == null ? 0: size.quantity}</span>
               </div>
             ))}
           </div>
@@ -60,10 +73,7 @@ const ViewProduct = () => {
             </label>
             <span className="capitalize"> {product.gender}</span>
           </div>
-          <div>
-            <label htmlFor="">Discount:</label>
-            <span>{product?.discount}</span>
-          </div>
+
           <div className="my-4">
             <h1 className="font-semibold tracking-widest">PRODUCT DETAILS :</h1>
             <p className="pr-12">{product?.description}</p>

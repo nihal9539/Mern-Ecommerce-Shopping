@@ -6,8 +6,16 @@ import sortBy from "lodash/sortBy";
 import "@mantine/core/styles.layer.css";
 import "mantine-datatable/styles.layer.css";
 import { Edit, EyeIcon, Trash2 } from "lucide-react";
-import { ActionIcon, Box, Checkbox, Group, TextInput } from "@mantine/core";
+import {
+  ActionIcon,
+  Box,
+  Checkbox,
+  Group,
+  Select,
+  TextInput,
+} from "@mantine/core";
 import { useNavigate } from "react-router-dom";
+import { FilterOptions } from "../../../assets/data";
 const DataTableComponenet = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -18,11 +26,12 @@ const DataTableComponenet = () => {
   const [page, setPage] = useState(1);
   const [records, setRecords] = useState(products.slice(0, pageSize));
   const [searchQuery, setSearchQuery] = useState("");
+  const [statusCategory, setStatusCategory] = useState("All");
+
   const [sortStatus, setSortStatus] = useState({
     columnAccessor: "name",
     direction: "asc",
   });
-
   // Fetching Product
   useEffect(() => {
     dispatch(getAllProduct());
@@ -52,19 +61,24 @@ const DataTableComponenet = () => {
     const from = (page - 1) * pageSize;
     const to = from + pageSize;
     // new
-    var filteredCompanies = products.filter(
+    var filteredProduct = products.filter(
       (company) =>
         company.productname.toLowerCase().includes(searchQuery.toLowerCase()) ||
         company._id.toLowerCase().includes(searchQuery.toLowerCase())
     );
-    //
-    let currentPageRecords = filteredCompanies.slice(from, to);
+    //Filter by Category
+    if (statusCategory !== "All") {
+      filteredProduct = filteredProduct.filter((product) =>
+        product.category.includes(statusCategory)
+      );
+    }
+    let currentPageRecords = filteredProduct.slice(from, to);
     currentPageRecords = sortBy(currentPageRecords, sortStatus.columnAccessor);
     if (sortStatus.direction === "desc") {
       currentPageRecords = currentPageRecords.reverse();
     }
     setRecords(currentPageRecords);
-  }, [sortStatus, searchQuery,products]);
+  }, [sortStatus, searchQuery, products, statusCategory]);
 
   // delete model open
   const handeleDeleteButton = (id) => {
@@ -73,8 +87,8 @@ const DataTableComponenet = () => {
   };
   // delete confirm button
   const handleDeleteOk = () => {
-    dispatch(deleteProduct(deleteButtonId))
-      dispatch(getAllProduct());
+    dispatch(deleteProduct(deleteButtonId));
+    dispatch(getAllProduct());
     document.getElementById("my_modal_2").close();
   };
   const [selectedRows, setSelectedRows] = useState([]);
@@ -103,15 +117,27 @@ const DataTableComponenet = () => {
         }}
         className="border rounded-lg mt-2 p-10"
       >
-        <TextInput
-          placeholder="Search..."
-          className="w-72 mb-4"
-          value={searchQuery}
-          onChange={(event) => setSearchQuery(event.currentTarget.value)}
-        />
+        <div className="flex justify-between">
+          <TextInput
+            placeholder="Search..."
+            className="w-72 mb-4"
+            value={searchQuery}
+            onChange={(event) => setSearchQuery(event.currentTarget.value)}
+          />
+          <Group position="apart">
+            <Select
+              data={FilterOptions}
+              value={statusCategory}
+              className="w-36"
+              onChange={(value) => setStatusCategory(value)}
+            />
+          </Group>
+        </div>
         <DataTable
           columns={[
             {
+              ellipsis: true,
+
               accessor: "select",
               title: (
                 <Checkbox
@@ -145,9 +171,13 @@ const DataTableComponenet = () => {
             {
               accessor: "Image",
               ellipsis: true,
-              width: "20%",
+              width: 100,
               render: (products) => (
-                <img src={products?.image[0]?.url} className="w-10 h-10" alt="" />
+                <img
+                  src={products?.image[0]?.url}
+                  className="w-10 h-10"
+                  alt=""
+                />
               ),
             },
             {
@@ -157,17 +187,23 @@ const DataTableComponenet = () => {
               sortable: true,
             },
             {
-              accessor: "subTitle",
+              accessor: "Category",
               sortable: true,
               ellipsis: true,
-              width: 200,
+              width: 180,
+              render: (products) => (
+                <div>
+                  {
+                    products?.category.map((item) => (
+                      <div key={item}>
+                        {item}
+                      </div>
+                    ))
+                  }
+                </div>
+              ),
             },
-            {
-              accessor: "description",
-              sortable: true,
-              ellipsis: true,
-              width: 300,
-            },
+
             {
               accessor: "gender",
               sortable: true,
@@ -181,7 +217,7 @@ const DataTableComponenet = () => {
             {
               accessor: "Quantity",
               ellipsis: true,
-              
+
               render: (products) =>
                 products
                   ? products.sizes.reduce(
@@ -193,6 +229,7 @@ const DataTableComponenet = () => {
 
             {
               accessor: "actions",
+              ellipsis: true,
               title: <Box mx={6}>Actions</Box>,
               textAlign: "center",
               render: (product) => (
@@ -203,7 +240,7 @@ const DataTableComponenet = () => {
                     color="green"
                     onClick={(e) => {
                       e.stopPropagation();
-                      navigate(`/products/${product._id}`)
+                      navigate(`/products/${product._id}`);
                     }}
                   >
                     <EyeIcon size={16} />
@@ -235,12 +272,11 @@ const DataTableComponenet = () => {
               ),
             },
           ]}
+          scrollAreaProps={{ type: "scroll" }}
           backgroundColor={"white"}
           sortStatus={sortStatus}
           onSortStatusChange={handleSortStatusChange}
-          maxHeight={600}
-          minHeight={400}
-          
+          height={800}
           withTableBorder
           records={records}
           fetching={loading}

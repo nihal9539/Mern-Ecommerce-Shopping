@@ -28,7 +28,7 @@ export const registerUser = async (req, res) => {
             username: user.username,
             id: user._id
 
-        }, process.env.JWT_SECRET, { expiresIn: '10h' })
+        }, process.env.JWT_SECRET, { expiresIn: '30d' })
         res.status(200).json({ user, token })
     }
     catch (error) {
@@ -52,7 +52,7 @@ export const loginUser = async (req, res) => {
                     username: user.username,
                     id: user._id
 
-                }, process.env.JWT_SECRET, { expiresIn: '10h' })
+                }, process.env.JWT_SECRET, { expiresIn: '30d' })
                 res.status(200).json({ user, token })
             }
         } else {
@@ -94,7 +94,7 @@ export const updateUserProfile = async (req, res) => {
                 username: user.username,
                 id: user._id
 
-            }, process.env.JWT_SECRET, { expiresIn: '10h' })
+            }, process.env.JWT_SECRET, { expiresIn: '30d' })
             res.status(200).json({ user, token })
         }
 

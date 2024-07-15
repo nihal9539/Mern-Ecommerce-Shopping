@@ -36,9 +36,7 @@ const productScehema = new mongoose.Schema({
         required: true
 
     },
-    discount: {
-        type: Number
-    },
+
     category: [
         {
             type: String,

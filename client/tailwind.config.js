@@ -25,7 +25,7 @@ export default {
          "profile-input":"rgb(235, 240, 247)"
       },
       animation: {
-        "loop-scroll": "loop-scroll 30s linear infinite"
+        "loop-scroll": "loop-scroll 25s linear infinite"
       },
       keyframes: {
         "loop-scroll": {

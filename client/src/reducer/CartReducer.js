@@ -20,12 +20,13 @@ const cartReducer = (state = { cartData: [], quantity: 0, loading: false, error:
             return { ...state, quantity: state.quantity - action.data.quantity, cartData: state.cartData.filter(item => item.productId !== action.data.productId || item.size !== action.data.size), loading: false, error: false }
         case "CART_NAVIGATE_FALSE":
             return { ...state, }
-        case "CART_UPLOAD_FAIL":
         case "CART_FETCH_FAIL":
+            return { ...state, cartData: [], loading: false, error: true }
+        case "CART_UPLOAD_FAIL":
         case "CART_REMOVE_FAIL":
-            return { ...state, cartData: [],  loading: false, error: true }
+            return { ...state, loading: false, error: true }
         case "QUANTITY_UPDATE_FAIL":
-            return { ...state,   loading: false, error: true }
+            return { ...state, loading: false, error: true }
         default:
             return state;
     }

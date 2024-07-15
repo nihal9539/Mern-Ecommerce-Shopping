@@ -23,7 +23,7 @@ const DashboardLayout = () => {
         <aside
           className={`bg-white z-[9999] shadow-sm transition-width duration-300 ${
             sidebarMenu ? "w-72" : "w-0"
-          } max-md:fixed`}
+          } max-lg:fixed`}
         >
           <Sidebar />
         </aside>

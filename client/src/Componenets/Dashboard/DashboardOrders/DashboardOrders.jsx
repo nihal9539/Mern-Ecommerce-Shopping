@@ -63,31 +63,9 @@ const DashboardOrders = () => {
   useEffect(() => {
     const from = (page - 1) * pageSize;
     const to = from + pageSize;
-    let filteredOrders = allOrders;
-    switch (statusFilter) {
-      case "Pending":
-        filteredOrders = allOrders.filter(
-          (order) => order.orderStatus === "Pending"
-        );
-        break;
-      case "Processing":
-        filteredOrders = allOrders.filter(
-          (order) => order.orderStatus === "Processing"
-        );
-        break;
-      case "Shipped":
-        filteredOrders = allOrders.filter(
-          (order) => order.orderStatus === "Shipped"
-        );
-        break;
-      case "Delivered":
-        filteredOrders = allOrders.filter(
-          (order) => order.orderStatus === "Delivered"
-        );
-        break;
-      default:
-        break;
-    }
+  let filteredOrders = statusFilter === "All" 
+    ? allOrders 
+    : allOrders.filter(order => order.orderStatus === statusFilter);
     let currentPageRecords = filteredOrders.slice(from, to);
     currentPageRecords = sortBy(currentPageRecords, sortStatus.columnAccessor);
     if (sortStatus.direction === "desc") {
@@ -163,7 +141,7 @@ const DashboardOrders = () => {
             />
             <Group position="apart">
               <Select
-                data={["All", "Pending", "Processing", "Shipped", "Delivered"]}
+                data={["All", "Pending", "Processing", "Shipped", "Delivered",'Cancelled']}
                 value={statusFilter}
                 className="w-36"
                 onChange={(value) => setStatusFilter(value)}
@@ -261,7 +239,7 @@ const DashboardOrders = () => {
                 render: (order) => (
                   <Select
                     key={order._id}
-                    data={["Pending", "Processing", "Shipped", "Delivered"]}
+                    data={["Pending", "Processing", "Shipped", "Delivered","Cancelled"]}
                     value={orderStatuses[order._id] || order.orderStatus}
                     className="w-32 selection:bg-red-500"
                     onChange={(value) => handleStatusChange(order._id, value)}
@@ -308,8 +286,7 @@ const DashboardOrders = () => {
             backgroundColor={"white"}
             sortStatus={sortStatus}
             onSortStatusChange={handleSortStatusChange}
-            maxHeight={600}
-            minHeight={300}
+            height={700}
             withTableBorder
             records={orders}
             fetching={loading}

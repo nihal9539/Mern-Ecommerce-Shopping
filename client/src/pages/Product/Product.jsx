@@ -14,7 +14,8 @@ import { IoMdAdd } from "react-icons/io";
 import { RiSubtractLine } from "react-icons/ri";
 import { addToCart } from "../../Action/CartAction";
 import { getProductById } from "../../Action/ProductAction";
-import { EasyZoomOnHover} from "easy-magnify";
+import { EasyZoomOnHover } from "easy-magnify";
+import { toast } from "react-toastify";
 
 const Product = () => {
   const { id } = useParams();
@@ -22,12 +23,17 @@ const Product = () => {
   const navigate = useNavigate();
   const { product, loading } = useSelector((state) => state.productReducer);
   const { wishlist } = useSelector((state) => state.wishlistReducer);
-  const [selectSize, setSelectSize] = useState("S");
+  const [selectSize, setSelectSize] = useState("");
   const [wishlistbtn, setWishlist] = useState();
   const [quantity, setQuantity] = useState(1);
 
   // userId from redux store
   const user = useSelector((state) => state.authReducer?.authData?.user?._id);
+
+  var totalQuantity = 0;
+  product?.sizes?.map((item) => {
+    totalQuantity = totalQuantity + item.quantity;
+  });
 
   useEffect(() => {
     dispatch(getProductById(id));
@@ -72,15 +78,22 @@ const Product = () => {
 
   // handle add to cART
   const handleAddToCart = () => {
-    const data = {
-      quantity,
-      productId: product?._id,
-      size: selectSize,
-      price: product?.price,
-    };
     if (!user) {
       document.getElementById("my_modal_1").showModal();
+    } else if (totalQuantity === 0) {
+      toast.error("Out of stock");
+    } else if (selectSize == "") {
+      toast.error("Please select a size");
     } else {
+      const data = {
+        quantity,
+        productId: product?._id,
+        size: selectSize,
+        price: product?.price,
+        productname: product?.productname,
+        image:product?.image[0].url
+      };
+
       dispatch(addToCart(user, data, navigate));
     }
   };
@@ -106,21 +119,23 @@ const Product = () => {
       <div className="p-12 pt-24 h-[100vh] max-lg:h-full max-lg:px-0   flex flex-row">
         <div className="w-full flex justify-center relative items-center flex-row max-lg:flex-col max-lg:gap-5">
           <div className="w-1/2 max-lg:w-full max-lg:px-4 relative top-0 left-0   flex justify-center flex-col  items-center ">
-            <EasyZoomOnHover
-              mainImage={{
-                src: product?.image[imageId]?.url,
-                alt: "My Product",
-                height: 420,
-                width: 380,
-              }}
-              zoomImage={{
-                src: product?.image[imageId]?.url,
-                alt: "My Product Zoom",
-              }}
-              zoomContainerHeight={500}
-              zoomContainerWidth={600}
-              delayTimer={0}
-            />
+            <div className="z-[99]">
+              <EasyZoomOnHover
+                mainImage={{
+                  src: product?.image[imageId]?.url,
+                  alt: "My Product",
+                  height: 420,
+                  width: 380,
+                }}
+                zoomImage={{
+                  src: product?.image[imageId]?.url,
+                  alt: "My Product Zoom",
+                }}
+                zoomContainerHeight={500}
+                zoomContainerWidth={600}
+                delayTimer={0}
+              />
+            </div>
             <div className="mt-5 flex gap-5 overflow-auto mx-10">
               {product?.image?.map((data, i) => (
                 <img
@@ -203,10 +218,7 @@ const Product = () => {
 
             <div className="my-4 w-full">
               <h1 className="font-semibold tracking-widest">PRODUCT DETAILS</h1>
-              <p className="pr-12 w-full break-words">
-                {product?.description}
-           
-              </p>
+              <p className="pr-12 w-full break-words">{product?.description}</p>
             </div>
 
             <div className="flex flex-col gap-4 mt-5">
@@ -218,7 +230,7 @@ const Product = () => {
               
               duration-500 bg-black text-white border-black p-2.5 rounded-sm"
               >
-                ADD TO CART
+                {totalQuantity > 0 ? "ADD TO CART" : "OUT OF STOCK"}
               </button>
 
               <button

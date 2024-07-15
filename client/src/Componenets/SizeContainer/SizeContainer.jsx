@@ -9,7 +9,6 @@ const SizeContainer = ({ Size }: SizeData) => {
   const selectButton = (buttonId: string) => {
     setSelectedButton(buttonId);
   };
-  console.log(selectedButton, Size);
 
   return (
     <div

@@ -64,7 +64,7 @@ const Sidebar = () => {
             <button
               type="button"
               onClick={handleClick}
-              className="text-xl  max-md:block hidden"
+              className="text-xl  max-lg:block hidden"
             >
               <AiOutlineCloseCircle size={25} />
             </button>

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Card from "../Card/Card";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllProduct } from "../../Action/ProductAction";
 import MainPageCard from "../MainPageCard/MainPageCard";
@@ -15,7 +14,6 @@ const Products = () => {
   if (loading) {
     <div>{error}{loading}</div>
   }
- console.log(products);
   return (
     <section className="lg:p-6 lg:pb-14 lg:px-20">
       <div className="flex justify-center p-4 text-xl  font-semibold tracking-wider">
@@ -38,7 +36,7 @@ const Products = () => {
             />
           ))}
       </div>
-    </div>
+    </section>
   );
 };
 

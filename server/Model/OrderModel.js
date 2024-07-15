@@ -22,11 +22,10 @@ const orderSchema = new mongoose.Schema({
     orderStatus: {
         type: String,
         required: true,
-        enum: ['Pending', 'Processing', 'Shipped', 'Delivered'],
+        enum: ['Pending', 'Processing', 'Shipped', 'Delivered','Cancelled'],
         default: 'Pending'
     },
     isDelivered: { type: Boolean, default: false },
-    deliveredAt: { type: Date }
 }, { timestamps: true });
 
 

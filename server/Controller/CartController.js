@@ -5,7 +5,7 @@ import { ObjectId } from "mongodb"
 
 export const addToCart = async (req, res) => {
     const { userId } = req.params;
-    const { productId,  quantity, size, price } = req.body;
+    const { productId, quantity,image,productname, size, price } = req.body;
     const product = new ObjectId(productId)
     try {
         const cart = await CartModel.findOne({ userId })
@@ -18,6 +18,8 @@ export const addToCart = async (req, res) => {
                         quantity,
                         size,
                         price,
+                        image,
+                        productname
                     }
                 ]
             })
@@ -36,6 +38,8 @@ export const addToCart = async (req, res) => {
                 quantity,
                 size,
                 price,
+                image,
+                productname
             }
             const cart = await CartModel.findOneAndUpdate(
                 { userId: userId },
@@ -67,7 +71,7 @@ export const cartQuantityUpdate = async (req, res) => {
         )
 
         if (!cart) {
-            return  res.status(400).json({ message:'Product not found in cart or quantity is already at minimum'});
+            return res.status(400).json({ message: 'Product not found in cart or quantity is already at minimum' });
         }
         return res.status(200).json(cart);
 
@@ -80,46 +84,7 @@ export const cartQuantityUpdate = async (req, res) => {
 export const getUserCart = async (req, res) => {
     const { userId } = req.params;
     try {
-        const cartDetails = await CartModel.aggregate([
-            {
-                $match: {
-                    'userId': userId
-                }
-            }, {
-                $unwind: '$products'
-            }, {
-                $project: {
-                    'quantity': '$products.quantity',
-                    'size': '$products.size',
-                    'price': '$products.price',
-                    'productId': '$products.productId',
-                }
-            }, {
-                $lookup: {
-                    'from': 'products',
-                    'localField': 'productId',
-                    'foreignField': '_id',
-                    'as': 'productData'
-                }
-            }, {
-                $project: {
-                    'size': 1,
-                    'quantity': 1,
-                    'price': 1,
-                    'productId': 1,
-                    'productname': {
-                        '$arrayElemAt': [
-                            '$productData.productname', 0
-                        ]
-                    },  
-                    'imagrUrl': {
-                        '$arrayElemAt': [
-                            '$productData.image.url', 0
-                        ]
-                    }
-                }
-            }
-        ]);
+        const cartDetails = await CartModel.findOne({userId})
         return res.status(200).json(cartDetails);
     } catch (error) {
         res.status(500).json(error.message)

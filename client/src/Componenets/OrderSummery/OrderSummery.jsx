@@ -7,6 +7,7 @@ import currencyFormatter from "currency-formatter";
 import { paymentOrder, paymentVerify } from "../../Action/PaymentAction";
 import axios from "axios";
 import useToken from "../../hooks/useToken";
+import { getUserCart } from "../../Action/CartAction";
 
 const OrderSummery = ({nextStep}) => {
   const {headers} = useToken()
@@ -15,28 +16,33 @@ const OrderSummery = ({nextStep}) => {
   const addressId = useSelector(
     (state) => state.addressReducer.addressData._id
   );
-  const userId = useSelector((state) => state.authReducer.authData.user._id);
-  const { orderDetails } = useSelector((state) => state.paymentReducer);
+  const userId = useSelector((state) => state?.authReducer?.authData?.user?._id);
+  const { orderDetails } = useSelector((state) => state?.paymentReducer);
 
   const [amount, setAmount] = useState(0);
 
+  console.log(cartData);
   useEffect(() => {
+    dispatch(getUserCart(userId));
+  }, []);
+
+  // useEffect(() => {
     let totalAmount = 0;
     cartData.forEach((item) => {
       totalAmount += item.quantity * item.price;
     });
-    setAmount(totalAmount);
-  }, [cartData]);
+    // setAmount(totalAmount);
+  // }, []);
 
   const dispatch = useDispatch();
   const handlePayment = async () => {
-    dispatch(paymentOrder(amount, handlePaymentVerify));
+    dispatch(paymentOrder(totalAmount, handlePaymentVerify));
     setTimeout(() => {
       if (orderDetails != null) {
         
         handlePaymentVerify();
       }
-    }, 2000);
+    }, 1500);
   };
 
   const handlePaymentVerify = async () => {
@@ -55,7 +61,8 @@ const OrderSummery = ({nextStep}) => {
                     razorpay_payment_id: response.razorpay_payment_id,
                     razorpay_signature: response.razorpay_signature,
                     addressId:addressId,
-                    userId:userId
+                    userId:userId,
+                    cartData
             },{ headers })
 
             if (verifyData.data.message) {
@@ -89,7 +96,7 @@ const OrderSummery = ({nextStep}) => {
         <div className="max-md:block hidden font-semibold text-lg">
           {" "}
           To Pay :{" "}
-          {currencyFormatter.format(amount, {
+          {currencyFormatter.format(totalAmount, {
             code: "IND",
           })}
         </div>
@@ -100,7 +107,7 @@ const OrderSummery = ({nextStep}) => {
           <hr className="my-4 max-md:hidden border-gray-500 border" />
           <h1 className="text-base max-lg:text-sm my-2 flex justify-between">
             Price ({cartData.length} items) :{" "}
-            <span className="font-semibold">₹{amount}</span>{" "}
+            <span className="font-semibold">₹{totalAmount}</span>{" "}
           </h1>
           <h1 className="text-base my-3 max-lg:text-sm flex justify-between">
             Delivery Fee : <span className="font-semibold">Free</span>{" "}
@@ -110,7 +117,7 @@ const OrderSummery = ({nextStep}) => {
             To Pay :{" "}
             <span className="">
               ₹
-              {currencyFormatter.format(amount, {
+              {currencyFormatter.format(totalAmount, {
                 code: "IND",
               })}
             </span>{" "}

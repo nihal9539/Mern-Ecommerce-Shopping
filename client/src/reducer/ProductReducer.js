@@ -1,7 +1,7 @@
 // reducer.js
 
 const reducer = (state = {
-  addToButton: false, product: null, products: [], loading: false, error: false, uploading: false
+  addToButton: false, product: [], products: [], loading: false, error: false, uploading: false
 }, action) => {
 
   switch (action.type) {
