@@ -1,5 +1,6 @@
+/* eslint-disable react/prop-types */
 import { Heart } from "lucide-react";
-import React, { useState } from "react";
+import  { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { removeFromWishlist } from "../../Action/WishlistAction";
 import { Link, useNavigate } from "react-router-dom";
@@ -10,20 +11,29 @@ import { RiSubtractLine } from "react-icons/ri";
 const WishListItem = ({ data, setReload, forAccountPage }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const [WishList, setWishlist] = useState(true);
   const [size, setSize] = useState("S");
   const [quantity, setQuantity] = useState(1);
+  const [showImage, setShowImage] = useState(false);
+
 
   const user = useSelector((state) => state?.authReducer?.authData?.user?._id);
 
   function handleAddrTypeChange(e) {
     setSize(e.target.value);
   }
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowImage(true);
+    }, 500); // 0.5 seconds delay
+
+    return () => clearTimeout(timer);
+  }, []);
   const handleWishlist = () => {
     if (WishList) {
       dispatch(removeFromWishlist(user, data?._id));
       setReload(true);
+      setWishlist(false)
     }
   };
   const handleAddToCart = () => {
@@ -56,12 +66,16 @@ const WishListItem = ({ data, setReload, forAccountPage }) => {
           to={`/product/${data?._id}`}
           className="h-56 max-sm:h-60 w-full flex justify-center items-center flex-col"
         >
-          <img
-            src={data?.image[0]?.url}
-            className={` "w-10/12 h-32 "
-            `}
-            alt="Image"
-          />
+          
+          {showImage ? (
+            <img
+              src={data?.image[0]?.url}
+              className="w-10/12 h-32"
+              alt="Image"
+            />
+          ) : (
+            <div className="w-10/12 h-32 bg-gray-200" /> // Placeholder div
+          )}
         </Link>
       </figure>
       <h1 className="font-semibold text-center">₹{data?.price}</h1>

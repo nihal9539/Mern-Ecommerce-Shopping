@@ -53,7 +53,7 @@ export const removeFromWishlist = async (req, res) => {
 };
 export const getWishlist = async (req, res) => {
 
-  
+
     try {
         const id = req.params.id;
 
@@ -67,7 +67,7 @@ export const getWishlist = async (req, res) => {
         // Fetch products based on product IDs in the wishlist
         const products = await ProductModel.find({ _id: { $in: wishlist.productIds } });
 
-        res.json({ wishlist, products });
+        res.json(products);
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Server error' });

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import Accordion from "../Acoordion/Accordion";
 import { useDispatch, useSelector } from "react-redux";
@@ -86,6 +86,7 @@ const ProductFilter = () => {
     : [...prevCategory, item]
   );
   };
+
   const Gender = (
     <div className="overflow-scroll">
       <div className="">
