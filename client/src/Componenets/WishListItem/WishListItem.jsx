@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { Heart } from "lucide-react";
-import  { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { removeFromWishlist } from "../../Action/WishlistAction";
 import { Link, useNavigate } from "react-router-dom";
@@ -15,7 +15,6 @@ const WishListItem = ({ data, setReload, forAccountPage }) => {
   const [size, setSize] = useState("S");
   const [quantity, setQuantity] = useState(1);
   const [showImage, setShowImage] = useState(false);
-
 
   const user = useSelector((state) => state?.authReducer?.authData?.user?._id);
 
@@ -33,7 +32,7 @@ const WishListItem = ({ data, setReload, forAccountPage }) => {
     if (WishList) {
       dispatch(removeFromWishlist(user, data?._id));
       setReload(true);
-      setWishlist(false)
+      setWishlist(false);
     }
   };
   const handleAddToCart = () => {
@@ -42,13 +41,17 @@ const WishListItem = ({ data, setReload, forAccountPage }) => {
       productId: data?._id,
       size: size,
       price: data?.price,
+      productname: data?.productname,
+      image: data?.image[0].url,
     };
     dispatch(addToCart(user, formData, navigate));
   };
   return (
     <div
       className={`card ${
-        forAccountPage ? "w-56 max-md:w-40 h-[22rem]" : "w-64 h-[26rem] max-sm:w-56"
+        forAccountPage
+          ? "w-56 max-md:w-40 h-[22rem]"
+          : "w-64 h-[26rem] max-sm:w-56"
       }   bg-base-100 shadow-xl rounded-xl`}
     >
       <figure>
@@ -66,7 +69,6 @@ const WishListItem = ({ data, setReload, forAccountPage }) => {
           to={`/product/${data?._id}`}
           className="h-56 max-sm:h-60 w-full flex justify-center items-center flex-col"
         >
-          
           {showImage ? (
             <img
               src={data?.image[0]?.url}
@@ -80,14 +82,18 @@ const WishListItem = ({ data, setReload, forAccountPage }) => {
       </figure>
       <h1 className="font-semibold text-center">₹{data?.price}</h1>
       <div className="card-body p-2">
-        <h2 className={`${forAccountPage && "text-sm"} font-semibold `}>{data?.productname}</h2>
+        <h2 className={`${forAccountPage && "text-sm"} font-semibold `}>
+          {data?.productname}
+        </h2>
         {data.sizes ? (
           <select
             name=""
             id=""
             defaultValue={size}
             onChange={handleAddrTypeChange}
-            className={`border-2 border-gray-200 rounded-md ${forAccountPage ?"p-1":"p-2"} `}
+            className={`border-2 border-gray-200 rounded-md ${
+              forAccountPage ? "p-1" : "p-2"
+            } `}
           >
             {data?.sizes.map((size) => (
               <option value={size?.size} key={size?.size}>
@@ -98,7 +104,11 @@ const WishListItem = ({ data, setReload, forAccountPage }) => {
         ) : (
           ""
         )}
-        <div className={`w-full flex justify-evenly items-center ${forAccountPage ?"h-8":"h-10"} rounded-lg border`}>
+        <div
+          className={`w-full flex justify-evenly items-center ${
+            forAccountPage ? "h-8" : "h-10"
+          } rounded-lg border`}
+        >
           <button
             className={`${quantity <= 1 ? "text-gray-300" : "text-teal-700 "}`}
             disabled={quantity <= 1}
@@ -121,9 +131,11 @@ const WishListItem = ({ data, setReload, forAccountPage }) => {
         <div className="card-actions w-full justify-center">
           <button
             onClick={handleAddToCart}
-            className={` ${forAccountPage ? "h-9":"h-12"} flex justify-center items-center rounded-md hover:shadow-boxShadow1 duration-300 border-black border-2  bg-black w-10/12 text-white `}
+            className={` ${
+              forAccountPage ? "h-9" : "h-12"
+            } flex justify-center items-center rounded-md hover:shadow-boxShadow1 duration-300 border-black border-2  bg-black w-10/12 text-white `}
           >
-             <img src="./shopping-cart.svg" alt="" />
+            <img src="./shopping-cart.svg" alt="" />
             Add to Cart
           </button>
         </div>

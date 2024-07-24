@@ -5,7 +5,6 @@ import "@mantine/core/styles.css";
 import OrderSummery from "../../Componenets/OrderSummery/OrderSummery";
 import PaymentSuccess from "../../Componenets/PaymentSuccess/PaymentSuccess";
 import { useSelector } from "react-redux";
-import Navbar from "../../Componenets/Navbar/Navbar";
 import { Link } from "react-router-dom";
 import checkout from "../../assets/checkout.svg"
 
@@ -34,7 +33,7 @@ const Checkout = () => {
 
   return (
     <>
-      <div className="p-10 h-screen overflow-hidden">
+      <div className="p-10 max-md:px-0 h-screen overflow-hidden">
         <div className="">
           {" "}
           <Stepper

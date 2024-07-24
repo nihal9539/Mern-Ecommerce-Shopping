@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { useEffect, useState } from "react";
 import { IoMdAdd } from "react-icons/io";
 import { RiSubtractFill } from "react-icons/ri";
@@ -6,8 +7,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { cartQuantityUpdate, removeFromCart } from "../../Action/CartAction";
 import { Link } from "react-router-dom";
 
-const CartItem = ({ data, order }) => {
-  const [quantity, setQuantity] = useState(data.quantity);
+const CartItem = ({ data, order,updateTotalPrice }) => {
+  const [quantity, setQuantity] = useState(data?.quantity ) ;
   const [imageSrc, setImageSrc] = useState(""); // State for the image source
 
   const userId = useSelector((state) => state.authReducer.authData.user._id);
@@ -17,10 +18,13 @@ const CartItem = ({ data, order }) => {
     dispatch(
       removeFromCart(userId, data?.productId, data?.size, data.quantity)
     );
+    updateTotalPrice(data?.price * count);
+
   };
   const handleCount = (count) => {
     setQuantity(quantity + count);
     dispatch(cartQuantityUpdate(userId, data?.productId, data?.size, count));
+    updateTotalPrice(data?.price * count);
   };
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -29,6 +33,8 @@ const CartItem = ({ data, order }) => {
 
     return () => clearTimeout(timer); // Cleanup the timer on unmount
   }, [data?.image]);
+
+  
   return (
     <div className=" border border-gray-400 rounded-md p-2 flex flex-row items-center justify-between  gap-4">
       <div className=" flex items-center gap-4">

@@ -1,10 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
+import  { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { User } from "lucide-react";
 import { useSelector } from "react-redux";
 import { Helmet } from "react-helmet";
-import { getUserCart } from "../../Action/CartAction";
 
+// eslint-disable-next-line react/prop-types
 const Navbar = ({ bgWhite }) => {
   const navigate = useNavigate();
   const [header, setHeader] = useState(false);

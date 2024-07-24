@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 const MainPageCard = ({data}) => {
   return (
-    <Link to={`/product/${data?._id}`}  className='w-80  h-96 max-md:h-72 max-lg:w-72 max-md:w-52 rounded-3xl relative overflow-hidden '>
+    <Link to={`/product/${data?._id}`}  className='w-80  h-80 max-md:h-72 max-lg:w-72 max-md:w-52 rounded-3xl relative overflow-hidden '>
             <img className='w-full h-full img-mask  hover:scale-110 duration-300' src={data?.image[0]?.url} />
         <div className='absolute flex justify-between items-center bottom-0 w-full img-mask text-white pt-16 p-5'>
              <div className=''>

@@ -20,7 +20,7 @@ const DashboardProduct = () => {
 
   if (loading) {
     <div className="flex justify-center items-center">
-      <span>loading</span>
+      <span>loading...</span>
     </div>;
   }
   return (

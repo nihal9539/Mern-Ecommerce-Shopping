@@ -1,76 +1,86 @@
-import React, { useEffect, useState } from "react";
+/* eslint-disable react/prop-types */
+import  { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import CartItem from "../CartItem/CartItem";
 import { ShoppingCart } from "lucide-react";
 import currencyFormatter from "currency-formatter";
-import { paymentOrder, paymentVerify } from "../../Action/PaymentAction";
 import axios from "axios";
 import useToken from "../../hooks/useToken";
 import { getUserCart } from "../../Action/CartAction";
+import { orderRequest } from "../../api/PaymentRequest";
 
-const OrderSummery = ({nextStep}) => {
-  const {headers} = useToken()
+const OrderSummery = ({ nextStep }) => {
+  const { headers } = useToken();
 
   const { cartData } = useSelector((state) => state.cartReducer);
   const addressId = useSelector(
     (state) => state.addressReducer.addressData._id
   );
-  const userId = useSelector((state) => state?.authReducer?.authData?.user?._id);
-  const { orderDetails } = useSelector((state) => state?.paymentReducer);
-
-  const [amount, setAmount] = useState(0);
-
-  console.log(cartData);
+  const userId = useSelector(
+    (state) => state?.authReducer?.authData?.user?._id
+  );
   useEffect(() => {
     dispatch(getUserCart(userId));
   }, []);
 
-  // useEffect(() => {
+  let totalAmount = 0;
+  cartData.forEach((item) => {
+    totalAmount += item.quantity * item.price;
+  });
+
+  const [amount, setAmount] = useState(0);
+
+  console.log(amount);
+  useEffect(() => {
     let totalAmount = 0;
     cartData.forEach((item) => {
       totalAmount += item.quantity * item.price;
     });
-    // setAmount(totalAmount);
-  // }, []);
+    setAmount(totalAmount);
+  }, [cartData]);
 
   const dispatch = useDispatch();
+
   const handlePayment = async () => {
-    dispatch(paymentOrder(totalAmount, handlePaymentVerify));
-    setTimeout(() => {
-      if (orderDetails != null) {
-        
-        handlePaymentVerify();
-      }
-    }, 1500);
+    await orderRequest(totalAmount).then((data)=>{
+      console.log(data)
+      handlePaymentVerify(data.data)
+    }).catch((err)=>{
+      toast.error(err)
+    })
+
   };
 
-  const handlePaymentVerify = async () => {
+  const handlePaymentVerify = async (data) => {
     const options = {
       key: "rzp_test_dnkn088g41YsW6",
-      amount: orderDetails?.amount,
-      currency: orderDetails?.currency,
+      amount: data.amount,
+      currency: data?.currency,
       name: "Nihal",
       description: "Test Mode",
-      order_id: orderDetails?.id,
+      order_id: data?.id,
       handler: async (response) => {
         try {
-            const verifyData = await axios.post(`http://localhost:5000/payment/verify`, {
-              
-                    razorpay_order_id: response.razorpay_order_id,
-                    razorpay_payment_id: response.razorpay_payment_id,
-                    razorpay_signature: response.razorpay_signature,
-                    addressId:addressId,
-                    userId:userId,
-                    cartData
-            },{ headers })
+          const verifyData = await axios.post(
+            `http://localhost:5000/payment/verify`,
+            {
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature,
+              addressId: addressId,
+              userId: userId,
+              cartData,
+            },
+            { headers }
+          );
 
-            if (verifyData.data.message) {
-                toast.success(verifyData.data.message)
-                nextStep()
-            }
+          if (verifyData.data.message) {
+            toast.success(verifyData.data.message);
+            nextStep();
+          }
         } catch (error) {
-            toast.error(error.response.message);
+          toast.error(error.response.message);
         }
       },
       theme: {
@@ -80,8 +90,12 @@ const OrderSummery = ({nextStep}) => {
     const rzp1 = new window.Razorpay(options);
     rzp1.open();
   };
+
+ 
+
   return (
     <div className="grid grid-cols-7  w-full">
+
       <div className="col-span-5  max-md:col-span-7 px-5">
         <div className=" overflow-scroll relative h-[35.15rem] flex gap-2 flex-col">
           {cartData.map((data, i) => (

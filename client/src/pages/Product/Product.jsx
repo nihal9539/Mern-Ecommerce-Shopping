@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import currencyFormatter from "currency-formatter";
 import { useNavigate, useParams } from "react-router-dom";
 import { Heart } from "lucide-react";
@@ -76,6 +76,7 @@ const Product = () => {
       : setWishlist(false);
   }, [user]);
 
+  const [imageId, setImageId] = useState(0);
   // handle add to cART
   const handleAddToCart = () => {
     if (!user) {
@@ -97,7 +98,7 @@ const Product = () => {
       dispatch(addToCart(user, data, navigate));
     }
   };
-  const [imageId, setImageId] = useState(0);
+  
 
   if (loading) {
     return (

@@ -49,11 +49,11 @@ const DeliveryAddress = ({nextStep}) => {
 }
 
   return (
-    <form className="flex flex-col p-10 w-full " onSubmit={(e)=>{
+    <form className="flex flex-col p-10 max-md:px-0 w-full " onSubmit={(e)=>{
         e.preventDefault()
         handleSubmit()
     }}>
-      <div className="w-full flex flex-row gap-5">
+      <div className="w-full grid grid-cols-2 max-md:grid-cols-1 max-md: gap-5">
         <TextInput
           w={"100%"}
           withAsterisk
@@ -69,7 +69,7 @@ const DeliveryAddress = ({nextStep}) => {
         />
       </div>
 
-      <div className="flex flex-row w-full gap-5">
+      <div className="grid grid-cols-2 max-md:grid-cols-1 max-md: w-full gap-5">
         <Select
           w={"100%"}
           label={"State"}
@@ -87,7 +87,7 @@ const DeliveryAddress = ({nextStep}) => {
           {...form.getInputProps("city", { type: "input" })}
         />
       </div>
-      <div className="flex flex-row gap-5">
+      <div className="grid grid-cols-2 max-md:grid-cols-1 max-md: gap-5">
         <TextInput
           w={"100%"}
           withAsterisk

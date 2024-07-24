@@ -1,8 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { IoMdArrowRoundBack, IoMdClose } from "react-icons/io";
 import { useNavigate, useParams } from "react-router-dom";
-import { FaPercentage } from "react-icons/fa";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
@@ -179,11 +178,7 @@ const EditProduct = () => {
             <div className=" flex items-center justify-between text-lg font-semibold">
               <span>Product Image</span>
             </div>
-            {/* <img
-            src={product?.image[imageId]?.url}
-            className="h-44 w-64 max-lg:h-[400px] max-lg:w-[350px] rounded-lg"
-            alt="Loading.."
-          /> */}
+
             <div className="h-72 overflow-auto">
               {images.length > 0 ? (
                 <div className="grid grid-cols-3 gap-4">

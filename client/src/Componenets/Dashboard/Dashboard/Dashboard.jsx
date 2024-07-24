@@ -7,6 +7,7 @@ import { useFetchRevenue } from "../../../hooks/useFetchRevenue";
 import EarningsCard from "../EarningsCard/EarningsCard";
 import DashboardCard from "../DashboardCard/DashboardCard";
 import { useTotalProductCount } from "../../../hooks/useTotalProductCount";
+import TopSellingProduct from "../TopSellingProduct";
 const Dashboard = () => {
   const { currentMonthUsers, percentageIncrease } = useFetchUsers();
   const { currentMonthOrder, monthlyOrderPercentageIncrease } =
@@ -68,6 +69,10 @@ const Dashboard = () => {
             bgColor={item.bgColor}
           />
         ))}
+      </section>
+      <section>
+        <TopSellingProduct/>
+
       </section>
     </main>
   );

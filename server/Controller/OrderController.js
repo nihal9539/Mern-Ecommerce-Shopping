@@ -155,42 +155,32 @@ export const orderByMonth = async (req, res) => {
 }
 export const getTopSellingProducts = async (req, res) => {
     try {
-        const data = await orderModel.aggregate([
+        const topSellingProducts = await orderModel.aggregate([
             { $unwind: "$orderItems" },
             {
                 $group: {
-                    _id: "$orderItems.productId",
-                    totalSold: { $sum: "$orderItems.quantity" }
+                    _id: {
+                        productname: "$orderItems.productname",
+                        imageUrl: "$orderItems.imageUrl"
+                    },
+                    totalQuantity: { $sum: "$orderItems.quantity" }
                 }
             },
-            { $sort: { totalSold: -1 } },
-            { $limit: 5 },
-            {
-                $lookup: {
-                    from: "products",
-                    localField: "_id",
-                    foreignField: "_id",
-                    as: "productDetails"
-                }
-            },
-
-            { $unwind: "$productDetails" },
             {
                 $project: {
-                    _id: 1,
-                    totalSold: 1,
-                    "productDetails._id": 1,
-                    "productDetails.price": 1,
-                    "productDetails.productname": 1,
-                    "productDetails.image.url": 1
+                    _id: 0,
+                    productname: "$_id.productname",
+                    imageUrl: "$_id.imageUrl",
+                    totalQuantity: 1
                 }
-            }
+            },
+            { $sort: { totalQuantity: -1 } },
+            { $limit: 5 }
         ]);
 
-        res.json(data);
+        res.json(topSellingProducts);
     } catch (error) {
-        console.error(error);
-        res.status(500).send('Server error');
+        res.status(500).json({ message: error.message });
     }
 };
 export const getLastSevenDayOrder = async (req, res) => {
@@ -200,25 +190,25 @@ export const getLastSevenDayOrder = async (req, res) => {
 
         const orders = await orderModel.aggregate([
             {
-              $match: {
-                createdAt: { $gte: startDate }
-              }
+                $match: {
+                    createdAt: { $gte: startDate }
+                }
             },
             {
-              $group: {
-                _id: {
-                  $dateToString: { format: "%Y-%m-%d", date: "$createdAt" }
-                },
-                count: { $sum: 1 }
-              }
+                $group: {
+                    _id: {
+                        $dateToString: { format: "%Y-%m-%d", date: "$createdAt" }
+                    },
+                    count: { $sum: 1 }
+                }
             },
             {
-              $sort: { _id: 1 }
+                $sort: { _id: 1 }
             }
-          ]);
-      
+        ]);
 
-        res.json(orders);   
+
+        res.json(orders);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }

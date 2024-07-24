@@ -1,15 +1,19 @@
 
 import Razorpay from 'razorpay';
+import Stripe from "stripe";
+
 import crypto from 'crypto';
 import paymentModel from '../model/PaymentModel.js';
 import CartModel from '../model/CartModel.js';
 import orderModel from '../model/OrderModel.js';
 import ProductModel from '../model/ProductModel.js';
+const stripe = new Stripe('sk_test_51Pf0AJSF7wgZupPaiT5C85aGwKFQ2Kfv7btIcTXPvZhlcYD5DB14sgqXKEgfFcoIAIs0NwhH6poSqwazpGqQKb3W00MDN6QmVW');
+
 var razorpayInstance = new Razorpay({
     key_id: process.env.RAZORPAY_KEY_ID,
     key_secret: process.env.RAZORPAY_KEY_SECRET,
 });
-export const order = async (req, res) => {
+export const ordering = async (req, res) => {
     const { amount } = req.body;
 
     try {
@@ -25,6 +29,7 @@ export const order = async (req, res) => {
                 return res.status(500).json({ message: "Something Went Wrong!" });
             }
             res.status(200).json(order);
+            console.log(order);
         });
     } catch (error) {
         res.status(500).json({ message: "Internal Server Error!" });
@@ -55,46 +60,7 @@ export const verify = async (req, res) => {
 
             // Save Payment 
             await payment.save();
-            // const cart = await CartModel.aggregate([
-            //     {
-            //         '$match': {
-            //             'userId': userId
-            //         }
-            //     }, {
-            //         '$unwind': '$products'
-            //     }, {
-            //         '$project': {
-            //             'quantity': '$products.quantity',
-            //             'size': '$products.size',
-            //             'price': '$products.price',
-            //             'productId': '$products.productId',
-            //         }
-            //     }, {
-            //         '$lookup': {
-            //             'from': 'products',
-            //             'localField': 'productId',
-            //             'foreignField': '_id',
-            //             'as': 'productData'
-            //         }
-            //     }, {
-            //         '$project': {
-            //             'size': 1,
-            //             "productId": 1,
-            //             'quantity': 1,
-            //             'price': 1,
-            //             'productname': {
-            //                 '$arrayElemAt': [
-            //                     '$productData.productname', 0
-            //                 ]
-            //             },
-            //             'imagUrl': {
-            //                 '$arrayElemAt': [
-            //                     '$productData.image.url', 0
-            //                 ]
-            //             }
-            //         }
-            //     }
-            // ]);
+
             const orderItems = cartData.map(item => ({
                 productname: item.productname,
                 imageUrl: item.image,
@@ -140,4 +106,3 @@ export const verify = async (req, res) => {
         res.status(500).json({ message: "Internal Server Error!" });
     }
 }
-

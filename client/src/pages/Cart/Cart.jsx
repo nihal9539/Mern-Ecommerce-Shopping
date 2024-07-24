@@ -1,24 +1,44 @@
-import React, { useEffect } from "react";
-import CartItem from "../../Componenets/CartItem/CartItem";
+/* eslint-disable react/prop-types */
+import { lazy, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserCart } from "../../Action/CartAction";
 import { Link, useNavigate } from "react-router-dom";
 import currencyFormatter from "currency-formatter";
+const CartItem = lazy(() => import("../../Componenets/CartItem/CartItem"));
 
 const Cart = ({ forAccountPage }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
+  const [totalPrice, setTotalPrice] = useState(0);
 
   const { cartData } = useSelector((state) => state.cartReducer);
   const user = useSelector((state) => state.authReducer?.authData?.user?._id);
   useEffect(() => {
-    dispatch(getUserCart(user));
-  }, []);
-  var totalPrice = 0;
-  cartData?.map((item) => {
-    totalPrice = totalPrice + item.price * item.quantity;
-  });
-  
+    const fetchCartData = async () => {
+      await dispatch(getUserCart(user));
+      setLoading(false);
+    };
+    fetchCartData();
+  }, [dispatch]);
+  useEffect(() => {
+    if (cartData) {
+      const total = cartData.reduce((acc, item) => acc + item.price * item.quantity, 0);
+      setTotalPrice(total);
+    }
+  }, [cartData]);
+
+  const updateTotalPrice = (priceChange) => {
+    setTotalPrice((prevTotal) => prevTotal + priceChange);
+  };
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="loader"></div>
+      </div>
+    );
+  }
+
   if (cartData?.length <= 0) {
     return (
       <div>
@@ -53,7 +73,7 @@ const Cart = ({ forAccountPage }) => {
             </span>
           </div>
           {cartData?.map((data, i) => (
-            <CartItem key={i} data={data}  />
+            <CartItem key={i} data={data} updateTotalPrice={updateTotalPrice}/>
           ))}
         </div>
         {/* Right Side */}
