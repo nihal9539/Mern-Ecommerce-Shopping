@@ -1,4 +1,4 @@
-import  { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 ("react-accessible-accordion");
 import "react-accessible-accordion/dist/fancy-example.css";
 import Card from "../../Componenets/Card/Card";
@@ -16,13 +16,13 @@ const AllProduct = () => {
   const { maxPrice, minPrice, categoryFilter } = useSelector(
     (state) => state?.filterReducer
   );
-  
+
   const [filter, setFilter] = useState("");
 
   const handleChange = (event) => {
     setFilter(event.target.value);
   };
-  
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -31,19 +31,27 @@ const AllProduct = () => {
 
   const filteredProducts = products.filter((item) => {
 
+      // Check if the product matches the selected categories
     const matchesCategory =
       categoryFilter.length === 0 ||
       item.category.some((cat) => categoryFilter.includes(cat));
+
+      // Check if the product matches the selected gender filters
     const matchesGender =
       genderFilterData.length === 0 || genderFilterData.includes(item.gender);
+
+        // Check if the product matches the selected price range
     const matchesPrice =
       (minPrice.length === 0 || item.price >= minPrice[0]) &&
       (maxPrice.length === 0 || item.price <= maxPrice[0]);
+
+        // Check if the product matches the search query
     const matchesSearch =
       item.productname.toLowerCase().includes(filter.toLowerCase()) ||
       item.subTitle.toLowerCase().includes(filter.toLowerCase());
+      const isActive = item.isActive; 
 
-    return matchesCategory && matchesGender && matchesPrice && matchesSearch;
+    return matchesCategory && matchesGender && matchesPrice && matchesSearch && isActive;
   });
   return (
     <div>
@@ -83,16 +91,16 @@ const AllProduct = () => {
           </div>
 
           <div className="w-full gap-4 grid xl:grid-cols-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 max-sm:grid-cols-2 p-2 max-md:px-5">
-            {filteredProducts.map((data, index) => (
-              <ProductObserver key={index} data={data} />
-            ))}
-           
+            {filteredProducts
+              .map((data, index) => (
+                <ProductObserver key={index} data={data} />
+              ))}
           </div>
           {filteredProducts.length === 0 && (
-              <div className=" flex flex-col items-center h-screen  justify-center gap-2 p-2">
-                No products found
-              </div>
-            )}
+            <div className=" flex flex-col items-center h-screen  justify-center gap-2 p-2">
+              No products found
+            </div>
+          )}
           {/* Right side bar */}
           <div
             className={`${
@@ -135,7 +143,12 @@ const ProductObserver = ({ data }) => {
 
   return (
     <div ref={ref}>
-      {isIntersecting ? <Card data={data} /> : <div style={{ height: '300px', width: '100%' }} />} {/* Adjust placeholder height and width as needed */}
+      {isIntersecting ? (
+        <Card data={data} />
+      ) : (
+        <div style={{ height: "300px", width: "100%" }} />
+      )}{" "}
+      {/* Adjust placeholder height and width as needed */}
     </div>
   );
 };

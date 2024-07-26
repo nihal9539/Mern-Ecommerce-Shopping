@@ -11,11 +11,10 @@ import { MantineProvider } from "@mantine/core";
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <MantineProvider>
-
-    <Provider store={store}>
-      <App />
-    </Provider>
-    <ToastContainer />
+      <Provider store={store}>
+        <App />
+      </Provider>
+      <ToastContainer />
     </MantineProvider>
   </React.StrictMode>
 );

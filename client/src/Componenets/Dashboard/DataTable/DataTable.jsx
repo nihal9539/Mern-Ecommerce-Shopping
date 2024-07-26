@@ -16,6 +16,8 @@ import {
 } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
 import { FilterOptions } from "../../../assets/data";
+import axios from "axios";
+import { activeStatusChange } from "../../../api/DashboardRequest";
 const DataTableComponenet = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -64,7 +66,7 @@ const DataTableComponenet = () => {
     var filteredProduct = products.filter(
       (company) =>
         company.productname.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        company._id.toLowerCase().includes(searchQuery.toLowerCase())
+        company._id.includes(searchQuery)
     );
     //Filter by Category
     if (statusCategory !== "All") {
@@ -107,7 +109,14 @@ const DataTableComponenet = () => {
       setSelectedRows(products.map((order) => order._id));
     }
   };
-
+  const handleToggleActive = async (productId, currentStatus) => {
+    try {
+      await activeStatusChange(productId,{isActive: !currentStatus})
+      dispatch(getAllProduct());
+    } catch (error) {
+      console.error('Error updating product status:', error);
+    }
+  };
   const isSelectedAll = selectedRows.length === products.length;
   return (
     <>
@@ -193,13 +202,9 @@ const DataTableComponenet = () => {
               width: 180,
               render: (products) => (
                 <div>
-                  {
-                    products?.category.map((item) => (
-                      <div key={item}>
-                        {item}
-                      </div>
-                    ))
-                  }
+                  {products?.category.map((item) => (
+                    <div key={item}>{item}</div>
+                  ))}
                 </div>
               ),
             },
@@ -215,7 +220,7 @@ const DataTableComponenet = () => {
               ellipsis: true,
             },
             {
-              accessor: "Quantity",
+              accessor: "Stock",
               ellipsis: true,
 
               render: (products) =>
@@ -225,6 +230,25 @@ const DataTableComponenet = () => {
                       0
                     )
                   : null,
+            },
+            {
+              accessor: "Active",
+              ellipsis: true,
+
+              render: (product) => (
+                <div>
+
+                <input
+                  type="checkbox"
+                  className="toggle border-blue-700/90 bg-blue-700/90 [--tglbg:white] hover:bg-blue-700/90"
+                  checked={product?.isActive}
+                  onChange={() =>
+                    handleToggleActive(product._id, product.isActive)
+                  }
+                  />
+                  
+                  </div>
+              ),
             },
 
             {

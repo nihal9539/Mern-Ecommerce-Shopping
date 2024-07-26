@@ -18,6 +18,7 @@ export const paymentVerify = (formData) => async (dispatch) => {
     try {
        await verifyRequest(formData)
         dispatch({ type: "PAYMENT_VERIFICATION_SUCCESS" })
+        
     } catch (error) {
         dispatch({ type: "PAYMENT_VERIFICATION_FAIL" })
     }

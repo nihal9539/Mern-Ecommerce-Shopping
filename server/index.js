@@ -12,6 +12,7 @@ import PaymentRoutes from "./Routes/PaymentRoutes.js"
 import AddressRoute from "./Routes/AddressRoute.js"
 import OrderRoute from "./Routes/OrderRoute.js"
 import AdminRoute from "./Routes/AdminRoute.js"
+import DashboardRoute from "./Routes/DashboardRoute.js"
 
 const app = express()
 
@@ -36,3 +37,4 @@ app.use('/payment',PaymentRoutes)
 app.use('/address',AddressRoute)
 app.use('/order',OrderRoute)
 app.use('/admin',AdminRoute)
+app.use('/dashboard',DashboardRoute)

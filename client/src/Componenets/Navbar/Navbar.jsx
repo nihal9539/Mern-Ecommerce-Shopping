@@ -1,15 +1,17 @@
-import  { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { User } from "lucide-react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Helmet } from "react-helmet";
+import { getUserCart } from "../../Action/CartAction";
 
 // eslint-disable-next-line react/prop-types
 const Navbar = ({ bgWhite }) => {
   const navigate = useNavigate();
   const [header, setHeader] = useState(false);
   const user = useSelector((state) => state.authReducer.authData);
-  const { quantity } = useSelector((state) => state.cartReducer);
+  const { quantity,cartData } = useSelector((state) => state.cartReducer);
+
   const navbarRef = useRef(null);
 
   useEffect(() => {
@@ -29,6 +31,7 @@ const Navbar = ({ bgWhite }) => {
   const handleClick = () => {
     navigate("/");
   };
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (navbarRef.current && !navbarRef.current.contains(event.target)) {
@@ -51,7 +54,7 @@ const Navbar = ({ bgWhite }) => {
           : header
           ? "bg-white border-b-2 border-gray-300"
           : ""
-      } fixed pr-28 top-0 left-0 z-50`}
+      } fixed pr-28 top-0 left-0 z-[99]`}
     >
       <Helmet>
         <title>Fashio UX - Online Shopping</title>
@@ -72,9 +75,9 @@ const Navbar = ({ bgWhite }) => {
       <ul className="max-lg:hidden flex gap-14 items-center text-2xl font-semibold relative">
         <Link to={"/"}>Home</Link>
         <Link to={"/collection/all"}>Shop</Link>
-        <Link to={"/cart"} className="relative">
+        <Link to={"/cart"}  className="relative">
           Cart
-          {quantity !== 0 && (
+          {quantity !== 0 && cartData?.length !== 0  && (
             <div className="text-sm bg-black text-white grid place-items-center rounded-full w-[1.5rem] h-[1.5rem] absolute -top-2 -right-3">
               {quantity}
             </div>
@@ -82,7 +85,13 @@ const Navbar = ({ bgWhite }) => {
         </Link>
         <Link to={"/wishlist"}>Wishlist</Link>
         {user ? (
-          <User className="cursor-pointer" onClick={() => {navigate("/account");setOpen(false)}} />
+          <User
+            className="cursor-pointer"
+            onClick={() => {
+              navigate("/account");
+              setOpen(false);
+            }}
+          />
         ) : (
           <Link
             to={"/login"}
@@ -92,7 +101,7 @@ const Navbar = ({ bgWhite }) => {
           </Link>
         )}
       </ul>
-    
+
       <button
         onClick={() => setOpen(!isOpen)}
         className={`navbar-toggler cursor-pointer hidden mr-5 max-lg:block position-relative ${
@@ -130,7 +139,13 @@ const Navbar = ({ bgWhite }) => {
           Wishlist
         </Link>
         {user ? (
-          <User className="cursor-pointer"  onClick={() => {navigate("/account/profile");setOpen(false)}} />
+          <User
+            className="cursor-pointer"
+            onClick={() => {
+              navigate("/account/profile");
+              setOpen(false);
+            }}
+          />
         ) : (
           <Link
             to={"/login"}

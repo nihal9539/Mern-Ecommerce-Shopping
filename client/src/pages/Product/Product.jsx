@@ -120,7 +120,7 @@ const Product = () => {
       <div className="p-12 pt-24 h-[100vh] max-lg:h-full max-lg:px-0   flex flex-row">
         <div className="w-full flex justify-center relative items-center flex-row max-lg:flex-col max-lg:gap-5">
           <div className="w-1/2 max-lg:w-full max-lg:px-4 relative top-0 left-0   flex justify-center flex-col  items-center ">
-            <div className="z-[99]">
+            <div className="z-[50]">
               <EasyZoomOnHover
                 mainImage={{
                   src: product?.image[imageId]?.url,

@@ -4,7 +4,9 @@ import { getAllProduct } from "../../Action/ProductAction";
 import MainPageCard from "../MainPageCard/MainPageCard";
 
 const Products = () => {
-  let { products, loading,error } = useSelector((state) => state.productReducer);
+  let { products, loading, error } = useSelector(
+    (state) => state.productReducer
+  );
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -12,14 +14,18 @@ const Products = () => {
   }, []);
 
   if (loading) {
-    <div>{error}{loading}</div>
+    <div>
+      {error}
+      {loading}
+    </div>;
   }
   return (
     <section className="lg:p-6 lg:pb-14 lg:px-20">
       <div className="flex justify-center p-4 text-xl  font-semibold tracking-wider">
         <span className="text-2xl font-bold">NEW COLLECTIONS </span>
       </div>
-      {error}{loading}
+      {error}
+      {loading}
       {/* lll */}
       <div
         className={` grid place-items-center pt-8 max-md:px-2 max-md:gap-2
@@ -27,13 +33,11 @@ const Products = () => {
           gap-y-5   grid-cols-2 md:grid-cols-3 lg:grid-cols-4   `}
       >
         {products
+          ?.filter((product) => product.isActive)
           ?.sort(() => Math.random() - 0.5)
           .slice(0, 8)
           .map((data, index) => (
-            <MainPageCard
-              data={data}
-              key={index}
-            />
+            <MainPageCard data={data} key={index} />
           ))}
       </div>
     </section>

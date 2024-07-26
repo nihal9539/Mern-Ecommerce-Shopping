@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
-import ProductModel from "../model/ProductModel.js"
 import cloudinary from "../utilities/cloudinary.js"
 import CartModel from "../model/CartModel.js";
+import ProductModel from "../model/ProductModel.js"
 
 export const createProduct = async (req, res) => {
 
@@ -158,5 +158,27 @@ export const totalProductCount = async (req, res) => {
         return res.status(200).json(productCount)
     } catch (error) {
         res.status(500).json(error.messsage)
+    }
+};
+
+
+export const activeStatusChange = async (req, res) => {
+    const { isActive } = req.body;
+    if (typeof isActive !== 'boolean') {
+      return res.status(400).send({ error: 'isActive must be a boolean' });
+    }
+  
+    try {
+      const product = await ProductModel.findByIdAndUpdate(
+        req.params.productId,
+        { isActive },
+        { new: true }
+      );
+      if (!product) {
+        return res.status(404).send({ error: 'Product not found' });
+      }
+      res.send(product);
+    } catch (error) {
+      res.status(500).send({ error: 'An error occurred while updating the product status' });
     }
 };

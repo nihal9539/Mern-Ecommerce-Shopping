@@ -63,6 +63,7 @@ export const verify = async (req, res) => {
 
             const orderItems = cartData.map(item => ({
                 productname: item.productname,
+                productId: item.productId,
                 imageUrl: item.image,
                 quantity: item.quantity,
                 size: item.size,

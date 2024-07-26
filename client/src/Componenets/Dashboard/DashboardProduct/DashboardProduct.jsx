@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { IoAdd } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -10,7 +10,7 @@ import DataTableComponenet from "../DataTable/DataTable";
 
 const DashboardProduct = () => {
   const dispatch = useDispatch();
-  let { products, loading } = useSelector((state) => state.productReducer);
+  let { loading } = useSelector((state) => state.productReducer);
 
 
   useEffect(() => {

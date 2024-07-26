@@ -33,7 +33,7 @@ const Checkout = () => {
 
   return (
     <>
-      <div className="p-10 max-md:px-0 h-screen overflow-hidden">
+      <div className="p-10 max-md:px-0 h-screen ">
         <div className="">
           {" "}
           <Stepper

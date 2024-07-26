@@ -59,3 +59,27 @@ export const getTotalProductCount = () => async(dispatch) => {
         dispatch({ type: "TOTAL_PRODUCT_COUNT_FAIL" })
     }
 }
+export const revenueByCategory = () => async(dispatch) => {
+    dispatch({ type: "REVENUE_CATEGORY_START" })
+
+    try {
+       const respone =await  DashboardApi.revenueByCategory()
+
+        dispatch({ type: "REVENUE_CATEGORY_SUCCESS" ,data:respone.data})
+
+    } catch (error) {
+        dispatch({ type: "REVENUE_CATEGORY_FAIL" })
+    }
+}
+export const lastTwentyDaysOrder = () => async(dispatch) => {
+    dispatch({ type: "TWENTY_DAY_ORDER_FETCH_START" })
+
+    try {
+       const respone =await  DashboardApi.lastTwentyDaysOrder()
+
+        dispatch({ type: "TWENTY_DAY_ORDER_FETCH_SUCCESS" ,data:respone.data})
+
+    } catch (error) {
+        dispatch({ type: "TWENTY_DAY_ORDER_FETCH_FAIL" })
+    }
+}

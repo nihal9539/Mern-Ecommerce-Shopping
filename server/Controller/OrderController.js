@@ -1,5 +1,4 @@
 import orderModel from "../model/OrderModel.js";
-import { startOfDay, endOfDay, subDays } from 'date-fns';
 export const getUserOrder = async (req, res) => {
     const { userId } = req.params;
 
@@ -7,7 +6,7 @@ export const getUserOrder = async (req, res) => {
 
         const orders = await orderModel.find({
             userId
-        })
+        }).sort({ createdAt: -1 })
 
         if (orders.length === 0) {
             return res.status(200).json([]);  // Return an empty array if no orders are found
@@ -162,6 +161,7 @@ export const getTopSellingProducts = async (req, res) => {
                     _id: {
                         productname: "$orderItems.productname",
                         imageUrl: "$orderItems.imageUrl"
+                        
                     },
                     totalQuantity: { $sum: "$orderItems.quantity" }
                 }

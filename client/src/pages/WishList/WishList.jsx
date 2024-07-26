@@ -3,7 +3,9 @@ import { lazy, Suspense, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchWishlist } from "../../Action/WishlistAction";
 import { Link } from "react-router-dom";
-const WishListItem = lazy(() => import("../../Componenets/WishListItem/WishListItem"));
+const WishListItem = lazy(() =>
+  import("../../Componenets/WishListItem/WishListItem")
+);
 
 const WishList = ({ forAccountPage }) => {
   const { wishlist } = useSelector((state) => state.wishlistReducer);
@@ -15,8 +17,6 @@ const WishList = ({ forAccountPage }) => {
     dispatch(fetchWishlist(user));
     setReload(false);
   }, [reload]);
-
-  console.log(wishlist);
 
   if (wishlist?.length <= 0) {
     return (
@@ -55,7 +55,13 @@ const WishList = ({ forAccountPage }) => {
               : "px-36 max-lg:px-10  grid-cols-4 max-lg:grid-cols-3  "
           } max-md:px-2 max-md:grid-col-2 max-sm:grid-cols-2 grid place-items-center items-start  `}
         >
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense
+            fallback={
+              <div className="flex justify-center items-center h-screen">
+                <div className="loader"></div>
+              </div>
+            }
+          >
             {wishlist?.map((data, i) => (
               <WishListItem
                 forAccountPage={forAccountPage}

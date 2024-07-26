@@ -85,6 +85,7 @@ export const getUserCart = async (req, res) => {
     const { userId } = req.params;
     try {
         const cartDetails = await CartModel.findOne({userId})
+        console.log(cartDetails);
         return res.status(200).json(cartDetails);
     } catch (error) {
         res.status(500).json(error.message)

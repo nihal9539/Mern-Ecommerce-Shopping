@@ -1,5 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { IoRefreshOutline } from "react-icons/io5";
+
 import {
   changingOrderStatus,
   deleteOrder,
@@ -17,16 +19,19 @@ import { DataTable } from "mantine-datatable";
 import sortBy from "lodash/sortBy";
 import { EyeIcon, Trash2 } from "lucide-react";
 import { format } from "date-fns";
-import {useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
 const DashboardOrders = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { allOrders, loading } = useSelector((state) => state.orderReducer);
+  const [refresh, setRefresh] = useState(false);
+
 
   useEffect(() => {
     dispatch(getAllOrder());
-  }, []);
+    setRefresh(false)
+  }, [refresh]);
   const PAGE_SIZES = [15, 20, 25];
   const [pageSize, setPageSize] = useState(PAGE_SIZES[0]);
   const [deleteButtonId, setDeleteButtonId] = useState("");
@@ -38,12 +43,13 @@ const DashboardOrders = () => {
     direction: "asc",
   });
 
-  // Fetching Product
 
+  // Fetching Product
   useEffect(() => {
     setPage(1);
   }, [pageSize]);
 
+  
   useEffect(() => {
     const from = (page - 1) * pageSize;
     const to = from + pageSize;
@@ -55,24 +61,28 @@ const DashboardOrders = () => {
     setPage(1);
     setSortStatus(status);
   };
-
-  //
   const [statusFilter, setStatusFilter] = useState("All");
-
+  
   // Sorting
   useEffect(() => {
     const from = (page - 1) * pageSize;
     const to = from + pageSize;
-  let filteredOrders = statusFilter === "All" 
-    ? allOrders 
-    : allOrders.filter(order => order.orderStatus === statusFilter);
+
+        let filteredOrders = allOrders.filter((order)=>
+          order._id.includes(searchQuery)
+        )
+    if (statusFilter !== "All") {
+      filteredOrders = filteredOrders.filter(
+        (order) => order.orderStatus === statusFilter
+      );
+    }
     let currentPageRecords = filteredOrders.slice(from, to);
     currentPageRecords = sortBy(currentPageRecords, sortStatus.columnAccessor);
     if (sortStatus.direction === "desc") {
       currentPageRecords = currentPageRecords.reverse();
     }
     setOrders(currentPageRecords);
-  }, [page, pageSize, allOrders, sortStatus, statusFilter]);
+  }, [page, pageSize, allOrders, sortStatus,searchQuery, statusFilter]);
   // delete model open
   const handeleDeleteButton = (id) => {
     setDeleteButtonId(id);
@@ -105,7 +115,7 @@ const DashboardOrders = () => {
         : [...prevSelectedRows, id]
     );
   };
-  const handleSelectAllChange = (e) => {
+  const handleSelectAllChange = () => {
     if (selectedRows.length === orders.length || selectedRows.length !== 0) {
       setSelectedRows([]);
     } else {
@@ -139,21 +149,29 @@ const DashboardOrders = () => {
               value={searchQuery}
               onChange={(event) => setSearchQuery(event.currentTarget.value)}
             />
-            <Group position="apart">
-              <Select
-                data={["All", "Pending", "Processing", "Shipped", "Delivered",'Cancelled']}
-                value={statusFilter}
-                className="w-36"
-                onChange={(value) => setStatusFilter(value)}
-              />
-            </Group>
+            <div className="flex items-center gap-5">
+              <IoRefreshOutline onClick={()=>setRefresh(true)} size={20} className="active:rotate-90 duration-300  cursor-pointer" />
+              <Group position="apart">
+                <Select
+                  data={[
+                    "All",
+                    "Pending",
+                    "Processing",
+                    "Shipped",
+                    "Delivered",
+                    "Cancelled",
+                  ]}
+                  value={statusFilter}
+                  className="w-36"
+                  onChange={(value) => setStatusFilter(value)}
+                />
+              </Group>
+            </div>
           </div>
           <DataTable
             columns={[
               {
-                //   accessor: "select",
                 accessor: "actions",
-
                 title: (
                   <Checkbox
                     checked={isSelectedAll || selectedRows.length !== 0}
@@ -182,7 +200,6 @@ const DashboardOrders = () => {
                 sortable: true,
                 title: "Order ID",
               },
-
               {
                 accessor: "user",
                 ellipsis: true,
@@ -239,7 +256,13 @@ const DashboardOrders = () => {
                 render: (order) => (
                   <Select
                     key={order._id}
-                    data={["Pending", "Processing", "Shipped", "Delivered","Cancelled"]}
+                    data={[
+                      "Pending",
+                      "Processing",
+                      "Shipped",
+                      "Delivered",
+                      "Cancelled",
+                    ]}
                     value={orderStatuses[order._id] || order.orderStatus}
                     className="w-32 selection:bg-red-500"
                     onChange={(value) => handleStatusChange(order._id, value)}
@@ -248,7 +271,6 @@ const DashboardOrders = () => {
                   />
                 ),
               },
-
               {
                 accessor: "actions",
                 title: <Box mx={6}>Actions</Box>,
@@ -310,7 +332,6 @@ const DashboardOrders = () => {
             <h1 className="font-bold text-xl">Comfirmation needed</h1>
             <hr className="my-2 border-black/30 border rounded-full" />
           </div>
-
           <div className="flex-grow flex  items-center">
             <h1 className="font-semibold text-lg ">
               You Sure you want to delete this item?
@@ -336,7 +357,6 @@ const DashboardOrders = () => {
         </div>
       </dialog>
     </main>
-  )
-}
-
-export default DashboardOrders
+  );
+};
+export default DashboardOrders;

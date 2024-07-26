@@ -1,5 +1,4 @@
-import React from "react";
-import { BarChart,  IndianRupee, Users } from "lucide-react";
+import { BarChart, IndianRupee, Users } from "lucide-react";
 import { BsBoxSeam } from "react-icons/bs";
 import { useFetchUsers } from "../../../hooks/useFetchUsers";
 import { useFetchOrders } from "../../../hooks/useFetchOrders";
@@ -8,6 +7,9 @@ import EarningsCard from "../EarningsCard/EarningsCard";
 import DashboardCard from "../DashboardCard/DashboardCard";
 import { useTotalProductCount } from "../../../hooks/useTotalProductCount";
 import TopSellingProduct from "../TopSellingProduct";
+import Revenue from "../Revenue";
+import LastTwentyDaysOrerSummeryChart from "../LastTwentyDaysOrerSummeryChart";
+
 const Dashboard = () => {
   const { currentMonthUsers, percentageIncrease } = useFetchUsers();
   const { currentMonthOrder, monthlyOrderPercentageIncrease } =
@@ -18,7 +20,7 @@ const Dashboard = () => {
     monthlyRevenuePercentageIncrease,
     totalRevenue,
   } = useFetchRevenue();
-  const {productPercentageNull,totalProductCount} =  useTotalProductCount()
+  const { productPercentageNull, totalProductCount } = useTotalProductCount();
   const cardData = [
     {
       title: "Customers",
@@ -50,8 +52,8 @@ const Dashboard = () => {
       value: totalProductCount,
       percentage: productPercentageNull,
       color: "white",
-      bgColor: "rgb(254, 201, 15)"
-    }
+      bgColor: "rgb(254, 201, 15)",
+    },
   ];
   return (
     <main>
@@ -71,8 +73,11 @@ const Dashboard = () => {
         ))}
       </section>
       <section>
-        <TopSellingProduct/>
-
+        <LastTwentyDaysOrerSummeryChart/>
+        <div className="flex justify-between px-10 p-5  ">
+        <Revenue/>
+        <TopSellingProduct />
+        </div>
       </section>
     </main>
   );

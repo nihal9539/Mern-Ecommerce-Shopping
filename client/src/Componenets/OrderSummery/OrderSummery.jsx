@@ -20,18 +20,14 @@ const OrderSummery = ({ nextStep }) => {
   const userId = useSelector(
     (state) => state?.authReducer?.authData?.user?._id
   );
+  const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getUserCart(userId));
   }, []);
 
-  let totalAmount = 0;
-  cartData.forEach((item) => {
-    totalAmount += item.quantity * item.price;
-  });
 
   const [amount, setAmount] = useState(0);
 
-  console.log(amount);
   useEffect(() => {
     let totalAmount = 0;
     cartData.forEach((item) => {
@@ -40,11 +36,9 @@ const OrderSummery = ({ nextStep }) => {
     setAmount(totalAmount);
   }, [cartData]);
 
-  const dispatch = useDispatch();
 
   const handlePayment = async () => {
-    await orderRequest(totalAmount).then((data)=>{
-      console.log(data)
+    await orderRequest(amount).then((data)=>{
       handlePaymentVerify(data.data)
     }).catch((err)=>{
       toast.error(err)
@@ -110,7 +104,7 @@ const OrderSummery = ({ nextStep }) => {
         <div className="max-md:block hidden font-semibold text-lg">
           {" "}
           To Pay :{" "}
-          {currencyFormatter.format(totalAmount, {
+          {currencyFormatter.format(amount, {
             code: "IND",
           })}
         </div>
@@ -121,7 +115,7 @@ const OrderSummery = ({ nextStep }) => {
           <hr className="my-4 max-md:hidden border-gray-500 border" />
           <h1 className="text-base max-lg:text-sm my-2 flex justify-between">
             Price ({cartData.length} items) :{" "}
-            <span className="font-semibold">₹{totalAmount}</span>{" "}
+            <span className="font-semibold">₹{amount}</span>{" "}
           </h1>
           <h1 className="text-base my-3 max-lg:text-sm flex justify-between">
             Delivery Fee : <span className="font-semibold">Free</span>{" "}
@@ -131,7 +125,7 @@ const OrderSummery = ({ nextStep }) => {
             To Pay :{" "}
             <span className="">
               ₹
-              {currencyFormatter.format(totalAmount, {
+              {currencyFormatter.format(amount, {
                 code: "IND",
               })}
             </span>{" "}
