@@ -30,7 +30,6 @@ const ChooseCategory = () => {
               Shop Now
             </div>
           </div>
-          {/* <img  src="/category/women.png" className="h-96 w-full ct-img" alt="" /> */}
           <div className="ct-img bg-[url(/category/women.png)] h-96 w-full"></div>
         </div>
         <div className="relative">

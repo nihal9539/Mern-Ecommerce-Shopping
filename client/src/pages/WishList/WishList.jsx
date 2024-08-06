@@ -57,7 +57,7 @@ const WishList = ({ forAccountPage }) => {
         >
           <Suspense
             fallback={
-              <div className="flex justify-center items-center h-screen">
+              <div className="fixed top-0 right-0 flex justify-center w-screen items-center h-screen">
                 <div className="loader"></div>
               </div>
             }
