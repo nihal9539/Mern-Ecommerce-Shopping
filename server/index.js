@@ -16,6 +16,8 @@ import DashboardRoute from "./Routes/DashboardRoute.js"
 
 const app = express()
 
+
+// Middleware
 app.use(cors())
 app.use(bodyParser.json({ limit: '30mb', extended: true }))
 app.use(bodyParser.urlencoded({ limit: '30mb', extended: true }))
@@ -28,6 +30,11 @@ mongoose.connect(process.env.MONGO_DB).then(()=>{
 }).catch((err)=>{
     console.log(err.message);
 })
+
+// Handle favicon.ico requests
+app.get('/favicon.ico', (req, res) => res.status(204).end());
+
+// Routes
 app.use('/auth',AuthRoute)
 app.use('/user',UserRoute)
 app.use('/cart',CartRoute)
