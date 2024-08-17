@@ -1,4 +1,4 @@
-import UserModel from "../model/userModel.js"
+import UserModel from "../Model/UserModel.js"
 import bcypt from "bcrypt"
 import jwt from "jsonwebtoken";
 import { ObjectId } from "mongodb"
