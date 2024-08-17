@@ -1,5 +1,5 @@
 import express from "express"
-import { createWishlist ,getWishlist, removeFromWishlist} from "../Controller/WishlistCOntroller.js"
+import { createWishlist ,getWishlist, removeFromWishlist} from "../Controller/WishlistController.js"
 import { verifyToken } from "../middleware/verify.js"
 const route = express.Router()
 
