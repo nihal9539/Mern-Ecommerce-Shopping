@@ -25,7 +25,7 @@ app.use(bodyParser.urlencoded({ limit: '30mb', extended: true }))
 
 dotenv.config()
 mongoose.connect(process.env.MONGO_DB).then(()=>{
-    app.listen(process.env.PORT,(req,res)=>{
+    app.listen(process.env.PORT || 7000,(req,res)=>{
     })
 }).catch((err)=>{
     console.log(err.message);
