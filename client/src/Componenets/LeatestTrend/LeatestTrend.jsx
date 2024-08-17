@@ -16,7 +16,7 @@ const LeatestTrend = () => {
             alt=""
           />
         </div>
-        <div className=" uppercase  w-5/12 max-lg:w-full pt-20 p-5 pl-8 text-6xl  ">
+        <div className=" uppercase  w-5/12 max-lg:w-full pt-20 p-5 pl-8 text-6xl max-md:text-4xl  ">
           <span className="font-[100]">New</span>
           <p className=" font-[900]">COLLECTION</p>
           <p className="text-sm mt-5 ">
@@ -25,7 +25,7 @@ const LeatestTrend = () => {
           </p>
 
           <Link to={'collection/all'}>
-          <button className="button-51" role="button">
+          <button className="button-51 mt-2" role="button">
             SHOP NOW
           </button>
           </Link>
