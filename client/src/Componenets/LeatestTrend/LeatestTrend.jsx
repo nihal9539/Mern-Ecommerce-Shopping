@@ -29,7 +29,7 @@ const LeatestTrend = () => {
             SHOP NOW
           </button>
           </Link>
-        </div>
+      </div>
       </div>
   )
 }
