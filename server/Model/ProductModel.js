@@ -14,16 +14,36 @@ const productScehema = new mongoose.Schema({
         required: true
     },
 
-    image: [
+    // image: [
+    //     {
+    //         public_id: {
+    //             type: String,
+    //             required: true
+    //         },
+    //         url: {
+    //             type: String,
+    //             required: true
+    //         }
+    //     }
+    // ],
+    colors: [
         {
-            public_id: {
+            color: {
                 type: String,
                 required: true
             },
-            url: {
-                type: String,
-                required: true
-            }
+            images: [
+                {
+                    public_id: {
+                        type: String,
+                        required: true
+                    },
+                    url: {
+                        type: String,
+                        required: true
+                    }
+                }
+            ]
         }
     ],
     sizes: [{

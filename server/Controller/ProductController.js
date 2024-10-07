@@ -3,6 +3,8 @@ import cloudinary from "../utilities/cloudinary.js"
 import CartModel from "../model/CartModel.js";
 import ProductModel from "../model/ProductModel.js"
 
+// console.log('Current directory:', __dirname);
+
 export const createProduct = async (req, res) => {
 
     const { productname, subTitle, description, category, images, sizes, gender, price } = req.body;

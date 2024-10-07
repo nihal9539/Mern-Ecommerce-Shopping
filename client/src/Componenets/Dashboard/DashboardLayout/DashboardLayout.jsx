@@ -19,7 +19,7 @@ const DashboardLayout = () => {
           content="Admin dashboard layout with navigation and sidebar."
         />
       </Helmet>
-      <div className="  bg-red-100">
+      <div className="">
         <aside
           className={`bg-white z-[9999] shadow-sm transition-width duration-300 ${
             sidebarMenu ? "w-72" : "w-0"

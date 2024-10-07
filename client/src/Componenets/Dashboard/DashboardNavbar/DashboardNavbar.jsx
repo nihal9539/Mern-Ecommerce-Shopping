@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { FiAlignJustify } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
 import { AlignJustify, LogOut, User, UserCircle } from "lucide-react";
 import { setButtonFalse, setButtonTrue } from "../../../Action/SidebarReducer";

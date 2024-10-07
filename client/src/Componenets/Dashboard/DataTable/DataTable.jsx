@@ -16,7 +16,6 @@ import {
 } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
 import { FilterOptions } from "../../../assets/data";
-import axios from "axios";
 import { activeStatusChange } from "../../../api/DashboardRequest";
 const DataTableComponenet = () => {
   const dispatch = useDispatch();
